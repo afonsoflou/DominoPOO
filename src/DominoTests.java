@@ -10,7 +10,7 @@ public class DominoTests{
         assertEquals(new Domino(3,4).getX(),3);
         assertEquals(new Domino(3,4).getY(),4);
     }
-
+    //
     @Test
     public void valueTest(){
         assertEquals(new Domino(1,2).getValue(),3);

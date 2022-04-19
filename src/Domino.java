@@ -22,3 +22,4 @@ public class Domino {
         return this.x + this.y;
     }
 }
+//
