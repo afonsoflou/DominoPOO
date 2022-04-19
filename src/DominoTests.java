@@ -1,8 +1,9 @@
 import static org.junit.jupiter.api.Assertions.*;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
-public class DominoTest{
+public class DominoTests{
 
+    @Test
     public void constructorTest(){
         assertEquals(new Domino(1,2).getNum1(),1);
         assertEquals(new Domino(1,2).getNum2(),2);
@@ -10,10 +11,11 @@ public class DominoTest{
         assertEquals(new Domino(3,4).getNum2(),4);
     }
 
+    @Test
     public void valueTest(){
         assertEquals(new Domino(1,2).getValue(),3);
-        assertEquals(new Domino(3,2).getNum1(),5);
-        assertEquals(new Domino(5,6).getNum1(),11);
+        assertEquals(new Domino(3,2).getValue(),5);
+        assertEquals(new Domino(5,6).getValue(),11);
     }
 
 
