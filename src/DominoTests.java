@@ -5,10 +5,10 @@ public class DominoTests{
 
     @Test
     public void constructorTest(){
-        assertEquals(new Domino(1,2).getNum1(),1);
-        assertEquals(new Domino(1,2).getNum2(),2);
-        assertEquals(new Domino(3,4).getNum1(),3);
-        assertEquals(new Domino(3,4).getNum2(),4);
+        assertEquals(new Domino(1,2).getX(),1);
+        assertEquals(new Domino(1,2).getY(),2);
+        assertEquals(new Domino(3,4).getX(),3);
+        assertEquals(new Domino(3,4).getY(),4);
     }
 
     @Test

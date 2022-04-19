@@ -1,22 +1,23 @@
 public class Domino {
 
-    private int num1;
-    private int num2;
+    private int x;
+    private int y;
 
-    public Domino(int num1, int num2){
-        this.num1 = num1;
-        this.num2 = num2;
+    public Domino(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 
-    public int getNum1(){
-        return this.num1;
+    public int getX(){
+        return this.x;
     }
 
-    public int getNum2(){
-        return this.num2;
+
+    public int getY(){
+        return this.y;
     }
 
     public int getValue(){
-        return this.num1 + this.num2;
+        return this.x + this.y;
     }
 }
