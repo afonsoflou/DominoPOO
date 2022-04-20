@@ -1,8 +1,8 @@
 public abstract class Player {
+    private static GameBoard board;
     private String playerName;
-    private int turn;
     private Domino[] dominoes;
-    private int points;
+    private boolean isNPC;
 
 
 //
