@@ -22,7 +22,6 @@ public abstract class Player {
     public boolean canPlay(){return false;};
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum(); }
-    public void printPieces(){};
     public boolean isWinner(){return getNumDominoes() == 0;}
     private int getNumDominoes(){return dominoes.size();}
 }
