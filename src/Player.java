@@ -28,6 +28,11 @@ public abstract class Player {
         return false;
     }
 
+    private void printPieces(){
+        for(Domino domino : dominoes)
+            domino.print();
+    }
+
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}
