@@ -12,6 +12,7 @@ public abstract class Player {
     }
 
     public String getName(){ return playerName;};
+
     public boolean isFirst(){
         for(Domino domino : dominoes)
             if(domino.getValue() == 12)
@@ -19,7 +20,14 @@ public abstract class Player {
         return false;
     }
 
-    public boolean canPlay(){return false;};
+    public boolean canPlay(){
+        for(Domino domino : dominoes)
+            for(Domino corner : board.getCorners())
+                if(domino.isEqual(corner))
+                    return true;
+        return false;
+    }
+
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}
