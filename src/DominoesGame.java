@@ -15,7 +15,7 @@ public class DominoesGame {
     }
 
     private boolean hasWinner(){
-        for(Player player : players ) if(player.isWinner()) return true; return false;
+        for(Player player : players ) if(player.isWinner()) return true;return false;
     }
 
     public void startGame() {
@@ -27,10 +27,10 @@ public class DominoesGame {
                 Dominoes.add(new Domino(i, j));
         Collections.shuffle(Dominoes);
         //Create Human Player
-        this.players[0] = new Player.Human(board, sc.nextLine(), Dominoes.subList(0, 7));
+        this.players[0] = new Human(board, sc.nextLine(), Dominoes.subList(0, 7));
         sc.next();
         //Create NPC players
-        for (int i = 1; i <= 3; i++) this.players[i] = new Player.NPC(board, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
+        for (int i = 1; i <= 3; i++) this.players[i] = new NPC(board, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
         //Find first player
         int p = 0;
         Domino firstDomino = null;

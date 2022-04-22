@@ -3,7 +3,7 @@ import java.util.*;
 public abstract class Player {
     private GameBoard board;
     private String playerName;
-    private static LinkedList<Domino> dominoes;
+    protected static LinkedList<Domino> dominoes;
 
     public Player(GameBoard board,String PlayerName,List<Domino> dominoes){
         this.dominoes = new LinkedList<>(dominoes);
@@ -29,40 +29,11 @@ public abstract class Player {
     }
 
 
-
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}
     private int getNumDominoes(){return dominoes.size();}
 
-   public static class Human extends Player{
 
-
-       public Human(GameBoard board, String PlayerName, List<Domino> dominoes) {
-           super(board, PlayerName, dominoes);
-       }
-
-       private void printPieces(){
-           for(Domino domino : dominoes)
-               domino.print();
-       }
-
-       public void play() {
-
-       }
-
-   }
-
-    public static class NPC extends Player{
-
-        public NPC(GameBoard board, String PlayerName, List<Domino> dominoes) {
-            super(board, PlayerName, dominoes);
-        }
-
-        public void play() {
-
-        }
-
-    }
 
 }
