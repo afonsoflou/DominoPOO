@@ -3,7 +3,7 @@ import java.util.*;
 public abstract class Player {
     private GameBoard board;
     private String playerName;
-    protected static LinkedList<Domino> dominoes;
+    protected LinkedList<Domino> dominoes;
 
     public Player(GameBoard board,String PlayerName,List<Domino> dominoes){
         this.dominoes = new LinkedList<>(dominoes);
@@ -11,7 +11,7 @@ public abstract class Player {
         this.playerName = PlayerName;
     }
 
-    public String getName(){ return playerName;};
+    public String getName(){ return playerName;}
 
     public boolean isFirst(){
         for(Domino domino : dominoes)
