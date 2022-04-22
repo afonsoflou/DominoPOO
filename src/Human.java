@@ -12,6 +12,6 @@ public class Human extends Player{
     }
 
     public void play() {
-
+        if(!canPlay()) return;
     }
 }

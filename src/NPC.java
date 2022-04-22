@@ -6,6 +6,6 @@ public class NPC extends Player{
     }
 
     public void play() {
-
+        if(!canPlay()) return;
     }
 }

@@ -10,6 +10,7 @@ public class DominoesGame {
     public DominoesGame(int nLines, int nColumns) {
         this.nLines = nLines;
         this.nColumns = nColumns;
+        this.players = new Player[4];
     }
 
     private boolean hasWinner(){
@@ -25,7 +26,6 @@ public class DominoesGame {
                 Dominoes.add(new Domino(i, j));
         Collections.shuffle(Dominoes);
 
-        this.players = new Player[4];
         //Create Human Player
         this.players[0] = new Human(board, sc.nextLine(), Dominoes.subList(0, 7));
         sc.next();
