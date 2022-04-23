@@ -28,7 +28,7 @@ public abstract class Player {
         return false;
     }
 
-
+    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.getValue()==12) return domino; return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}

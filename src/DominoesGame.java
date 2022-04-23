@@ -33,14 +33,16 @@ public class DominoesGame {
         for (int i = 1; i <= 3; i++) this.players[i] = new NPC(board, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
         //Find first player
         int p = 0;
+
         Domino firstDomino = null;
         for(Player player: players){
             if(player.isFirst()){
-                //get the first domino in this line, still not done.
+                firstDomino = player.getDoubleSix();
                 break;
             }
             p++;
         }
+
         //Create board, if first player is Human start in coordinates given by input
         if(p == 0) board = new GameBoard(nColumns,nLines,firstDomino, sc.nextInt(), sc.nextInt());
         else board = new GameBoard(nColumns,nLines,firstDomino,nLines/2,nColumns/2);
