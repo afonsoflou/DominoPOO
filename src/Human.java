@@ -41,16 +41,24 @@ public class Human extends Player{
 
         Domino corner = null;
 
-        for(Domino c: board.getCorners())
-            if(c.canConnect(domino)) corner = c;
+        for(Domino c: board.getCorners()){
+            if(c.canConnect(domino)){
+                corner = c;
+                break;
+            }
+        }
 
         while(!check(domino,corner)){
             System.out.println("Esta peça nao tens, dá input a outra!");
             input = sc.nextLine();
             dominoSplit = input.split("|");
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
-            for(Domino c: board.getCorners())
-                if(c.canConnect(domino)) corner = c;
+            for(Domino c: board.getCorners()){
+                if(c.canConnect(domino)){
+                    corner = c;
+                    break;
+                }
+            }
         }
     }
 }
