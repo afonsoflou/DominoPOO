@@ -26,13 +26,13 @@ class GameBoard {
     - Graph<Domino> board
     - LinkedList<Domino> Corners
 
-    + insertPiece(int dominoPlayed, int corner)
+    + insertPiece(int dominoPlayed, int Corner)
     + Iterable<Domino> getCorners()
-    - updateCorner(Domino corner)
+    - updateCorner(Domino Corner)
     + print()
 }
 
-class Player {
+abstract class Player {
     - GameBoard board
     - String playerName
 
@@ -56,7 +56,7 @@ class Human {
 
     + play()
     - printPlayablePieces()
-    - boolean validInputCheck(Domino other, Domino corner)
+    - boolean validInputCheck(Domino other, Domino Corner)
     - printPieces()
 }
 
@@ -64,12 +64,51 @@ class NPC {
 
     + play()
 }
+
+class Coordinate{
+    +int x
+    +int y
+}
+
+abstract class Corner{
+    #Coordinate coordinate
+    #Domino domino
+
+    +abstract boolean isCorner()
+    +abstract blockedDirection(Direction direction)
+    +abstract Coordinate getAvailableCoordinate()
+    +boolean isEqual(Domino domino)
+}
+
+class Intersection{
+ + blockedDirection(Direction direction)
+ + boolean isCorner()
+ + Coordinate getAvailableCoordinate()
+ - Coordinate verticalAvailableCoordinate(int x)
+ - Coordinate horizontalAvailableCoordinate(int x)
+ - Direction convBooleanToDirection(int x)
+}
+
+class Line{
+  -Direction nextDirection
+
+  + blockedDirection(Direction direction)
+  + boolean isCorner()
+  + Coordinate getAvailableCoordinate()
+}
+
+
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
+GameBoard *-- Coordinate
 GameBoard o-- Domino
 Player o-- Domino
 Player o-- GameBoard
 Player <|-- Human
 Player <|--NPC
+Corner <|-- Intersection
+Corner <|-- Line
+GameBoard +-- Corner
+
 @enduml
