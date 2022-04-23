@@ -1,27 +1,66 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+class Domino {
+    - int x
+    - int y
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+    + int getX()
+    + int getY()
+    + boolean isVertical()
+    + flip()
+    + beVertical()
+    + beHorizontal()
+    + boolean isEqual(Domino)
+    + int getValue()
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class GameBoard {
+    - int nLines
+    - int nColumns
+    - Graph<Domino> board
+    - LinkedList<Domino> Corners
+
+    + insertPiece(int dominoPlayed, int corner)
+    + Iterable<Domino> getCorners()
+    - updateCorner(Domino corner)
+    + print()
 }
 
+class Player {
+    - GameBoard board
+    - String playerName
+
+    + String getName()
+    + int getNumDominoes()
+    + boolean isFirst()
+    + boolean canPlay()
+    + abstract play()
+    + int getPoints()
+    + boolean isWInner()
+}
+
+class DominoesGames {
+    - int nLines
+    - int nColumns
+
+    + startGame()
+}
+
+class Human {
+
+    + play()
+    - printPieces()
+}
+
+class NPC {
+
+    + play()
+}
+DominoesGames *-- Domino
+DominoesGames *-- GameBoard
+DominoesGames *-- Player
+GameBoard o-- Domino
+Player o-- Domino
+Player <.. Human
+Player <.. NPC
 @enduml
