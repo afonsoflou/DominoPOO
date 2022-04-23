@@ -15,7 +15,7 @@ public abstract class Player {
 
     public boolean isFirst(){
         for(Domino domino : dominoes)
-            if(domino.getValue() == 12)
+            if(domino.isStarter())
                 return true;
         return false;
     }
