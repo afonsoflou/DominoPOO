@@ -34,6 +34,7 @@ public class GameBoard {
       corners = new LinkedList<Corner>();
 
       if(x < 0 || y < 2 || x > nColumns || y > nLines)
+
          throw new IllegalArgumentException("Must place on the board");
       if(!firstDomino.isStarter())
          throw new IllegalArgumentException("The first domino must be 6|6");
@@ -171,7 +172,7 @@ public class GameBoard {
       public int compareTo(Coordinate other) {
          int result = other.y -y;
          if(result == 0)
-            result = x - other.x;
+            result = other.x - x;
          return result;
       }
    }
@@ -263,7 +264,7 @@ public class GameBoard {
             case 2: blockedDirection(Direction.RIGHT);return new Coordinate(coordinate.x +3,coordinate.y -1);
             case 3: blockedDirection(Direction.DOWN); return new Coordinate(coordinate.x,coordinate.y -5);
          }
-         throw new IllegalArgumentException("is the boolean array higher than 4?");
+         throw new IllegalArgumentException("Is the boolean array higher than 4?");
       }
 
       private Coordinate horizontalAvailableCoordinate(int x){
@@ -273,7 +274,7 @@ public class GameBoard {
             case 2:blockedDirection(Direction.RIGHT); return new Coordinate(coordinate.x+4,coordinate.y);
             case 3:blockedDirection(Direction.DOWN);  return new Coordinate(coordinate.x+1,coordinate.y-2);
          }
-         throw new IllegalArgumentException("is the boolean array higher than 4?");
+         throw new IllegalArgumentException("Is the boolean array higher than 4?");
       }
 
    } ////////////////////////////// END OF INTERSECTION //////////////////////////////////////////

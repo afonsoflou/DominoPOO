@@ -5,7 +5,9 @@ public class NPC extends Player{
         super(board, PlayerName, dominoes);
     }
 
+
     public void play() {
         if(!canPlay()) return;
+
     }
 }
