@@ -23,12 +23,12 @@ public abstract class Player {
     public boolean canPlay(){
         for(Domino domino : dominoes)
             for(Domino corner : board.getCorners())
-                if(domino.isEqual(corner))
+                if(domino.canConnect(corner))
                     return true;
         return false;
     }
 
-    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.getValue()==12) return domino; return null;}
+    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) return domino; return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}

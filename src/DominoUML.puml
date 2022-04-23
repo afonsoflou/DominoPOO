@@ -1,11 +1,27 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+'https://plantuml.com/class-diagram
 
-autonumber
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+List <|-- AbstractList
+Collection <|-- AbstractCollection
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
 @enduml
