@@ -26,9 +26,9 @@ class GameBoard {
     - Graph<Domino> board
     - LinkedList<Domino> Corners
 
-    + insertPiece(int dominoPlayed, int corner)
+    + insertPiece(int dominoPlayed, int Corner)
     + Iterable<Domino> getCorners()
-    - updateCorner(Domino corner)
+    - updateCorner(Domino Corner)
     + print()
 }
 
@@ -56,7 +56,7 @@ class Human {
 
     + play()
     - printPlayablePieces()
-    - boolean validInputCheck(Domino other, Domino corner)
+    - boolean validInputCheck(Domino other, Domino Corner)
     - printPieces()
 }
 
@@ -70,7 +70,7 @@ class Coordinate{
     +int y
 }
 
-abstract class corner{
+abstract class Corner{
     #Coordinate coordinate
     #Domino domino
 
@@ -106,8 +106,8 @@ Player o-- Domino
 Player o-- GameBoard
 Player <|-- Human
 Player <|--NPC
-corner <|-- Intersection
-corner <|-- Line
-GameBoard +-- corner
+Corner <|-- Intersection
+Corner <|-- Line
+GameBoard +-- Corner
 
 @enduml
