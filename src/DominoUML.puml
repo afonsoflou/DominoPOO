@@ -32,7 +32,7 @@ class GameBoard {
     + print()
 }
 
-class Player {
+abstract class Player {
     - GameBoard board
     - String playerName
 
@@ -64,6 +64,40 @@ class NPC {
 
     + play()
 }
+
+class Coordinate{
+    +int x
+    +int y
+}
+
+abstract class corner{
+    #Coordinate coordinate
+    #Domino domino
+
+    +abstract boolean isCorner()
+    +abstract blockedDirection(Direction direction)
+    +abstract Coordinate getAvailableCoordinate()
+    +boolean isEqual(Domino domino)
+}
+
+class Intersection{
+ + blockedDirection(Direction direction)
+ + boolean isCorner()
+ + Coordinate getAvailableCoordinate()
+ - Coordinate verticalAvailableCoordinate(int x)
+ - Coordinate horizontalAvailableCoordinate(int x)
+ - Direction convBooleanToDirection(int x)
+}
+
+class Line{
+  -Direction nextDirection
+
+  + blockedDirection(Direction direction)
+  + boolean isCorner()
+  + Coordinate getAvailableCoordinate()
+}
+
+
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
@@ -72,4 +106,8 @@ Player o-- Domino
 Player o-- GameBoard
 Player <|-- Human
 Player <|--NPC
+corner <|-- Intersection
+corner <|-- Line
+GameBoard +-- corner
+
 @enduml
