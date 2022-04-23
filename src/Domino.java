@@ -16,10 +16,5 @@ public class Domino {
     public void beHorizontal(){isVertical = false;}
     public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
     public void print(){System.out.println(x+"|"+y);}
-    public void printSegment(int i){
-        if(i == 0) System.out.println(x);
-        else if(i == 1 && isVertical || isDouble()) System.out.println("-");
-        else System.out.println(y);
-    }
 }
 //
