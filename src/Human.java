@@ -49,7 +49,7 @@ public class Human extends Player{
         }
 
         while(!check(domino,corner)){
-            System.out.println("Esta peça nao tens, dá input a outra!");
+            System.out.println("Invalid input, please input a valid domino");
             input = sc.nextLine();
             dominoSplit = input.split("|");
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
