@@ -124,7 +124,7 @@ public class GameBoard {
             case 2:return new Coordinate(coordinate.x +3,coordinate.y -1);
             case 3:return new Coordinate(coordinate.x,coordinate.y -5);
          }
-         throw new IllegalArgumentException("is the boolean array higher than 4?");
+         throw new IllegalArgumentException("Is the boolean array higher than 4?");
       }
 
       private Coordinate horizontalAvailableCoordinate(int x){
@@ -134,7 +134,7 @@ public class GameBoard {
             case 2:return new Coordinate(coordinate.x+4,coordinate.y);
             case 3:return new Coordinate(coordinate.x+1,coordinate.y-2);
          }
-         throw new IllegalArgumentException("is the boolean array higher than 4?");
+         throw new IllegalArgumentException("Is the boolean array higher than 4?");
       }
 
       private Direction convBooleanToDirection(int x) {
@@ -148,7 +148,7 @@ public class GameBoard {
             case 3:
                return Direction.DOWN;
          }
-         throw new IllegalArgumentException("must be a integer between 0 and 3");
+         throw new IllegalArgumentException("Must be a integer between 0 and 3");
       }
    } ////////////////////////////// END OF INTERSECTION //////////////////////////////////////////
 
@@ -197,7 +197,7 @@ public class GameBoard {
          else
          {
             if(nextDirection == Direction.LEFT) return new Coordinate(coordinate.x-3, coordinate.y);
-            else if(nextDirection == Direction.RIGHT)      return new Coordinate(coordinate.x+3,coordinate.y);
+            else if(nextDirection == Direction.RIGHT)     return new Coordinate(coordinate.x+3,coordinate.y);
             else if(nextDirection == Direction.UpLEFT)    return new Coordinate(coordinate.x ,coordinate.y +4);
             else if(nextDirection == Direction.UpRIGHT)   return new Coordinate(coordinate.x +1,coordinate.y+4);
             else if(nextDirection == Direction.DownLEFT)  return new Coordinate(coordinate.x ,coordinate.y-2);
