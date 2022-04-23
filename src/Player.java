@@ -1,7 +1,7 @@
 import java.util.*;
 
 public abstract class Player {
-    private GameBoard board;
+    protected GameBoard board;
     private String playerName;
     protected LinkedList<Domino> dominoes;
 

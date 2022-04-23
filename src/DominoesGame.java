@@ -63,9 +63,7 @@ public class DominoesGame {
             players[j + 1] = temp;
         }
         //Print results
-        for(int i = 0; i<4; i++){
-            System.out.println(i+1 + " Place : "+ players[i].getName());
-        }
+        for(int i = 0; i<4; i++) System.out.println(i+1 + " Place : "+ players[i].getName());
 
     }
 
