@@ -101,6 +101,7 @@ class Line{
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
+GameBoard *-- Coordinate
 GameBoard o-- Domino
 Player o-- Domino
 Player o-- GameBoard
