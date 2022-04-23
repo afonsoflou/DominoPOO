@@ -19,7 +19,7 @@ public class Human extends Player{
                     domino.print();
     }
 
-    public boolean check(Domino other,Domino corner){
+    private boolean validInputCheck(Domino other,Domino corner){
         for(Domino d : dominoes){
             if(d.isEqual(other)){
                 board.insertDomino(d, corner);
@@ -48,7 +48,7 @@ public class Human extends Player{
             }
         }
 
-        while(!check(domino,corner)){
+        while(!validInputCheck(domino,corner)){
             System.out.println("Invalid input, please input a valid domino");
             input = sc.nextLine();
             dominoSplit = input.split("|");
