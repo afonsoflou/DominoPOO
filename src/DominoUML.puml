@@ -64,9 +64,9 @@ class NPC {
 
     + play()
 }
-DominoesGames *-- Domino
-DominoesGames *-- GameBoard
-DominoesGames *-- Player
+DominoesGame *-- Domino
+DominoesGame *-- GameBoard
+DominoesGame *-- Player
 GameBoard o-- Domino
 Player o-- Domino
 Player o-- GameBoard
