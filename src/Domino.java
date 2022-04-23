@@ -1,22 +1,25 @@
 public class Domino {
+    private int x;
+    private int y;
+    private boolean isVertical = false;
 
-    private int num1;
-    private int num2;
-
-    public Domino(int num1, int num2){
-        this.num1 = num1;
-        this.num2 = num2;
-    }
-
-    public int getNum1(){
-        return this.num1;
-    }
-
-    public int getNum2(){
-        return this.num2;
-    }
-
-    public int getValue(){
-        return this.num1 + this.num2;
+    public Domino(int x, int y) { this.x = x; this.y = y; }
+    public int getX(){ return this.x;}
+    public int getY(){ return this.y;}
+    public int getValue(){ return this.x + this.y; }
+    public boolean isVertical(){return isVertical;}
+    public boolean isDouble(){return x == y;}
+    public boolean isEqual(Domino other){return (x == other.x && y == other.y) || (y == other.x && x == other.y);}
+    public boolean canConnect(Domino other){return  (x == other.x || y == other.y) || (y == other.x || x == other.y);}
+    public boolean isStarter(){return x+y == 12;}
+    public void beVertical(){isVertical = true;}
+    public void beHorizontal(){isVertical = false;}
+    public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
+    public void print(){System.out.println(x+"|"+y);}
+    public void printSegment(int i){
+        if(i == 0) System.out.println(x);
+        else if(i == 1 && isVertical || isDouble()) System.out.println("-");
+        else System.out.println(y);
     }
 }
+//

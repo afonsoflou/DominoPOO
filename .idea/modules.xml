@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Dominos.iml" filepath="$PROJECT_DIR$/Dominos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DominoPOO.iml" filepath="$PROJECT_DIR$/DominoPOO.iml" />
     </modules>
   </component>
 </project>
