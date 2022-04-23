@@ -31,9 +31,9 @@ public class DominoesGame {
         sc.next();
         //Create NPC players
         for (int i = 1; i <= 3; i++) this.players[i] = new NPC(board, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
-        //Find first player
-        int p = 0;
 
+        //Find first player and take their double six
+        int p = 0;
         Domino firstDomino = null;
         for(Player player: players){
             if(player.isFirst()){
