@@ -15,7 +15,7 @@ public class Domino {
     public boolean isVertical(){return isVertical;}
     public boolean isDouble(){return x == y;}
     public boolean isEqual(Domino other){return (x == other.x && y == other.y) || (y == other.x && x == other.y);}
-    public boolean canConnect(Domino other){return  (x == other.x || y == other.y) || (y == other.x || x == other.y);}
+    public boolean canConnect(Domino other){return (x==other.x && !other.connectedX()) || (y==other.y && !other.connectedY())|| (x==other.y && !other.connectedY()) || (y==other.x && !other.connectedX());}
     public boolean isStarter(){return x+y == 12;}
     public void beVertical(){isVertical = true;}
     public void beHorizontal(){isVertical = false;}
