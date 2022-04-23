@@ -1,6 +1,8 @@
 //WARNING THIS CLASS DOES NOT HAVE DELETE() .
 // algorithms taken from https://algs4.cs.princeton.edu/home/
 
+import java.util.LinkedList;
+
 public class RedBlackTree<Key extends Comparable<Key>, Value>{
    private Node root;
 
@@ -27,6 +29,35 @@ public class RedBlackTree<Key extends Comparable<Key>, Value>{
       else if(cmp > 0) return contains(key,node.right);
       else return true;
    }
+
+   public Iterable<Key> getKeysInorder(){
+      var keys = new LinkedList<Key>();
+      getKeysInorder(root,keys);
+      return keys;
+   }
+
+   private void getKeysInorder(Node root,LinkedList<Key> list){
+      if(root == null) return;
+      getKeysInorder(root.left,list);
+      list.add(root.key);
+      getKeysInorder(root.right,list);
+   }
+
+   public Iterable<Value> getValuesInorder(){
+      var values = new LinkedList<Value>();
+      getValuesInorder(root,values);
+      return values;
+   }
+
+   private void getValuesInorder(Node root,LinkedList<Value> list){
+      if(root == null) return;
+      getValuesInorder(root.left,list);
+      list.add(root.val);
+      getValuesInorder(root.right,list);
+   }
+
+
+
 
    public void put(Key key,Value val){
       root = put(root,key,val);

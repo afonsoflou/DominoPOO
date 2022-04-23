@@ -1,2 +1,2 @@
-public enum Direction { LEFT,UP, RIGHT, DOWN , UpRIGHT, DownRIGHT, UpLEFT,DownLEFT }
+public enum Direction { LEFT,UP, RIGHT, DOWN , UpRIGHT, UpLEFT,DownRIGHT,DownLEFT }
 
