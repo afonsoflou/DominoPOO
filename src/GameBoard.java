@@ -12,23 +12,41 @@ public class GameBoard {
       var board = new RedBlackTree<Coordinate, Domino>();
       var corners = new LinkedList<Corner>();
 
-      if(x < 0 || y < 0 || x > nLines || y > nColumns)
+      if(x < 0 || y < 1 || x > nLines || y > nColumns)
          throw new IllegalArgumentException("Must place on the board");
 
       var firstCoordinate = new Coordinate(x, y);
       board.put(firstCoordinate, firstDomino);
-      board.put(new Coordinate(x, y), firstDomino);
-      board.put(new Coordinate(x, y), firstDomino);
+      board.put(new Coordinate(x, y+1), firstDomino);
+      board.put(new Coordinate(x, y+2), firstDomino);
 
-   //   corners.add(new Corner(firstCoordinate, firstDomino, null));
+      corners.add(new Intersection(firstCoordinate, firstDomino, null));
    }
 
    public void insertDomino(Domino dominoPlayed, Domino corner) {
-      //var coordinate = corners.get();
-      if(!corner.isDouble()) {
-         if(corner.isVertical()) {
-            if(true) ;
-         }
+      Corner corner1 = getCorner(corner);
+      //insertDomino();
+
+   }
+
+   private Corner getCorner(Domino domino){
+      for(Corner corner: corners)
+         if(corner.equals(domino))
+            return corner;
+      throw new IllegalArgumentException("Corner does not exist");
+   }
+
+   //given the left up corner, the direction and the domino it inserts the domino into the board
+   private void insertDomino(Coordinate coordinate,Direction direction,Domino domino) {
+      if(domino.isVertical()) { //vertical
+         board.put(coordinate, domino);
+         board.put(new Coordinate(coordinate.x, coordinate.y - 1), domino);
+         board.put(new Coordinate(coordinate.x, coordinate.y - 2), domino);
+      } else { //horizontal
+         board.put(coordinate, domino);
+         board.put(new Coordinate(coordinate.x + 1, coordinate.y), domino);
+         if(domino.isDouble())
+            board.put(new Coordinate(coordinate.x + 2, coordinate.y), domino);
       }
    }
 
@@ -50,7 +68,7 @@ public class GameBoard {
       public int compareTo(Coordinate other) {
          int result = y - other.y;
          if(result == 0)
-            result = x - other.x;
+            result = other.x - x;
          return result;
       }
    }
@@ -62,13 +80,14 @@ public class GameBoard {
 
       abstract public boolean isCorner();
       abstract public void blockedDirection(Direction direction);
-      abstract public Coordinate getAvailableCoordinate();
+      abstract public Coordinate getAvailableCoordinate(Domino other);
 
       public boolean isEqual(Domino domino) {
          return domino.isEqual(domino);
       } //must be a reference to the same object
    }
 
+   //aka double corners ///////////////////////// INTERSECTION /////////////////////////////
    private class Intersection extends Corner{
       private boolean[] unavailableDirections = new boolean[4];
 
@@ -82,12 +101,11 @@ public class GameBoard {
 
       public boolean isCorner() {
          for(boolean x: unavailableDirections)
-            if(!x)
-               return false;
+            if(!x) return false;
          return true;
       }
 
-      public Coordinate getAvailableCoordinate() {
+      public Coordinate getAvailableCoordinate(Domino other) {
          int N = unavailableDirections.length;
          for(int i = 0; i < N; i++) {
             if(!unavailableDirections[i])
@@ -96,9 +114,7 @@ public class GameBoard {
                else
                   return horizontalAvailableCoordinate(i);
          }
-
-
-         return null;
+         throw new IllegalCallerException("There aren't any available coordinates this corner should not exist");
       }
 
       private Coordinate verticalAvailableCoordinate(int x){
@@ -134,8 +150,9 @@ public class GameBoard {
          }
          throw new IllegalArgumentException("must be a integer between 0 and 3");
       }
-   }
+   } ////////////////////////////// END OF INTERSECTION //////////////////////////////////////////
 
+   //aka non-double domino //////////////// LINE //////////////////////
    private class Line extends Corner{
       private Direction nextDirection;
 
@@ -149,10 +166,47 @@ public class GameBoard {
 
       public boolean isCorner() { return nextDirection != null ;}
 
-      public Coordinate getAvailableCoordinate(){
-         return null;
+      public Coordinate getAvailableCoordinate(Domino other){
+         return domino.isVertical() ? getVerticalAvailableCoordinate(other) : getHorizontalAvailableCoordinate(other);
       }
-   }
+
+      private Coordinate getVerticalAvailableCoordinate(Domino other){
+         if(other.isDouble()) {
+            if     (nextDirection == Direction.UP)         return new Coordinate(coordinate.x - 1, coordinate.y + 1);
+            else if(nextDirection == Direction.DOWN)       return new Coordinate(coordinate.x - 1, coordinate.y - 1);
+            else                                           throw new IllegalArgumentException("A horizontal double must be placed up or down");
+         }
+         else
+         {
+            if(nextDirection == Direction.UP) return new Coordinate(coordinate.x, coordinate.y + 4);
+            else if(nextDirection == Direction.DOWN)      return new Coordinate(coordinate.x,coordinate.y -4);
+            else if(nextDirection == Direction.UpLEFT)    return new Coordinate(coordinate.x -3,coordinate.y);
+            else if(nextDirection == Direction.UpRIGHT)   return new Coordinate(coordinate.x +2,coordinate.y);
+            else if(nextDirection == Direction.DownLEFT)  return new Coordinate(coordinate.x -3,coordinate.y-2);
+            else if(nextDirection == Direction.DownRIGHT) return new Coordinate(coordinate.x +2,coordinate.y-2);
+            else throw new IllegalArgumentException("This Corner should not exist");
+            }
+         }
+
+      private Coordinate getHorizontalAvailableCoordinate(Domino other){
+         if(other.isDouble()){
+            if     (nextDirection == Direction.LEFT)         return new Coordinate(coordinate.x - 2, coordinate.y + 1);
+            else if(nextDirection == Direction.RIGHT)        return new Coordinate(coordinate.x + 2, coordinate.y + 1);
+            else                                             throw new IllegalArgumentException("A Vertical double must be placed right or left");
+         }
+         else
+         {
+            if(nextDirection == Direction.LEFT) return new Coordinate(coordinate.x-3, coordinate.y);
+            else if(nextDirection == Direction.RIGHT)      return new Coordinate(coordinate.x+3,coordinate.y);
+            else if(nextDirection == Direction.UpLEFT)    return new Coordinate(coordinate.x ,coordinate.y +4);
+            else if(nextDirection == Direction.UpRIGHT)   return new Coordinate(coordinate.x +1,coordinate.y+4);
+            else if(nextDirection == Direction.DownLEFT)  return new Coordinate(coordinate.x ,coordinate.y-2);
+            else if(nextDirection == Direction.DownRIGHT) return new Coordinate(coordinate.x +1,coordinate.y-2);
+            else throw new IllegalArgumentException("This Corner should not exist");
+         }
+      }
+
+   } /////////////////// END OF LINE ///////////////////////////////////////////////////
 
 }
 
