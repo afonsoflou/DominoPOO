@@ -15,11 +15,11 @@ public class Human extends Player{
     private void printPlayablePieces(){
         for(Domino domino : dominoes)
             for(Domino corner : board.getCorners())
-                if(domino.isEqual(corner))
+                if(domino.canConnect(corner))
                     domino.print();
     }
 
-    public boolean check(Domino other){
+    public boolean check(Domino other,Domino corner){
         for(Domino d : dominoes){
             if(d.isEqual(other)){
                 board.insertDomino(d, corner);
@@ -35,13 +35,30 @@ public class Human extends Player{
         Scanner sc = new Scanner(System.in);
         printPlayablePieces();
 
-        String Domino = sc.nextLine();
-        String[] domino = Domino.split("|");
-        Domino other = new Domino(Integer.parseInt(domino[0]), Integer.parseInt(domino[1]));
+        String input = sc.nextLine();
+        String[] dominoSplit = input.split("|");
+        Domino domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
 
-        while(!check(other)){
+        Domino corner = null;
+
+        for(Domino c: board.getCorners()){
+            if(c.canConnect(domino)){
+                corner = c;
+                break;
+            }
+        }
+
+        while(!check(domino,corner)){
             System.out.println("Esta peça nao tens, dá input a outra!");
-            other = new Domino(Integer.parseInt(domino[0]), Integer.parseInt(domino[1]));
+            input = sc.nextLine();
+            dominoSplit = input.split("|");
+            domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
+            for(Domino c: board.getCorners()){
+                if(c.canConnect(domino)){
+                    corner = c;
+                    break;
+                }
+            }
         }
     }
 }
