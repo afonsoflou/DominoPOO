@@ -1,3 +1,4 @@
+/*
 import java.util.List;
 
 public class NPC extends Player{
@@ -10,3 +11,4 @@ public class NPC extends Player{
         if(!canPlay()) return;
     }
 }
+*/
