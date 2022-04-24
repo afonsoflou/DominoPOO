@@ -1,3 +1,4 @@
+/*
 import java.util.*;
 
 public class DominoesGame {
@@ -69,4 +70,4 @@ public class DominoesGame {
 
 }
 
-//
+//*/

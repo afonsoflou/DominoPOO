@@ -32,5 +32,15 @@ public class Domino {
         System.out.println(y);
     }
 
+    @Override
+    public String toString() {
+        return "Domino{" +
+                "x=" + x +
+                ", y=" + y +
+                ", isVertical=" + isVertical +
+                ", connectedX=" + connectedX +
+                ", connectedY=" + connectedY +
+                '}';
+    }
 }
 //
