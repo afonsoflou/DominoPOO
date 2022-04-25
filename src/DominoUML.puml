@@ -97,11 +97,22 @@ class Line{
   + Coordinate getAvailableCoordinate()
 }
 
+enum Direction{
+    LEFT
+    UP
+    RIGHT
+    DOWN
+    UpRIGHT
+    DownRIGHT
+    UpLEFT
+    DownLEFT
+}
 
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
 GameBoard *-- Coordinate
+GameBoard *-- Direction
 GameBoard o-- Domino
 Player o-- Domino
 Player o-- GameBoard

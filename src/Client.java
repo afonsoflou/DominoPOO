@@ -1,7 +1,8 @@
 public class Client {
 
 
-    public void main (String [] args){
-      //  System.out.println("dog");
+    public static void main (String [] args){
+        DominoesGame game = new DominoesGame(40,100);
+        game.startGame();
     }
 }

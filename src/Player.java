@@ -1,15 +1,18 @@
-/*
 import java.util.*;
 
 public abstract class Player {
-    protected GameBoard board;
+    protected GameLine gameLine;
     private String playerName;
     protected LinkedList<Domino> dominoes;
 
-    public Player(GameBoard board,String PlayerName,List<Domino> dominoes){
+    public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes){
         this.dominoes = new LinkedList<>(dominoes);
-        this.board = board;
+        this.gameLine = gameLine;
         this.playerName = PlayerName;
+    }
+
+    public void joinGame(GameLine gameLine){
+        this.gameLine = gameLine;
     }
 
     public String getName(){ return playerName;}
@@ -23,7 +26,7 @@ public abstract class Player {
 
     public boolean canPlay(){
         for(Domino domino : dominoes)
-            for(Domino corner : board.getCorners())
+            for(Domino corner : gameLine.getCorners())
                 if(domino.canConnect(corner))
                     return true;
         return false;
@@ -37,4 +40,3 @@ public abstract class Player {
 
 
 }
-*/
