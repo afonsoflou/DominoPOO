@@ -1,4 +1,3 @@
-/*
 import java.util.*;
 
 public class DominoesGame {
@@ -6,7 +5,7 @@ public class DominoesGame {
     private int nLines;
     private int nColumns;
     private Player[] players;
-    private GameBoard board;
+    private GameLine gameLine;
 
     public DominoesGame(int nLines, int nColumns) {
         this.nLines = nLines;
@@ -19,6 +18,9 @@ public class DominoesGame {
     }
 
     public void startGame() {
+
+        GameBoard board = new GameBoard(nColumns,nLines);
+
         Scanner sc = new Scanner(System.in);
         LinkedList<Domino> Dominoes = new LinkedList<>();
         //Create Dominoes and shuffle them
@@ -28,10 +30,10 @@ public class DominoesGame {
         Collections.shuffle(Dominoes);
 
         //Create Human Player
-        this.players[0] = new Human(board, sc.nextLine(), Dominoes.subList(0, 7));
+        this.players[0] = new Human(gameLine, sc.nextLine(), Dominoes.subList(0, 7));
         sc.next();
         //Create NPC players
-        for (int i = 1; i <= 3; i++) this.players[i] = new NPC(board, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
+        for (int i = 1; i <= 3; i++) this.players[i] = new NPC(gameLine, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
 
         //Find first player and take their double six
         int p = 0;
@@ -44,9 +46,10 @@ public class DominoesGame {
             p++;
         }
 
-        //Create board, if first player is Human start in coordinates given by input
-        if(p == 0) board = new GameBoard(nColumns,nLines,firstDomino, sc.nextInt(), sc.nextInt());
-        else board = new GameBoard(nColumns,nLines,firstDomino,nLines/2,nColumns/2);
+
+        //Create gameLine, if first player is Human start in coordinates given by input
+        if(p == 0) gameLine = new GameLine(firstDomino, sc.nextInt(), sc.nextInt(), board);
+        else gameLine = new GameLine(firstDomino,nLines/2,nColumns/2, board);
         //Players play until there is a winner
         while(!hasWinner())players[p++%4].play();
         //Put winner at start of array
@@ -70,4 +73,3 @@ public class DominoesGame {
 
 }
 
-//*/

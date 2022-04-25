@@ -1,9 +1,9 @@
-/*
+
 import java.util.List;
 
 public class NPC extends Player{
-    public NPC(GameBoard board, String PlayerName, List<Domino> dominoes) {
-        super(board, PlayerName, dominoes);
+    public NPC(GameLine gameLine, String PlayerName, List<Domino> dominoes) {
+        super(gameLine, PlayerName, dominoes);
     }
 
 
@@ -11,4 +11,3 @@ public class NPC extends Player{
         if(!canPlay()) return;
     }
 }
-*/

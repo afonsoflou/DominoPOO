@@ -1,11 +1,10 @@
-/*
 import java.util.List;
 import java.util.Scanner;
 
 public class Human extends Player{
 
-    public Human(GameBoard board, String PlayerName, List<Domino> dominoes) {
-        super(board, PlayerName, dominoes);
+    public Human(GameLine gameLine, String PlayerName, List<Domino> dominoes) {
+        super(gameLine, PlayerName, dominoes);
     }
 
     private void printPieces(){
@@ -15,7 +14,7 @@ public class Human extends Player{
 
     private void printPlayablePieces(){
         for(Domino domino : dominoes)
-            for(Domino corner : board.getCorners())
+            for(Domino corner : gameLine.getCorners())
                 if(domino.canConnect(corner))
                     domino.print();
     }
@@ -23,7 +22,7 @@ public class Human extends Player{
     private boolean validInputCheck(Domino other,Domino corner){
         for(Domino d : dominoes){
             if(d.isEqual(other)){
-                board.insertDomino(d, corner);
+                gameLine.insertDomino(d, corner);
                 dominoes.removeIf(x -> x.isEqual(other));
                 return true;
             }}
@@ -42,7 +41,7 @@ public class Human extends Player{
 
         Domino corner = null;
 
-        for(Domino c: board.getCorners()){
+        for(Domino c: gameLine.getCorners()){
             if(c.canConnect(domino)){
                 corner = c;
                 break;
@@ -54,7 +53,7 @@ public class Human extends Player{
             input = sc.nextLine();
             dominoSplit = input.split("|");
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
-            for(Domino c: board.getCorners()){
+            for(Domino c: gameLine.getCorners()){
                 if(c.canConnect(domino)){
                     corner = c;
                     break;
@@ -62,4 +61,4 @@ public class Human extends Player{
             }
         }
     }
-}*/
+}
