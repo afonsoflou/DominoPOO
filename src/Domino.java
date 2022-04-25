@@ -24,7 +24,7 @@ public class Domino {
     public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
     public void print(){
         if(!isVertical){
-            System.out.println(x+""+y);
+            System.out.println(x+"|"+y);
             return;
         }
         System.out.println(x);

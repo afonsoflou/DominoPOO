@@ -30,10 +30,12 @@ public class DominoesGame {
         Collections.shuffle(Dominoes);
 
         //Create Human Player
+        System.out.println("Choose Your Name");
         this.players[0] = new Human(gameLine, sc.nextLine(), Dominoes.subList(0, 7));
-        sc.next();
         //Create NPC players
         for (int i = 1; i <= 3; i++) this.players[i] = new NPC(gameLine, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
+
+
 
         //Find first player and take their double six
         int p = 0;
@@ -46,12 +48,23 @@ public class DominoesGame {
             p++;
         }
 
+        if(p==0) System.out.println("Input starting coordinates");
 
         //Create gameLine, if first player is Human start in coordinates given by input
-        if(p == 0) gameLine = new GameLine(firstDomino, sc.nextInt(), sc.nextInt(), board);
-        else gameLine = new GameLine(firstDomino,nLines/2,nColumns/2, board);
+        if(p == 0) gameLine = new GameLine(firstDomino,sc.nextInt() ,sc.nextInt() , board);
+        else gameLine = new GameLine(firstDomino,nColumns/2,nLines/2, board);
+
+        for(Player player : players) player.joinGame(gameLine);
+
         //Players play until there is a winner
-        while(!hasWinner())players[p++%4].play();
+        while(!hasWinner()){
+            players[p%4].play();
+            System.out.println();
+            System.out.println("Player" + p%4 + " Turn");
+            System.out.println();
+            board.print();
+            p++;
+        }
         //Put winner at start of array
         Player swap = players[0];
         players[0] = players[p%4];
@@ -67,7 +80,7 @@ public class DominoesGame {
             players[j + 1] = temp;
         }
         //Print results
-        for(int i = 0; i<4; i++) System.out.println(i+1 + " Place : "+ players[i].getName());
+        for(int i = 0; i<4; i++) System.out.println(i+1 + " Place : "+ players[i].getName() + "- " + players[i].getPoints() + " Points");
 
     }
 

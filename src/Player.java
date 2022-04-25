@@ -11,6 +11,10 @@ public abstract class Player {
         this.playerName = PlayerName;
     }
 
+    public void joinGame(GameLine gameLine){
+        this.gameLine = gameLine;
+    }
+
     public String getName(){ return playerName;}
 
     public boolean isFirst(){
