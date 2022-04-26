@@ -58,10 +58,10 @@ public class DominoesGame {
 
         //Players play until there is a winner
         while(!hasWinner()){
-            players[p%4].play();
             System.out.println();
             System.out.println("Player" + p%4 + " Turn");
             System.out.println();
+            players[p%4].play();
             board.print();
             p++;
         }

@@ -8,10 +8,28 @@ public class NPC extends Player{
         super(gameLine, PlayerName, dominoes);
     }
 
+    private void printPieces(){
+        for(Domino domino : dominoes)
+            domino.print();
+    }
+
+    private void printPlayablePieces(){
+        System.out.println("Player's Dominoes");
+        printPieces();
+        System.out.println();
+        System.out.println("Select Domino");
+        for(Domino domino : dominoes)
+            for(Domino corner : gameLine.getCorners())
+                if(domino.canConnect(corner)){
+                    domino.print();
+                    break;}
+
+    }
 
     public void play() {
         if(!canPlay()) return;
 
+        printPlayablePieces();
         LinkedList<Domino> playableDominoes = new LinkedList<>();
 
         for(Domino domino : dominoes)
@@ -23,6 +41,8 @@ public class NPC extends Player{
         Domino playedDomino = playableDominoes.remove();
         dominoes.removeIf(x -> x.isEqual(playedDomino));
 
+        System.out.println("Played Domino:");
+        playedDomino.print();
         Domino playedCorner = null;
 
         for(Domino corner : gameLine.getCorners())
