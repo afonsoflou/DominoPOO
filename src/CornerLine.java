@@ -30,44 +30,22 @@ public class CornerLine extends Corner{
    public void updateDirections(){ //THE WALLS ARE STARING AT YOU, DON'T BLINK.
       if(nextDirection == null || !isDirectionBlocked(nextDirection)) return;
       if(domino.isVertical()){
-         switch (nextDirection) {
-            case UP -> {
-               nextDirection = Direction.UpLEFT;
-               updateDirections();
-            }
-            case DOWN -> {
-               nextDirection = Direction.DownLEFT;
-               updateDirections();
-            }
-            case UpLEFT -> {
-               nextDirection = Direction.UpRIGHT;
-               updateDirections();
-            }
-            case DownLEFT -> {
-               nextDirection = Direction.DownRIGHT;
-               updateDirections();
-            }
-            case UpRIGHT, DownRIGHT -> nextDirection = null;
+         switch(nextDirection){
+            case UP:   nextDirection = Direction.UpLEFT ; updateDirections(); return;
+            case DOWN: nextDirection = Direction.DownLEFT; updateDirections(); return;
+            case UpLEFT: nextDirection = Direction.UpRIGHT; updateDirections(); return;
+            case DownLEFT: nextDirection = Direction.DownRIGHT; updateDirections(); return;
+            case UpRIGHT:
+            case DownRIGHT: nextDirection = null;
          }
       } else {
-         switch (nextDirection) {
-            case LEFT -> {
-               nextDirection = Direction.UpLEFT;
-               updateDirections();
-            }
-            case RIGHT -> {
-               nextDirection = Direction.UpRIGHT;
-               updateDirections();
-            }
-            case UpLEFT -> {
-               nextDirection = Direction.DownLEFT;
-               updateDirections();
-            }
-            case UpRIGHT -> {
-               nextDirection = Direction.DownRIGHT;
-               updateDirections();
-            }
-            case DownLEFT, DownRIGHT -> nextDirection = null;
+         switch(nextDirection){
+            case LEFT : nextDirection = Direction.UpLEFT; updateDirections(); return;
+            case RIGHT : nextDirection = Direction.UpRIGHT; updateDirections(); return;
+            case UpLEFT: nextDirection = Direction.DownLEFT; updateDirections(); return;
+            case UpRIGHT: nextDirection = Direction.DownRIGHT;updateDirections(); return;
+            case DownLEFT:
+            case DownRIGHT: nextDirection = null;
          }
       }
    }
