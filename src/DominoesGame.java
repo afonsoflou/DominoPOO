@@ -59,7 +59,8 @@ public class DominoesGame {
         //Players play until there is a winner
         while(!hasWinner()){
             System.out.println();
-            System.out.println("Player" + ++p%4 + " Turn");
+            if(++p%4 == 0) System.out.println("Your Turn");
+            else System.out.println("NPC " + p%4 + "'s Turn");
             System.out.println();
             players[p%4].play();
             board.print();
