@@ -39,7 +39,7 @@ public class NPC extends Player{
 
         Collections.shuffle(playableDominoes);
         Domino playedDomino = playableDominoes.remove();
-        dominoes.removeIf(x -> x.isEqual(playedDomino));
+        removeDomino(playedDomino);
 
         System.out.println("Played Domino:");
         playedDomino.print();

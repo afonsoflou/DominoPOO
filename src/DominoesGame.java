@@ -59,11 +59,10 @@ public class DominoesGame {
         //Players play until there is a winner
         while(!hasWinner()){
             System.out.println();
-            System.out.println("Player" + p%4 + " Turn");
+            System.out.println("Player" + ++p%4 + " Turn");
             System.out.println();
             players[p%4].play();
             board.print();
-            p++;
         }
         //Put winner at start of array
         Player swap = players[0];
