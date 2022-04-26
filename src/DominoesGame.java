@@ -2,9 +2,9 @@ import java.util.*;
 
 public class DominoesGame {
 
-    private int nLines;
-    private int nColumns;
-    private Player[] players;
+    private final int nLines;
+    private final int nColumns;
+    private final Player[] players;
     private GameLine gameLine;
 
     public DominoesGame(int nLines, int nColumns) {
@@ -51,8 +51,8 @@ public class DominoesGame {
         if(p==0) System.out.println("Input starting coordinates");
 
         //Create gameLine, if first player is Human start in coordinates given by input
-        if(p == 0) gameLine = new GameLine(firstDomino,sc.nextInt() ,sc.nextInt() , board);
-        else gameLine = new GameLine(firstDomino,nColumns/2,nLines/2, board);
+        if(p == 0) gameLine = new GameLine(Objects.requireNonNull(firstDomino),sc.nextInt() ,sc.nextInt() , board);
+        else gameLine = new GameLine(Objects.requireNonNull(firstDomino),nColumns/2,nLines/2, board);
 
         for(Player player : players) player.joinGame(gameLine);
 

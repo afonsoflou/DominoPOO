@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class GameLine {
-   private LinkedList<Corner> corners = new LinkedList<>(); //responsible for updating corner and inserting the dominoes.
-   private GameBoard board;
+   private final LinkedList<Corner> corners = new LinkedList<>(); //responsible for updating corner and inserting the dominoes.
+   private final GameBoard board;
 
    GameLine(Domino firstDomino,int x,int y,GameBoard board){
       this.board = board;
@@ -16,7 +16,7 @@ public class GameLine {
    // gameLine responsibility
    public void insertDomino(Domino dominoPlayed, Domino corner) {
       Corner anActualCorner = getCorner(corner);                                               //gets the Corner type from Domino corner
-      Direction direction = anActualCorner.getAvailableDirection();                            //gets the available direction in relation to the corner where the domino will be placed on the corner.
+      Direction direction = Objects.requireNonNull(anActualCorner).getAvailableDirection();                            //gets the available direction in relation to the corner where the domino will be placed on the corner.
       Coordinate coordinate = anActualCorner.getAvailableCoordinate(direction,dominoPlayed);   //gets the coordinate of the left upmost corner of the domino vertical or horizontal.
       anActualCorner.connectWith(dominoPlayed,direction);                                       //connects the domino to the corner.
       board.insertDomino(coordinate.x(),coordinate.y(),dominoPlayed);                          //inserts the domino on the board.
@@ -27,7 +27,7 @@ public class GameLine {
    //responsibility of the game line
    private void generateCorner(Coordinate coordinate,Corner corner,Domino domino,Direction direction){
       if(domino.isDouble()) { //generate intersection
-         var aFutureCorner = new CornerIntersection(coordinate, domino, oppositeDirection(direction,domino),board); //needs blocked direction
+         var aFutureCorner = new CornerIntersection(coordinate, domino, oppositeDirection(direction),board); //needs blocked direction
          if(aFutureCorner.isCorner()) corners.add(aFutureCorner);
       }
       else { //generate line
@@ -71,7 +71,7 @@ public class GameLine {
       return null;
    }
 
-   private Direction oppositeDirection(Direction direction,Domino domino){
+   private Direction oppositeDirection(Direction direction){
       switch(direction){
          case LEFT : return Direction.RIGHT;
          case RIGHT: return Direction.LEFT;

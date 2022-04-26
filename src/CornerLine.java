@@ -8,18 +8,14 @@ public class CornerLine extends Corner{
 
       if(direction.ordinal() > 3)
          if(domino.isVertical())
-            switch(direction) {
-               case UpRIGHT:
-               case UpLEFT : nextDirection = Direction.UP; break;
-               case DownLEFT:
-               case DownRIGHT: nextDirection = Direction.DOWN ;break;
+            switch (direction) {
+               case UpRIGHT, UpLEFT -> nextDirection = Direction.UP;
+               case DownLEFT, DownRIGHT -> nextDirection = Direction.DOWN;
             }
          else
-            switch(direction) {
-               case UpRIGHT :
-               case DownRIGHT: nextDirection = Direction.RIGHT; break;
-               case UpLEFT:
-               case DownLEFT: nextDirection =Direction.LEFT; break;
+            switch (direction) {
+               case UpRIGHT, DownRIGHT -> nextDirection = Direction.RIGHT;
+               case UpLEFT, DownLEFT -> nextDirection = Direction.LEFT;
             }
       else
          nextDirection = direction;
@@ -34,22 +30,44 @@ public class CornerLine extends Corner{
    public void updateDirections(){ //THE WALLS ARE STARING AT YOU, DON'T BLINK.
       if(nextDirection == null || !isDirectionBlocked(nextDirection)) return;
       if(domino.isVertical()){
-         switch(nextDirection){
-            case UP:   nextDirection = Direction.UpLEFT ; updateDirections(); return;
-            case DOWN: nextDirection = Direction.DownLEFT; updateDirections(); return;
-            case UpLEFT: nextDirection = Direction.UpRIGHT; updateDirections(); return;
-            case DownLEFT: nextDirection = Direction.DownRIGHT; updateDirections(); return;
-            case UpRIGHT:
-            case DownRIGHT: nextDirection = null;
+         switch (nextDirection) {
+            case UP -> {
+               nextDirection = Direction.UpLEFT;
+               updateDirections();
+            }
+            case DOWN -> {
+               nextDirection = Direction.DownLEFT;
+               updateDirections();
+            }
+            case UpLEFT -> {
+               nextDirection = Direction.UpRIGHT;
+               updateDirections();
+            }
+            case DownLEFT -> {
+               nextDirection = Direction.DownRIGHT;
+               updateDirections();
+            }
+            case UpRIGHT, DownRIGHT -> nextDirection = null;
          }
       } else {
-         switch(nextDirection){
-            case LEFT : nextDirection = Direction.UpLEFT; updateDirections(); return;
-            case RIGHT : nextDirection = Direction.UpRIGHT; updateDirections(); return;
-            case UpLEFT: nextDirection = Direction.DownLEFT; updateDirections(); return;
-            case UpRIGHT: nextDirection = Direction.DownRIGHT;updateDirections(); return;
-            case DownLEFT:
-            case DownRIGHT: nextDirection = null;
+         switch (nextDirection) {
+            case LEFT -> {
+               nextDirection = Direction.UpLEFT;
+               updateDirections();
+            }
+            case RIGHT -> {
+               nextDirection = Direction.UpRIGHT;
+               updateDirections();
+            }
+            case UpLEFT -> {
+               nextDirection = Direction.DownLEFT;
+               updateDirections();
+            }
+            case UpRIGHT -> {
+               nextDirection = Direction.DownRIGHT;
+               updateDirections();
+            }
+            case DownLEFT, DownRIGHT -> nextDirection = null;
          }
       }
    }
@@ -60,11 +78,11 @@ public class CornerLine extends Corner{
       var dummy = new Domino(domino.getX(), domino.getY());
       var dummyCoordinate = getAvailableCoordinate(direction, dummy);
       this.connectWith(dummy, direction); //to make the domino have the right rotation (horizontal or vertical)
-      return (dummy.isVertical()) ? isVerticalDirectionBlocked(dummy, dummyCoordinate, direction) :
-                                    isHorizontalDirectionBlocked(dummy,dummyCoordinate,direction);
+      return (dummy.isVertical()) ? isVerticalDirectionBlocked(dummyCoordinate, direction) :
+                                    isHorizontalDirectionBlocked(dummyCoordinate,direction);
    }
 
-   private boolean isVerticalDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction){
+   private boolean isVerticalDirectionBlocked(Coordinate dummyCoordinate, Direction direction){
       if(dummyCoordinate.y() >= board.getLines() || dummyCoordinate.y() < 2) return true;
 
       if(direction == Direction.UP || direction == Direction.UpRIGHT || direction == Direction.UpLEFT)
@@ -75,7 +93,7 @@ public class CornerLine extends Corner{
 
    }
 
-   private boolean isHorizontalDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction){
+   private boolean isHorizontalDirectionBlocked(Coordinate dummyCoordinate, Direction direction){
          if(dummyCoordinate.x() >= board.getColumns()-1 || dummyCoordinate.x() < 0) return true;
 
          if(direction == Direction.LEFT || direction == Direction.UpLEFT || direction == Direction.DownLEFT)
