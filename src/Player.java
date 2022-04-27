@@ -27,7 +27,7 @@ public abstract class Player {
     public boolean canPlay(){
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
-                if(domino.canConnect(corner))
+                if(gameLine.canPlay(domino,corner))
                     return true;
         return false;
     }

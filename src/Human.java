@@ -17,7 +17,7 @@ public class Human extends Player{
         System.out.println("Select Domino");
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
-                if(domino.canConnect(corner)){
+                if(gameLine.canPlay(domino,corner)){
                     domino.print();
                     break;}
 

@@ -20,7 +20,7 @@ public class NPC extends Player{
         System.out.println("Select Domino");
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
-                if(domino.canConnect(corner)){
+                if(gameLine.canPlay(domino,corner)){
                     domino.print();
                     break;}
 
@@ -34,7 +34,7 @@ public class NPC extends Player{
 
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
-                if(domino.canConnect(corner))
+                if(gameLine.canPlay(domino,corner))
                     playableDominoes.add(domino);
 
         Collections.shuffle(playableDominoes);
@@ -46,7 +46,7 @@ public class NPC extends Player{
         Domino playedCorner = null;
 
         for(Domino corner : gameLine.getCorners())
-            if(corner.canConnect(playedDomino)) {
+            if(gameLine.canPlay(playedDomino,corner)) {
                 playedCorner = corner;
                 break;
             }
