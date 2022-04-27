@@ -11,21 +11,17 @@ public class GameBoard {
       var domino62 = new Domino(6,2);
       var domino63 = new Domino(6,3);
       var domino64 = new Domino(6,4);
-      var domino65 = new Domino(6,5);
-      var domino55 = new Domino(5,5);
-      var domino22 = new Domino(4,4);
-      var domino33 = new Domino(3,3);
-      var domino44 = new Domino(2,2);
       var domino11 = new Domino(1,1);
+      var domino55 = new Domino(5,5);
       var domino32 = new Domino(3,2);
       var domino34 = new Domino(3,4);
       var domino45 = new Domino(4,5);
       var domino12 = new Domino(1,2);
       var domino13 = new Domino(1,3);
-      var domino14 = new Domino(1,4);
       var domino24 = new Domino(2,4);
       var domino15 = new Domino(1,5);
 /*
+
       var gameBoard = new GameBoard(80,11);
       var game = new GameLine(domino66,16,6,gameBoard);
       gameBoard.print();
@@ -133,14 +129,14 @@ public class GameBoard {
    public void print() {
       System.out.println("#".repeat(nColumns+2));
       HashMap<Domino,Integer> segments = new HashMap<>();
-      int prev = 0;// contains the amount of white space previously used
+      int prev;// contains the amount of white space previously used
 
       for(int i = nLines -1; i >= 0 ; i--){
          if(board[i].isEmpty()) System.out.println("#" + " ".repeat(nColumns) + "#");
          else{
             prev = 0;
             var orderedCoordinates = board[i].getKeys();
-            Arrays.sort(orderedCoordinates,(x,y) -> x-y); //sorts array
+            Arrays.sort(orderedCoordinates, Comparator.comparingInt(x -> x)); //sorts array
             System.out.print("#");
             for(int x :orderedCoordinates) {
                System.out.print(" ".repeat(x - prev));
@@ -204,7 +200,6 @@ public class GameBoard {
    static private class HashTable{
       public Hashtable<Integer,Domino> hashtable = new Hashtable<>();
 
-      public boolean contains(int x){ return hashtable.contains(x); }
       public void put(int x,Domino domino){hashtable.put(x,domino);}
       public Domino get(int x){return hashtable.get(x);}
       public boolean isEmpty(){return hashtable.isEmpty();}
