@@ -51,6 +51,8 @@ public class GameBoard {
       System.out.println(gameBoard.isThisRectangleOccupied(0,0,10,4));
       //very happy with this function is not as obvious as it appears to arrive to a data structure and an algorithm that checks for
       //occupied places efficiently while having a good print time.
+
+      //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,
    }
 
    public GameBoard(int nColumns, int nLines) {
