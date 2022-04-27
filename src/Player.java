@@ -2,7 +2,7 @@ import java.util.*;
 
 public abstract class Player {
     protected GameLine gameLine;
-    private final String playerName;
+    private String playerName;
     protected LinkedList<Domino> dominoes;
 
     public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes){
@@ -24,12 +24,12 @@ public abstract class Player {
         return false;
     }
 
-    public boolean cantPlay(){
+    public boolean canPlay(){
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
-                if(domino.canConnect(corner))
-                    return false;
-        return true;
+                if(gameLine.canPlay(domino,corner))
+                    return true;
+        return false;
     }
 
     protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.isEqual(domino));}

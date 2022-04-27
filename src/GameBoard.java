@@ -18,35 +18,54 @@ public class GameBoard {
       var domino12 = new Domino(1,2);
       var domino13 = new Domino(1,3);
       var domino24 = new Domino(2,4);
+      var domino15 = new Domino(1,5);
 
       var gameBoard = new GameBoard(80,11);
       var game = new GameLine(domino66,16,6,gameBoard);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino61,domino66);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino11,domino61);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino62,domino66);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino63,domino66);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino64,domino66);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino32,domino63);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino12,domino11);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino13,domino11);
       gameBoard.print();
+      System.out.println(game.getCorners());
 
       //THIS is actually a great setup to test collision.
       // inserting on line 3/1 and 2/6, inserting on line 1/4 and seeing how intersection 1/1 will be blocked. (to test)
       game.insertDomino(domino34,domino13);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino45,domino34);
       gameBoard.print();
+      System.out.println(game.getCorners());
       game.insertDomino(domino24,domino62);
       gameBoard.print();
+      System.out.println(game.getCorners());
+      game.insertDomino(domino15,domino11);
+      gameBoard.print();
+      System.out.println(game.getCorners());
+      game.insertDomino(domino55,domino45);
+      gameBoard.print();
+      System.out.println(game.getCorners());
 
       System.out.println(gameBoard.isThisRectangleOccupied(0,0,10,4));
       //very happy with this function is not as obvious as it appears to arrive to a data structure and an algorithm that checks for

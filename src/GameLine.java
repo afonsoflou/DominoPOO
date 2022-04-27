@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class GameLine {
-   private final LinkedList<Corner> corners = new LinkedList<>(); //responsible for updating corner and inserting the dominoes.
-   private final GameBoard board;
+   private HashSet<Corner> corners = new HashSet<>(); //responsible for updating corner and inserting the dominoes.
+   private GameBoard board;
 
    GameLine(Domino firstDomino,int x,int y,GameBoard board){
       this.board = board;
@@ -12,11 +12,17 @@ public class GameLine {
       corners.add(new CornerIntersection(new Coordinate(x,y),firstDomino,null,board));
    }
 
+   public boolean canPlay(Domino dominoToPlay,Domino corner){
+      Corner anActualCorner = getCorner(corner);
+      if(anActualCorner == null) return false;
+      return anActualCorner.canPlay(dominoToPlay);
+   }
 
    // gameLine responsibility
    public void insertDomino(Domino dominoPlayed, Domino corner) {
-      Corner anActualCorner = getCorner(corner);                                               //gets the Corner type from Domino corner
-      Direction direction = Objects.requireNonNull(anActualCorner).getAvailableDirection();                            //gets the available direction in relation to the corner where the domino will be placed on the corner.
+      Corner anActualCorner = getCorner(corner);//gets the Corner type from Domino corner
+      if(anActualCorner == null) throw new IllegalArgumentException("domino Played:"+dominoPlayed+",corner"+corner+" , The corner does not exist");
+      Direction direction = anActualCorner.getAvailableDirection();                            //gets the available direction in relation to the corner where the domino will be placed on the corner.
       Coordinate coordinate = anActualCorner.getAvailableCoordinate(direction,dominoPlayed);   //gets the coordinate of the left upmost corner of the domino vertical or horizontal.
       anActualCorner.connectWith(dominoPlayed,direction);                                       //connects the domino to the corner.
       board.insertDomino(coordinate.x(),coordinate.y(),dominoPlayed);                          //inserts the domino on the board.
@@ -26,16 +32,14 @@ public class GameLine {
 
    //responsibility of the game line
    private void generateCorner(Coordinate coordinate,Corner corner,Domino domino,Direction direction){
-      if(domino.isDouble()) { //generate intersection
-         var aFutureCorner = new CornerIntersection(coordinate, domino, oppositeDirection(direction),board); //needs blocked direction
-         if(aFutureCorner.isCorner()) corners.add(aFutureCorner);
-      }
+      if(domino.isDouble()) //generate intersection
+         corners.add(new CornerIntersection(coordinate, domino, oppositeDirection(direction,domino),board)); //needs blocked direction
       else { //generate line
-         var aFutureCorner = new CornerLine(coordinate, domino, direction,board); //only needs the direction where it's headed
-         if(aFutureCorner.isCorner()) corners.add(aFutureCorner);
+         var aFutureCorner = (domino.isVertical()) ? new VerticalCornerLine(coordinate,domino,direction,board) :
+                 new HorizontalCornerLine(coordinate,domino,direction,board);
+         corners.add(aFutureCorner);
       }
-      corner.blockedDirection(direction);
-      if(!corner.isCorner()) corners.remove(corner);
+      if(corner instanceof CornerLine) corners.remove(corner);
    }
 
    private void updateCornersBlockedBy(Domino other, int x,int y){
@@ -56,8 +60,6 @@ public class GameLine {
 
    }
 
-
-
    //game line responsibility
    public Iterable<Domino> getCorners() {
       return corners.stream().map(x -> x.domino).toList();
@@ -71,7 +73,7 @@ public class GameLine {
       return null;
    }
 
-   private Direction oppositeDirection(Direction direction){
+   private Direction oppositeDirection(Direction direction,Domino domino){
       switch(direction){
          case LEFT : return Direction.RIGHT;
          case RIGHT: return Direction.LEFT;

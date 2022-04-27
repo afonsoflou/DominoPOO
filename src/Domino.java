@@ -6,7 +6,10 @@ public class Domino {
 
     public void connectToX(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedX = true;}
     public void connectToY(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedY = true;}
+    public boolean connectedX() {return connectedX ;}
+    public boolean connectedY() {return connectedY;}
     public int getUnconnected() {if(!connectedX) return x; if(!connectedY) return y; throw new IllegalArgumentException("getUnconnected what happened?");}
+    public boolean canConnect(Domino other){int z = getUnconnected(); return z == other.x || z == other.y ;}
     public Domino(int x, int y) { this.x = x; this.y = y; }
     public int getX(){ return this.x;}
     public int getY(){ return this.y;}
@@ -14,11 +17,10 @@ public class Domino {
     public boolean isVertical(){return isVertical;}
     public boolean isDouble(){return x == y;}
     public boolean isEqual(Domino other){return (x == other.x && y == other.y) || (y == other.x && x == other.y);}
-    public boolean canConnect(Domino other){return (x==other.x && !other.connectedX) || (y==other.y && !other.connectedY) || (x==other.y && !other.connectedY) || (y==other.x && !other.connectedX);}
     public boolean isStarter(){return x+y == 12;}
     public void beVertical(){isVertical = true;}
     public void beHorizontal(){isVertical = false;}
-    @SuppressWarnings("SuspiciousNameCombination")
+    public void rotate(){isVertical = !isVertical;}
     public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
 
     public void print(){
@@ -32,13 +34,6 @@ public class Domino {
     }
 
     public String toString() {
-        return "Domino{" +
-                "x=" + x +
-                ", y=" + y +
-                ", isVertical=" + isVertical +
-                ", connectedX=" + connectedX +
-                ", connectedY=" + connectedY +
-                '}';
+        return "[" + x + "|" + y + "]";
     }
 }
-//
