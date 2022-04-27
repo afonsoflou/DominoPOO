@@ -22,17 +22,17 @@ public class Domino {
     public void beHorizontal(){isVertical = false;}
     public void rotate(){isVertical = !isVertical;}
     public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
+
     public void print(){
         if(!isVertical){
             System.out.println(x+"|"+y);
             return;
         }
         System.out.println(x);
-        System.out.printf("|");
+        System.out.println("|");
         System.out.println(y);
     }
 
-    @Override
     public String toString() {
         return "Domino{" +
                 "x=" + x +

@@ -13,8 +13,6 @@ public class Human extends Player{
     }
 
     private void printPlayablePieces(){
-        System.out.println("Your Dominoes");
-        printPieces();
         System.out.println();
         System.out.println("Select Domino");
         for(Domino domino : dominoes)
@@ -29,7 +27,7 @@ public class Human extends Player{
         for(Domino d : dominoes){
             if(d.isEqual(other)){
                 gameLine.insertDomino(d, corner);
-                dominoes.removeIf(x -> x.isEqual(other));
+                removeDomino(d);
                 return true;
             }}
         return false;
@@ -37,7 +35,12 @@ public class Human extends Player{
 
 
     public void play() {
-        if(!canPlay()) return;
+        System.out.println("Your Dominoes");
+        printPieces();
+        if(!canPlay()) {
+            System.out.println("No playable pieces");
+            return;
+        }
         Scanner sc = new Scanner(System.in);
         printPlayablePieces();
 
