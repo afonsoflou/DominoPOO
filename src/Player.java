@@ -32,7 +32,8 @@ public abstract class Player {
         return false;
     }
 
-    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) return domino; return null;}
+    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.isEqual(domino));}
+    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {removeDomino(domino); return domino;} return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
     public boolean isWinner(){return getNumDominoes() == 0;}
