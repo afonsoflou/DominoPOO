@@ -37,7 +37,7 @@ public class Human extends Player{
     public void play() {
         System.out.println("Your Dominoes");
         printPieces();
-        if(cantPlay()) {
+        if(!canPlay()) {
             System.out.println("No playable pieces");
             return;
         }

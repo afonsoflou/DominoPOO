@@ -27,7 +27,7 @@ public class NPC extends Player{
     }
 
     public void play() {
-        if(cantPlay()) return;
+        if(!canPlay()) return;
 
         printPlayablePieces();
         LinkedList<Domino> playableDominoes = new LinkedList<>();
