@@ -1,89 +1,52 @@
-public class CornerLine extends Corner{
-   private Direction nextDirection;
+public abstract class CornerLine extends Corner{
+   protected Direction nextDirection;
+   protected boolean lineIsBlocked;
+   protected boolean doubleIsBlocked;
 
-   CornerLine(Coordinate coordinate,Domino domino,Direction direction,GameBoard board){
-      super.coordinate = coordinate;
-      super.domino = domino;
-      super.board = board;
-
-      if(direction.ordinal() > 3)
-         if(domino.isVertical())
-            switch(direction) {
-               case UpRIGHT:
-               case UpLEFT : nextDirection = Direction.UP; break;
-               case DownLEFT:
-               case DownRIGHT: nextDirection = Direction.DOWN ;break;
-            }
-         else
-            switch(direction) {
-               case UpRIGHT :
-               case DownRIGHT: nextDirection = Direction.RIGHT; break;
-               case UpLEFT:
-               case DownLEFT: nextDirection =Direction.LEFT; break;
-            }
-      else
-         nextDirection = direction;
-
-      updateDirections();
-   }
+   CornerLine(Coordinate coordinate,Domino domino,GameBoard board){ super(coordinate,domino,board); }
 
    public void blockedDirection(Direction direction) { if(nextDirection == direction)  nextDirection = null; }
 
-   public boolean isCorner() { return nextDirection != null ;}
-
-   public void updateDirections(){ //THE WALLS ARE STARING AT YOU, DON'T BLINK.
-      if(nextDirection == null || !isDirectionBlocked(nextDirection)) return;
-      if(domino.isVertical()){
-         switch(nextDirection){
-            case UP:   nextDirection = Direction.UpLEFT ; updateDirections(); return;
-            case DOWN: nextDirection = Direction.DownLEFT; updateDirections(); return;
-            case UpLEFT: nextDirection = Direction.UpRIGHT; updateDirections(); return;
-            case DownLEFT: nextDirection = Direction.DownRIGHT; updateDirections(); return;
-            case UpRIGHT:
-            case DownRIGHT: nextDirection = null;
-         }
-      } else {
-         switch(nextDirection){
-            case LEFT : nextDirection = Direction.UpLEFT; updateDirections(); return;
-            case RIGHT : nextDirection = Direction.UpRIGHT; updateDirections(); return;
-            case UpLEFT: nextDirection = Direction.DownLEFT; updateDirections(); return;
-            case UpRIGHT: nextDirection = Direction.DownRIGHT;updateDirections(); return;
-            case DownLEFT:
-            case DownRIGHT: nextDirection = null;
-         }
+   public boolean canPlay(Domino other) {
+      if(other.isDouble()){
+         if(doubleIsBlocked) return false;
+         return other.canConnect(domino);
       }
+
+      if(lineIsBlocked) return false;
+      return domino.canConnect(other);
    }
 
-   private boolean isDirectionBlocked(Direction direction) {
+   public boolean isCorner() { return nextDirection != null ;}
+
+   abstract public void updateDirections();
+
+   protected boolean isDirectionBlocked(Direction direction) {
+      lineIsBlocked = false;
+      doubleIsBlocked = false; //reset availability for each direction.
+
       if(direction == null)
          throw new IllegalArgumentException("null direction can't be blocked, maybe this corner shouldn't exist");
       var dummy = new Domino(domino.getX(), domino.getY());
       var dummyCoordinate = getAvailableCoordinate(direction, dummy);
       this.connectWith(dummy, direction); //to make the domino have the right rotation (horizontal or vertical)
-      return (dummy.isVertical()) ? isVerticalDirectionBlocked(dummy, dummyCoordinate, direction) :
-                                    isHorizontalDirectionBlocked(dummy,dummyCoordinate,direction);
-   }
-
-   private boolean isVerticalDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction){
-      if(dummyCoordinate.y() >= board.getLines() || dummyCoordinate.y() < 2) return true;
-
-      if(direction == Direction.UP || direction == Direction.UpRIGHT || direction == Direction.UpLEFT)
-         return board.isThisRectangleOccupied(dummyCoordinate.x()-2, dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);
-      else if(direction == Direction.DOWN || direction == Direction.DownRIGHT || direction == Direction.DownLEFT)
-         return board.isThisRectangleOccupied(dummyCoordinate.x() -2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);
-      else throw new IllegalStateException("Vertical pieces can't have horizontal directions ex: left or right");
-
-   }
-
-   private boolean isHorizontalDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction){
-         if(dummyCoordinate.x() >= board.getColumns()-1 || dummyCoordinate.x() < 0) return true;
-
-         if(direction == Direction.LEFT || direction == Direction.UpLEFT || direction == Direction.DownLEFT)
-            return board.isThisRectangleOccupied(dummyCoordinate.x()-3,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);
-         else if(direction == Direction.RIGHT || direction == Direction.UpRIGHT || direction == Direction.DownRIGHT)
-            return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+4,dummyCoordinate.y()+3);
-         else throw new IllegalStateException("Horizontal pieces can't have vertical directions ex: up and down");
+      if(direction.ordinal() <= 3)
+      {
+         if(!isGeneralDirectionBlocked(dummy, dummyCoordinate, direction)) return false;
       }
+      else doubleIsBlocked = true;
+
+      if(!doubleIsBlocked) doubleIsBlocked = isDoubleDirectionBlocked(direction) ;
+      if(!lineIsBlocked) lineIsBlocked = isLineDirectionBlocked(dummy,dummyCoordinate,direction);
+      return doubleIsBlocked && lineIsBlocked;
+   }
+
+   abstract protected boolean isDoubleDirectionBlocked(Direction direction);
+   abstract protected boolean isLineDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction);
+   abstract protected boolean isGeneralDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction);
+
+
+
 
    public Direction getAvailableDirection(){return nextDirection;}
 
@@ -94,7 +57,7 @@ public class CornerLine extends Corner{
    private Coordinate getVerticalAvailableCoordinate(Domino other){
       if(other.isDouble()) {
          if     (nextDirection == Direction.UP)         return new Coordinate(coordinate.x() - 1, coordinate.y() + 1);
-         else if(nextDirection == Direction.DOWN)       return new Coordinate(coordinate.x() - 1, coordinate.y() - 1);
+         else if(nextDirection == Direction.DOWN)       return new Coordinate(coordinate.x() - 1, coordinate.y() - 4);
          else                                           throw new IllegalArgumentException("A horizontal double must be placed up or down");
       }
       else
@@ -112,7 +75,7 @@ public class CornerLine extends Corner{
    private Coordinate getHorizontalAvailableCoordinate(Domino other){
       if(other.isDouble()){
          if     (nextDirection == Direction.LEFT)         return new Coordinate(coordinate.x() - 2, coordinate.y() + 1);
-         else if(nextDirection == Direction.RIGHT)        return new Coordinate(coordinate.x() + 2, coordinate.y() + 1);
+         else if(nextDirection == Direction.RIGHT)        return new Coordinate(coordinate.x() + 3, coordinate.y() + 1);
          else                                             throw new IllegalArgumentException("A Vertical double must be placed right or left");
       }
       else

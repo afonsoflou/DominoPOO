@@ -3,12 +3,18 @@ public abstract class Corner {
    protected Domino domino;
    protected GameBoard board;
 
+   Corner(Coordinate coordinate,Domino domino,GameBoard board){
+      this.coordinate = coordinate;
+      this.domino = domino;
+      this.board = board;
+   }
+
    abstract public boolean isCorner();
-   abstract public void blockedDirection(Direction direction);
    abstract public Coordinate getAvailableCoordinate(Direction direction,Domino other);
    abstract public Direction getAvailableDirection();
    abstract public void updateDirections();
    public boolean isEqual(Domino other) {return domino.isEqual(other);}
+   abstract public boolean canPlay(Domino other);
 
 
    public void connectWith(Domino other,Direction direction){
