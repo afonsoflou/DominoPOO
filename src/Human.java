@@ -45,8 +45,8 @@ public class Human extends Player{
         printPlayablePieces();
 
         String input = sc.nextLine();
-        String[] dominoSplit = input.split("|");
-        Domino domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[2]));
+        String[] dominoSplit = input.split("\\|");
+        Domino domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
 
         Domino corner = null;
 
@@ -60,8 +60,8 @@ public class Human extends Player{
         while(!validInputCheck(domino,corner)){
             System.out.println("Invalid input, please input a valid domino");
             input = sc.nextLine();
-            dominoSplit = input.split("|");
-            domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[2]));
+            dominoSplit = input.split("\\|");
+            domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
             for(Domino c: gameLine.getCorners()){
                 if(c.canConnect(domino)){
                     corner = c;

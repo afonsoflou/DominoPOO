@@ -2,7 +2,7 @@ import java.util.*;
 
 public abstract class Player {
     protected GameLine gameLine;
-    private String playerName;
+    private final String playerName;
     protected LinkedList<Domino> dominoes;
 
     public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes){
