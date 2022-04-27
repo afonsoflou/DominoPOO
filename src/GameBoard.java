@@ -12,6 +12,7 @@ public class GameBoard {
       var domino63 = new Domino(6,3);
       var domino64 = new Domino(6,4);
       var domino11 = new Domino(1,1);
+      var domino55 = new Domino(5,5);
       var domino32 = new Domino(3,2);
       var domino34 = new Domino(3,4);
       var domino45 = new Domino(4,5);
@@ -19,7 +20,7 @@ public class GameBoard {
       var domino13 = new Domino(1,3);
       var domino24 = new Domino(2,4);
       var domino15 = new Domino(1,5);
-      var domino55 = new Domino(5,5);
+/*
 
       var gameBoard = new GameBoard(80,11);
       var game = new GameLine(domino66,16,6,gameBoard);
@@ -72,7 +73,30 @@ public class GameBoard {
       //very happy with this function is not as obvious as it appears to arrive to a data structure and an algorithm that checks for
       //occupied places efficiently while having a good print time.
 
-      //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,
+      //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,*/
+
+/////////////////////
+      var gameBoard = new GameBoard(80,20);
+      var game = new GameLine(domino66,16,6,gameBoard);
+      System.out.println(domino66.getUnconnected());
+      gameBoard.print();
+      System.out.println(game.getCorners());
+      System.out.println(domino61.getUnconnected());
+      game.insertDomino(domino61,domino66);
+      gameBoard.print();
+      System.out.println(game.getCorners());
+      game.insertDomino(domino12,domino61);
+      System.out.println(domino12.getUnconnected());
+      gameBoard.print();
+      System.out.println(game.getCorners());
+      game.insertDomino(domino24,domino12);
+      System.out.println(domino24.getUnconnected());
+      gameBoard.print();
+      System.out.println(game.getCorners());
+      game.insertDomino(domino44,domino24);
+      System.out.println(domino44.getUnconnected());
+      gameBoard.print();
+
    }
 
    public GameBoard(int nColumns, int nLines) {

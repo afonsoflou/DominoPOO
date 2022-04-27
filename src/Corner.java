@@ -43,6 +43,7 @@ public abstract class Corner {
             }
          }
       }
+      System.out.println(other.getUnconnected());
    }
 
    private void connectToX(Domino other){  other.connectToX(); if(other.getX() != this.domino.getUnconnected()) other.flip();}

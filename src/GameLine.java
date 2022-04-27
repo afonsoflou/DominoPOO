@@ -22,6 +22,7 @@ public class GameLine {
    public void insertDomino(Domino dominoPlayed, Domino corner) {
       Corner anActualCorner = getCorner(corner);//gets the Corner type from Domino corner
       if(anActualCorner == null) throw new IllegalArgumentException("domino Played:"+dominoPlayed+",corner"+corner+" , The corner does not exist");
+      if(!canPlay(dominoPlayed,corner)) throw new IllegalArgumentException("This move is illegal");
       Direction direction = anActualCorner.getAvailableDirection();                            //gets the available direction in relation to the corner where the domino will be placed on the corner.
       Coordinate coordinate = anActualCorner.getAvailableCoordinate(direction,dominoPlayed);   //gets the coordinate of the left upmost corner of the domino vertical or horizontal.
       anActualCorner.connectWith(dominoPlayed,direction);                                       //connects the domino to the corner.

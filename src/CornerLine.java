@@ -10,7 +10,7 @@ public abstract class CornerLine extends Corner{
    public boolean canPlay(Domino other) {
       if(other.isDouble()){
          if(doubleIsBlocked) return false;
-         return other.canConnect(domino);
+         return domino.canConnect(other);
       }
 
       if(lineIsBlocked) return false;
@@ -29,7 +29,6 @@ public abstract class CornerLine extends Corner{
          throw new IllegalArgumentException("null direction can't be blocked, maybe this corner shouldn't exist");
       var dummy = new Domino(domino.getX(), domino.getY());
       var dummyCoordinate = getAvailableCoordinate(direction, dummy);
-      this.connectWith(dummy, direction); //to make the domino have the right rotation (horizontal or vertical)
       if(direction.ordinal() <= 3)
       {
          if(!isGeneralDirectionBlocked(dummy, dummyCoordinate, direction)) return false;

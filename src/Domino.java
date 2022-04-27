@@ -2,11 +2,11 @@ public class Domino {
     private int x;
     private int y;
     private boolean isVertical = false;
-    private boolean connectedX,connectedY;
+    private boolean connectedX = false,connectedY= false;
 
     public void connectToX(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedX = true;}
     public void connectToY(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedY = true;}
-    public boolean connectedX() {return connectedX ;}
+    public boolean connectedX() {return connectedX;}
     public boolean connectedY() {return connectedY;}
     public int getUnconnected() {if(!connectedX) return x; if(!connectedY) return y; throw new IllegalArgumentException("getUnconnected what happened?");}
     public boolean canConnect(Domino other){int z = getUnconnected(); return z == other.x || z == other.y ;}
@@ -21,7 +21,7 @@ public class Domino {
     public void beVertical(){isVertical = true;}
     public void beHorizontal(){isVertical = false;}
     public void rotate(){isVertical = !isVertical;}
-    public void flip(){int temp = y; y = x; x = temp; } //swaps x and y
+    public void flip(){int temp = x; x = y;y = temp;} //swaps x and y
 
     public void print(){
         if(!isVertical){
