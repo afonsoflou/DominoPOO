@@ -33,23 +33,22 @@ public class DominoesGame {
         //Create NPC players
         for (int i = 1; i <= 3; i++) this.players[i] = new NPC(gameLine, "NPC " + i, Dominoes.subList(i*7, (i+1)*7), board);
 
-        //Find first player and take their double six
+        //Find first player
         int currentPlayer = 0;
-        Domino firstDomino = null;
         for(Player player: players){
             if(player.isFirst()){
+                //First Player plays and others join game
+                System.out.println(players[currentPlayer%4].getName() + "'s turn");
+                players[currentPlayer%4].play();
+                for(Player p : players) p.joinGame(players[currentPlayer%4].gameLine);
+                board.print();
                 break;
             }
             currentPlayer++;
         }
 
-        //First Player plays and others join game
-        System.out.println(players[currentPlayer%4].getName() + "'s turn");
-        players[currentPlayer%4].play();
-        for(Player player : players) player.joinGame(players[currentPlayer%4].gameLine);
-        board.print();
-
-        //Players play until there is a winner
+        //Players play until there is a winner, didntPlay counts how many players can't play in the turn
+        //If the counter reaches 4, the game ends since no one can play.
         int didntPlay = 0;
         while(didntPlay<4){
             for(Player player: players) if(player.isWinner()) break;
@@ -74,7 +73,7 @@ public class DominoesGame {
         players[currentPlayer%4] = swap;
 
         //Sort players by points at the end;
-        Arrays.sort(players,(x,y) -> x.getPoints() - y.getPoints());
+        Arrays.sort(players, Comparator.comparingInt(Player::getPoints));
 
         //Print results
         for(int i = 0; i<4; i++) System.out.println(i+1 + " Place : "+ players[i].getName() + "- " + players[i].getPoints() + " Points");

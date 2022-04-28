@@ -53,10 +53,10 @@ public class Human extends Player{
 
         printPlayablePieces();
 
-        Domino domino = null;
+        Domino domino;
         Domino corner = null;
 
-       do{
+       do{ //Keep Playing until a valid Domino is Played
             String input = sc.nextLine();
             String[] dominoSplit = input.split("\\|");
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
