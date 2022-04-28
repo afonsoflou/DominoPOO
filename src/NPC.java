@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NPC extends Player{
-    public NPC(GameLine gameLine, String PlayerName, List<Domino> dominoes) {
-        super(gameLine, PlayerName, dominoes);
+    public NPC(GameLine gameLine, String PlayerName, List<Domino> dominoes, GameBoard board) {
+        super(gameLine, PlayerName, dominoes, board);
     }
 
     private void printPieces(){
@@ -27,7 +27,14 @@ public class NPC extends Player{
     }
 
     public void play() {
-        if(!canPlay()) return;
+
+        printPieces();
+
+        if(isFirst()){
+            System.out.println("First Player");
+            gameLine = new GameLine(getDoubleSix(),board.getColumns()/2, board.getLines()/2 , board);
+            return;
+        }
 
         printPlayablePieces();
         LinkedList<Domino> playableDominoes = new LinkedList<>();

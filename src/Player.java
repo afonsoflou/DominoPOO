@@ -4,11 +4,13 @@ public abstract class Player {
     protected GameLine gameLine;
     private final String playerName;
     protected LinkedList<Domino> dominoes;
+    protected GameBoard board;
 
-    public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes){
+    public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes, GameBoard board){
         this.dominoes = new LinkedList<>(dominoes);
         this.gameLine = gameLine;
         this.playerName = PlayerName;
+        this.board = board;
     }
 
     public void joinGame(GameLine gameLine){
@@ -25,6 +27,7 @@ public abstract class Player {
     }
 
     public boolean canPlay(){
+        if(gameLine == null) return true;
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
                 if(gameLine.canPlay(domino,corner))

@@ -3,8 +3,8 @@ import java.util.Scanner;
 
 public class Human extends Player{
 
-    public Human(GameLine gameLine, String PlayerName, List<Domino> dominoes) {
-        super(gameLine, PlayerName, dominoes);
+    public Human(GameLine gameLine, String PlayerName, List<Domino> dominoes, GameBoard board) {
+        super(gameLine, PlayerName, dominoes, board);
     }
 
     private void printPieces(){
@@ -33,34 +33,32 @@ public class Human extends Player{
         return false;
     }
 
+    private boolean printPlayAgainMessage(){
+        System.out.println("Please input a valid choice");
+        return true;
+    }
 
     public void play() {
+
         System.out.println("Your Dominoes");
         printPieces();
-        if(!canPlay()) {
-            System.out.println("No playable pieces");
+
+        Scanner sc = new Scanner(System.in);
+
+        if(isFirst()){
+            System.out.println("First Player, Input Starting Coordinates");
+            gameLine = new GameLine(getDoubleSix(),sc.nextInt(),sc.nextInt(), board);
             return;
         }
-        Scanner sc = new Scanner(System.in);
+
         printPlayablePieces();
 
-        String input = sc.nextLine();
-        String[] dominoSplit = input.split("\\|");
-        Domino domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
-
+        Domino domino = null;
         Domino corner = null;
 
-        for(Domino c: gameLine.getCorners()){
-            if(c.canConnect(domino)){
-                corner = c;
-                break;
-            }
-        }
-
-        while(!validInputCheck(domino,corner)){
-            System.out.println("Invalid input, please input a valid domino");
-            input = sc.nextLine();
-            dominoSplit = input.split("\\|");
+       do{
+            String input = sc.nextLine();
+            String[] dominoSplit = input.split("\\|");
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
             for(Domino c: gameLine.getCorners()){
                 if(c.canConnect(domino)){
@@ -68,6 +66,6 @@ public class Human extends Player{
                     break;
                 }
             }
-        }
+        } while(!validInputCheck(domino,corner) && printPlayAgainMessage());
     }
 }

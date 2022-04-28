@@ -13,10 +13,6 @@ public class DominoesGame {
         this.players = new Player[4];
     }
 
-    private boolean hasWinner(){
-        for(Player player : players ) if(player.isWinner()) return true;return false;
-    }
-
     public void startGame() {
 
         //Create Board
@@ -32,42 +28,44 @@ public class DominoesGame {
         //Create Human Player
         Scanner sc = new Scanner(System.in);
         System.out.println("Choose Your Name");
-        this.players[0] = new Human(gameLine, sc.nextLine(), Dominoes.subList(0, 7));
+        this.players[0] = new Human(gameLine, sc.nextLine(), Dominoes.subList(0, 7), board);
 
         //Create NPC players
-        for (int i = 1; i <= 3; i++) this.players[i] = new NPC(gameLine, "NPC " + i, Dominoes.subList(i*7, (i+1)*7));
+        for (int i = 1; i <= 3; i++) this.players[i] = new NPC(gameLine, "NPC " + i, Dominoes.subList(i*7, (i+1)*7), board);
 
         //Find first player and take their double six
         int currentPlayer = 0;
         Domino firstDomino = null;
         for(Player player: players){
             if(player.isFirst()){
-                firstDomino = player.getDoubleSix();
                 break;
             }
             currentPlayer++;
         }
 
-        //Comment: This should be a player responsibility, therefore it should be inside the player/NPC class.
-        //Create gameLine, if first player is Human start in coordinates given by input
-        if(currentPlayer == 0) {
-            System.out.println("Input starting coordinates");
-            gameLine = new GameLine(Objects.requireNonNull(firstDomino),sc.nextInt() ,sc.nextInt() , board);
-        }
-        else gameLine = new GameLine(Objects.requireNonNull(firstDomino),nColumns/2,nLines/2, board);
-        for(Player player : players) player.joinGame(gameLine);
+        //First Player plays and others join game
+        System.out.println(players[currentPlayer%4].getName() + "'s turn");
+        players[currentPlayer%4].play();
+        for(Player player : players) player.joinGame(players[currentPlayer%4].gameLine);
+        board.print();
 
-        //COMMENT THIS DOES NOT CHECK FOR A STALEMATE. Has there might be not space in the board to play any pieces.
-        //recommendation alter the behavior to use player[i].canPlay() and a variable to check for concurrent unplayable states if it reaches 4 it's a stalemate.
-        //stalemate is not the appropriate word here has there can still be a winner. But the game cannot progress any further either way.
         //Players play until there is a winner
-        while(!hasWinner()){
+        int didntPlay = 0;
+        while(didntPlay<4){
+            for(Player player: players) if(player.isWinner()) break;
             currentPlayer++;
             System.out.println();
             System.out.println(players[currentPlayer%4].getName() + "'s turn");
             System.out.println();
-            players[currentPlayer%4].play();
-            board.print();
+            if(players[currentPlayer%4].canPlay()) {
+                players[currentPlayer%4].play();
+                didntPlay = 0;
+                board.print();
+            }
+            else{
+                System.out.println("Can't Play");
+                didntPlay++;
+            }
         }
 
         //Put winner at start of array
