@@ -55,10 +55,15 @@ final public class HorizontalCornerLine extends CornerLine {
    @Override
    protected boolean isLineDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction){
       switch(direction){
-         case LEFT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()-3,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
-         case RIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+4,dummyCoordinate.y()+3);}
-         case UpLEFT ,UpRIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()-2, dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);}
-         case DownLEFT ,DownRIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x() -2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);}
+         case LEFT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
+         case RIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3);}
+         case UpLEFT ,UpRIGHT ->{
+            if(dummyCoordinate.y() >= board.getLines() || dummyCoordinate.y() < 2) return true;
+            return board.isThisRectangleOccupied(dummyCoordinate.x()-2, dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);
+         }
+         case DownLEFT ,DownRIGHT ->{
+            if(dummyCoordinate.y() >= board.getLines() || dummyCoordinate.y() < 2) return true;
+            return board.isThisRectangleOccupied(dummyCoordinate.x() -2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);}
          }
 
       throw new IllegalStateException("This corner should not exist the nextDirection is null or UP or DOWN");

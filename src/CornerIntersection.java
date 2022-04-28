@@ -48,9 +48,9 @@ public class CornerIntersection extends Corner{
               && (dummyCoordinate.x() +1 >= board.getColumns() || dummyCoordinate.x() < 0)) return true;
 
       switch(direction){
-         case LEFT -> {return board.isThisRectangleOccupied(dummyCoordinate.x()-3,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
+         case LEFT -> {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
          case UP ->   {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);}
-         case RIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+4,dummyCoordinate.y()+3);}
+         case RIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3);}
          case DOWN -> {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);}
       }
       throw new IllegalStateException("This Intersection should not exist, nextDirection is null or direction.ordinal > 3 (class invariant is broken)");

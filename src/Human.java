@@ -25,7 +25,7 @@ public class Human extends Player{
 
     private boolean validInputCheck(Domino other,Domino corner){
         for(Domino d : dominoes){
-            if(d.isEqual(other)){
+            if(gameLine.canPlay(other,corner) && d.isEqual(other)){
                 gameLine.insertDomino(d, corner);
                 removeDomino(d);
                 return true;
