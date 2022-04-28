@@ -48,6 +48,7 @@ public class DominoesGame {
             currentPlayer++;
         }
 
+        //Comment: This should be a player responsibility, therefore it should be inside the player/NPC class.
         //Create gameLine, if first player is Human start in coordinates given by input
         if(currentPlayer == 0) {
             System.out.println("Input starting coordinates");
@@ -56,6 +57,9 @@ public class DominoesGame {
         else gameLine = new GameLine(Objects.requireNonNull(firstDomino),nColumns/2,nLines/2, board);
         for(Player player : players) player.joinGame(gameLine);
 
+        //COMMENT THIS DOES NOT CHECK FOR A STALEMATE. Has there might be not space in the board to play any pieces.
+        //recommendation alter the behavior to use player[i].canPlay() and a variable to check for concurrent unplayable states if it reaches 4 it's a stalemate.
+        //stalemate is not the appropriate word here has there can still be a winner. But the game cannot progress any further either way.
         //Players play until there is a winner
         while(!hasWinner()){
             currentPlayer++;
@@ -72,15 +76,7 @@ public class DominoesGame {
         players[currentPlayer%4] = swap;
 
         //Sort players by points at the end;
-        for (int i = 1; i < 4; i++) {
-            Player temp = players[i];
-            int j = i - 1;
-            while (j >= 0 && players[i].getPoints() < players[j].getPoints()) {
-                players[j + 1] = players[j];
-                --j;
-            }
-            players[j + 1] = temp;
-        }
+        Arrays.sort(players,(x,y) -> x.getPoints() - y.getPoints());
 
         //Print results
         for(int i = 0; i<4; i++) System.out.println(i+1 + " Place : "+ players[i].getName() + "- " + players[i].getPoints() + " Points");

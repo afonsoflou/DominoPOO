@@ -13,6 +13,7 @@ public class GameBoard {
       var domino64 = new Domino(6,4);
       var domino11 = new Domino(1,1);
       var domino55 = new Domino(5,5);
+      var domino44 = new Domino(4,4);
       var domino32 = new Domino(3,2);
       var domino34 = new Domino(3,4);
       var domino45 = new Domino(4,5);

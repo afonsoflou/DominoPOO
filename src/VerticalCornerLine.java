@@ -57,8 +57,14 @@ final public class VerticalCornerLine extends CornerLine{
       switch(direction){
          case UP ->{return board.isThisRectangleOccupied(dummyCoordinate.x()-2, dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);}
          case DOWN ->{return board.isThisRectangleOccupied(dummyCoordinate.x() -2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);}
-         case UpLEFT , DownLEFT->{return board.isThisRectangleOccupied(dummyCoordinate.x()-3,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
-         case UpRIGHT ,DownRIGHT->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+4,dummyCoordinate.y()+3);}
+         case UpLEFT , DownLEFT->{
+            if(dummyCoordinate.x() < 0 || dummyCoordinate.x() +1 >= board.getColumns()) return true; //checks if it falls outside the board.
+            return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);
+         }
+         case UpRIGHT ,DownRIGHT-> {
+            if(dummyCoordinate.x() < 0 || dummyCoordinate.x() +1 >= board.getLines()) return true; //checks if it falls outside the board.
+            return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3);
+         }
       }
       throw new IllegalStateException("This corner should not exist the nextDirection is null or left or right");
    }
