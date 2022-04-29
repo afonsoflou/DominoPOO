@@ -2,6 +2,7 @@ import java.util.*;
 
 public class GameLine {
    private HashSet<Corner> corners = new HashSet<>(); //responsible for updating corner and inserting the dominoes.
+   private HashSet<Domino> playedDominoes = new HashSet<>(); //responsible for maintaining the class invariant
    private GameBoard board;
 
    GameLine(GameBoard board){ this.board = board;}
@@ -12,11 +13,16 @@ public class GameLine {
       board.insertDomino(x,y,firstDomino);
       corners.add(new CornerIntersection(new Coordinate(x,y),firstDomino,null,board));
       updateCornersBlockedBy(firstDomino,x,y);
+      playedDominoes.add(firstDomino);
    }
 
+   //pre dominoToPlay.isEqual(corner) == false
    public boolean canPlay(Domino dominoToPlay,Domino corner){
+      if(corners.isEmpty()) throw new IllegalArgumentException("There aren't any corner available");
+      if(dominoToPlay.isEqual(corner) || playedDominoes.stream().anyMatch(x -> x.isEqual(dominoToPlay)))
+         throw new IllegalArgumentException("There can't be duplicate pieces on gameLine");
       Corner anActualCorner = getCorner(corner);
-      if(anActualCorner == null) return false;
+      if(anActualCorner == null) throw new IllegalArgumentException("This corner does not exist");
       return anActualCorner.canPlay(dominoToPlay);
    }
 
@@ -31,6 +37,7 @@ public class GameLine {
       board.insertDomino(coordinate.x(),coordinate.y(),dominoPlayed);                          //inserts the domino on the board.
       generateCorner(coordinate,anActualCorner,dominoPlayed,direction);                        //generates a new corner and removes useless ones from the newly formed corner after the placement of this domino.
       updateCornersBlockedBy(dominoPlayed,coordinate.x(),coordinate.y());
+      playedDominoes.add(dominoPlayed);
    }
 
    //responsibility of the game line

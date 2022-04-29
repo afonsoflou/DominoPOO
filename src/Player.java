@@ -7,6 +7,11 @@ public abstract class Player {
     protected GameBoard board;
 
     public Player(GameLine gameLine,String PlayerName,List<Domino> dominoes, GameBoard board){
+        if(gameLine == null || PlayerName == null || dominoes == null || board == null)
+            throw new IllegalArgumentException("Player cannot have null instances");
+        if(dominoes.size() != 7)
+            throw new IllegalArgumentException("Each player must start with 7 dominoes");
+
         this.dominoes = new LinkedList<>(dominoes);
         this.gameLine = gameLine;
         this.playerName = PlayerName;
