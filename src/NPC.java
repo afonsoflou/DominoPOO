@@ -32,7 +32,7 @@ public class NPC extends Player{
 
         if(isFirst()){
             System.out.println("First Player");
-            gameLine = new GameLine(getDoubleSix(),board.getColumns()/2, board.getLines()/2 , board);
+            gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
             return;
         }
 

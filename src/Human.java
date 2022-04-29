@@ -24,12 +24,11 @@ public class Human extends Player{
     }
 
     private boolean validInputCheck(Domino other,Domino corner){
-        for(Domino d : dominoes){
-            if(gameLine.canPlay(other,corner) && d.isEqual(other)){
-                gameLine.insertDomino(d, corner);
-                removeDomino(d);
+        if(gameLine.canPlay(other,corner) && dominoes.stream().anyMatch(x -> x.isEqual(other))){
+                gameLine.insertDomino(other, corner);
+                removeDomino(other);
                 return true;
-            }}
+            }
         return false;
     }
 
@@ -47,7 +46,7 @@ public class Human extends Player{
 
         if(isFirst()){
             System.out.println("First Player, Input Starting Coordinates");
-            gameLine = new GameLine(getDoubleSix(),sc.nextInt(),sc.nextInt(), board);
+            gameLine.firstPlay(getDoubleSix(),sc.nextInt(),sc.nextInt());
             return;
         }
 
@@ -59,9 +58,10 @@ public class Human extends Player{
        do{ //Keep Playing until a valid Domino is Played
             String input = sc.nextLine();
             String[] dominoSplit = input.split("\\|");
+            //this is kinda shit you should use the dominos you have instead of creating, shit may happen such as duplicated dominoes.
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
             for(Domino c: gameLine.getCorners()){
-                if(c.canConnect(domino)){
+                if(gameLine.canPlay(domino,c)){
                     corner = c;
                     break;
                 }

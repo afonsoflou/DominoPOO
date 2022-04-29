@@ -44,9 +44,6 @@ public abstract class CornerLine extends Corner{
    abstract protected boolean isLineDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction);
    abstract protected boolean isGeneralDirectionBlocked(Domino dummy,Coordinate dummyCoordinate,Direction direction);
 
-
-
-
    public Direction getAvailableDirection(){return nextDirection;}
 
    public Coordinate getAvailableCoordinate(Direction direction,Domino other){
@@ -81,10 +78,10 @@ public abstract class CornerLine extends Corner{
       {
          if(nextDirection == Direction.LEFT) return new Coordinate(coordinate.x()-3, coordinate.y());
          else if(nextDirection == Direction.RIGHT)      return new Coordinate(coordinate.x()+3,coordinate.y());
-         else if(nextDirection == Direction.UpLEFT)    return new Coordinate(coordinate.x() ,coordinate.y() +4);
-         else if(nextDirection == Direction.UpRIGHT)   return new Coordinate(coordinate.x() +1,coordinate.y()+4);
-         else if(nextDirection == Direction.DownLEFT)  return new Coordinate(coordinate.x() ,coordinate.y()-2);
-         else if(nextDirection == Direction.DownRIGHT) return new Coordinate(coordinate.x() +1,coordinate.y()-2);
+         else if(nextDirection == Direction.UpLEFT)    return new Coordinate(coordinate.x() ,coordinate.y() +3);
+         else if(nextDirection == Direction.UpRIGHT)   return new Coordinate(coordinate.x() +1,coordinate.y()+3);
+         else if(nextDirection == Direction.DownLEFT)  return new Coordinate(coordinate.x() ,coordinate.y()-1);
+         else if(nextDirection == Direction.DownRIGHT) return new Coordinate(coordinate.x() +1,coordinate.y()-1);
          else throw new IllegalArgumentException("This Corner should not exist");
       }
    }

@@ -17,6 +17,7 @@ public class DominoesGame {
 
         //Create Board
         GameBoard board = new GameBoard(nColumns,nLines);
+        gameLine = new GameLine(board);
 
         //Create Dominoes and shuffle them
         LinkedList<Domino> Dominoes = new LinkedList<>();
@@ -40,7 +41,6 @@ public class DominoesGame {
                 //First Player plays and others join game
                 System.out.println(players[currentPlayer%4].getName() + "'s turn");
                 players[currentPlayer%4].play();
-                for(Player p : players) p.joinGame(players[currentPlayer%4].gameLine);
                 board.print();
                 break;
             }
@@ -51,7 +51,7 @@ public class DominoesGame {
         //If the counter reaches 4, the game ends since no one can play.
         int didntPlay = 0;
         while(didntPlay<4){
-            for(Player player: players) if(player.isWinner()) break;
+            if(players[currentPlayer%4].isWinner()) break;
             currentPlayer++;
             System.out.println();
             System.out.println(players[currentPlayer%4].getName() + "'s turn");

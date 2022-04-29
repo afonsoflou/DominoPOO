@@ -79,7 +79,8 @@ public class GameBoard {
 
 /////////////////////
       var gameBoard = new GameBoard(80,20);
-      var game = new GameLine(domino66,16,6,gameBoard);
+      var game = new GameLine(gameBoard);
+      game.firstPlay(domino66,16,6);
       System.out.println(domino66.getUnconnected());
       gameBoard.print();
       System.out.println(game.getCorners());
@@ -118,11 +119,13 @@ public class GameBoard {
          board[y-1].put(x,domino);
          board[y-2].put(x,domino);
       } else { //horizontal
-         if(x >= getColumns() -1) throw new IllegalArgumentException("It's outside the board");
+         if(x >= nColumns -1) throw new IllegalArgumentException("It's outside the board");
          board[y].put(x, domino);
          board[y].put(x+1,domino);
-         if(domino.isDouble())
-            board[y].put(x+2,domino);
+         if(domino.isDouble()) {
+            if(x >= nColumns -2) throw new IllegalArgumentException("It's outside the board");
+            board[y].put(x + 2, domino);
+         }
       }
    }
 
@@ -138,7 +141,7 @@ public class GameBoard {
          else{
             prev = 0;
             var orderedCoordinates = board[i].getKeys();
-            Arrays.sort(orderedCoordinates, Comparator.comparingInt(x -> x)); //sorts array
+            Arrays.sort(orderedCoordinates); //sorts array
             System.out.print("#");
             for(int x :orderedCoordinates) {
                System.out.print(" ".repeat(x - prev));

@@ -4,12 +4,14 @@ public class GameLine {
    private HashSet<Corner> corners = new HashSet<>(); //responsible for updating corner and inserting the dominoes.
    private GameBoard board;
 
-   GameLine(Domino firstDomino,int x,int y,GameBoard board){
-      this.board = board;
+   GameLine(GameBoard board){ this.board = board;}
 
+   public void firstPlay(Domino firstDomino,int x,int y){
+      if(firstDomino.getValue() != 12) throw new IllegalArgumentException("Cannot call firstPlay with 6|6");
       firstDomino.beVertical();
       board.insertDomino(x,y,firstDomino);
       corners.add(new CornerIntersection(new Coordinate(x,y),firstDomino,null,board));
+      updateCornersBlockedBy(firstDomino,x,y);
    }
 
    public boolean canPlay(Domino dominoToPlay,Domino corner){
@@ -47,9 +49,9 @@ public class GameLine {
       Iterable<Domino> cornersToBeUpdated;
 
       if(other.isVertical()) //a bit generous, because if there isn't any problem then the corner won't be removed because of the check
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-6,y-4,x+6,y+3);
+         cornersToBeUpdated = board.getDominoesInThisRectangle(x-6,y-4,x+6,y+4);
       else
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-3,x+4,y+3);
+         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-4,x+4,y+4);
 
       for(Domino maybeCorner : cornersToBeUpdated){
          Corner corner = getCorner(maybeCorner);
