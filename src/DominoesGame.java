@@ -17,7 +17,7 @@ public class DominoesGame {
 
         //Create Board
         GameBoard board = new GameBoard(nColumns,nLines);
-        gameLine = new GameLine(board);
+        GameLine gameLine = new GameLine(board);
 
         //Create Dominoes and shuffle them
         LinkedList<Domino> Dominoes = new LinkedList<>();
