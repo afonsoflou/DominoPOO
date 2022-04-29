@@ -59,9 +59,10 @@ public class Human extends Player{
        do{ //Keep Playing until a valid Domino is Played
             String input = sc.nextLine();
             String[] dominoSplit = input.split("\\|");
+            //this is kinda shit you should use the dominos you have instead of creating, shit may happen such as duplicated dominoes.
             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
             for(Domino c: gameLine.getCorners()){
-                if(c.canConnect(domino)){
+                if(gameLine.canPlay(domino,c)){
                     corner = c;
                     break;
                 }

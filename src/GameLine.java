@@ -47,9 +47,9 @@ public class GameLine {
       Iterable<Domino> cornersToBeUpdated;
 
       if(other.isVertical()) //a bit generous, because if there isn't any problem then the corner won't be removed because of the check
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-6,y-4,x+6,y+3);
+         cornersToBeUpdated = board.getDominoesInThisRectangle(x-6,y-4,x+6,y+4);
       else
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-3,x+4,y+3);
+         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-4,x+4,y+4);
 
       for(Domino maybeCorner : cornersToBeUpdated){
          Corner corner = getCorner(maybeCorner);

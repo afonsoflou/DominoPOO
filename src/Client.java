@@ -5,4 +5,5 @@ public class Client {
         DominoesGame game = new DominoesGame(15,40);
         game.startGame();
     }
+
 }
