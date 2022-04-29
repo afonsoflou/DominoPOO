@@ -7,40 +7,17 @@ public class Human extends Player{
         super(gameLine, PlayerName, dominoes, board);
     }
 
-    private void printPieces(){
-        for(Domino domino : dominoes)
-            domino.print();
-    }
-
-    private void printPlayablePieces(){
-        System.out.println();
-        System.out.println("Select Domino");
-        for(Domino domino : dominoes)
-            for(Domino corner : gameLine.getCorners())
-                if(gameLine.canPlay(domino,corner)){
-                    domino.print();
-                    break;}
-
-    }
-
     private boolean validInputCheck(Domino other,Domino corner){
-        if(gameLine.canPlay(other,corner) && dominoes.stream().anyMatch(x -> x.isEqual(other))){
+        if(dominoes.stream().anyMatch(x -> x.isEqual(other) && gameLine.canPlay(other,corner))){
                 gameLine.insertDomino(other, corner);
                 removeDomino(other);
                 return true;
             }
+        System.out.println("Please input a valid choice");
         return false;
     }
 
-    private boolean printPlayAgainMessage(){
-        System.out.println("Please input a valid choice");
-        return true;
-    }
-
     public void play() {
-
-        System.out.println("Your Dominoes");
-        printPieces();
 
         Scanner sc = new Scanner(System.in);
 
@@ -66,6 +43,6 @@ public class Human extends Player{
                     break;
                 }
             }
-        } while(!validInputCheck(domino,corner) && printPlayAgainMessage());
+        } while(!validInputCheck(domino,corner));
     }
 }

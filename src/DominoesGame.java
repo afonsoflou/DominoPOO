@@ -38,7 +38,7 @@ public class DominoesGame {
         int currentPlayer = 0;
         for(Player player: players){
             if(player.isFirst()){
-                //First Player plays and others join game
+                //First Player plays
                 System.out.println(players[currentPlayer%4].getName() + "'s turn");
                 players[currentPlayer%4].play();
                 board.print();

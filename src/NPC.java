@@ -9,27 +9,8 @@ public class NPC extends Player{
         super(gameLine, PlayerName, dominoes, board);
     }
 
-    private void printPieces(){
-        for(Domino domino : dominoes)
-            domino.print();
-    }
-
-    private void printPlayablePieces(){
-        System.out.println("Player's Dominoes");
-        printPieces();
-        System.out.println();
-        System.out.println("Select Domino");
-        for(Domino domino : dominoes)
-            for(Domino corner : gameLine.getCorners())
-                if(gameLine.canPlay(domino,corner)){
-                    domino.print();
-                    break;}
-
-    }
 
     public void play() {
-
-        printPieces();
 
         if(isFirst()){
             System.out.println("First Player");
@@ -38,8 +19,9 @@ public class NPC extends Player{
         }
 
         printPlayablePieces();
-        LinkedList<Domino> playableDominoes = new LinkedList<>();
 
+        //Store Playable Dominos in a list
+        LinkedList<Domino> playableDominoes = new LinkedList<>();
         for(Domino domino : dominoes)
             for(Domino corner : gameLine.getCorners())
                 if(gameLine.canPlay(domino,corner))
@@ -47,7 +29,7 @@ public class NPC extends Player{
 
         //Play Domino with Highest Value
         Collections.sort(playableDominoes, Comparator.comparingInt(Domino::getValue));
-        Domino playedDomino = playableDominoes.remove();
+        Domino playedDomino = playableDominoes.removeLast();
         removeDomino(playedDomino);
 
         System.out.println("Played Domino:");
