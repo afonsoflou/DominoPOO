@@ -1,5 +1,6 @@
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +45,8 @@ public class NPC extends Player{
                 if(gameLine.canPlay(domino,corner))
                     playableDominoes.add(domino);
 
-        Collections.shuffle(playableDominoes);
+        //Play Domino with Highest Value
+        Collections.sort(playableDominoes, Comparator.comparingInt(Domino::getValue));
         Domino playedDomino = playableDominoes.remove();
         removeDomino(playedDomino);
 
