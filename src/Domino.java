@@ -1,8 +1,15 @@
+import java.util.Objects;
+
 public class Domino {
     private int x;
     private int y;
     private boolean isVertical = false;
     private boolean connectedX = false,connectedY= false;
+    public Domino(int x, int y){
+        if(x < 0 || x > 6 || y < 0 || y > 6) throw new IllegalArgumentException("class invariant is broken");
+        this.x = x; this.y = y;
+    }
+
 
     public void connectToX(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedX = true;}
     public void connectToY(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedY = true;}
@@ -10,7 +17,6 @@ public class Domino {
     public boolean connectedY() {return connectedY;}
     public int getUnconnected() {if(!connectedX) return x; if(!connectedY) return y; throw new IllegalArgumentException("getUnconnected what happened?");}
     public boolean canConnect(Domino other){int z = getUnconnected(); return z == other.x || z == other.y ;}
-    public Domino(int x, int y) { this.x = x; this.y = y; }
     public int getX(){ return this.x;}
     public int getY(){ return this.y;}
     public int getValue(){ return this.x + this.y; }
@@ -35,5 +41,10 @@ public class Domino {
 
     public String toString() {
         return "[" + x + "|" + y + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
