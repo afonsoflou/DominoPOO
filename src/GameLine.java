@@ -5,7 +5,9 @@ public class GameLine {
    private HashSet<Domino> playedDominoes = new HashSet<>(); //responsible for maintaining the class invariant
    private GameBoard board;
 
-   GameLine(GameBoard board){ this.board = board;}
+   GameLine(GameBoard board){
+      if(board == null) throw new IllegalArgumentException("class invariant broken: board is null");
+      this.board = board;}
 
    public void firstPlay(Domino firstDomino,int x,int y){
       if(firstDomino.getValue() != 12) throw new IllegalArgumentException("Cannot call firstPlay with 6|6");

@@ -8,6 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameLineTest {
 
    @Test
+   @SuppressWarnings("all")
+   void classInvariantTest(){
+      assertThrows(IllegalArgumentException.class,() ->
+              new GameLine(null));
+   }
+
+   @Test
    void canPlayTest() {
       //setup
       GameBoard board = new GameBoard(50,50);

@@ -34,9 +34,7 @@ final public class HorizontalCornerLine extends CornerLine {
       if(super.lineIsBlocked || super.doubleIsBlocked) return true;
 
       //Gets the dominoes on a rectangle that includes both cases, and if there is more than one piece(the piece that connects to the dummy) then it returns true.
-      var nDominoes =  board.getDominoesInThisRectangle(dummyCoordinate.x()-3, dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3).iterator();
-      nDominoes.next();
-      return nDominoes.hasNext();
+      return board.getNDominoesOnThisRectangle(dummyCoordinate.x()-3, dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3) > 1;
    }
 
    @Override
