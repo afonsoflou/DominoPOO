@@ -40,7 +40,25 @@ public abstract class Player {
         return false;
     }
 
-    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.equals(domino));}
+
+    protected void printPieces(){
+        for(Domino domino : dominoes)
+            domino.print();
+    }
+
+    protected void printPlayablePieces(){
+        System.out.println("Player's Dominoes");
+        printPieces();
+        System.out.println();
+        System.out.println("Select Domino");
+        for(Domino domino : dominoes)
+            for(Domino corner : gameLine.getCorners())
+                if(gameLine.canPlay(domino,corner)){
+                    domino.print();
+                    break;}
+    }
+
+    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.isEqual(domino));}
     public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {removeDomino(domino); return domino;} return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
