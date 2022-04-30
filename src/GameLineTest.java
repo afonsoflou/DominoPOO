@@ -8,6 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameLineTest {
 
    @Test
+   @SuppressWarnings("all")
+   void classInvariantTest(){
+      assertThrows(IllegalArgumentException.class,() ->
+              new GameLine(null));
+   }
+
+   @Test
    void canPlayTest() {
       //setup
       GameBoard board = new GameBoard(50,50);
@@ -110,7 +117,7 @@ class GameLineTest {
       dominoLinkedList.add(new Domino(6,6));
       assertTrue(() -> {
                  for(var corner : gameLine.getCorners())
-                    if(dominoLinkedList.stream().noneMatch(x -> x.isEqual(corner)))
+                    if(!dominoLinkedList.contains(corner))
                        return false;
                  return true;
               }
@@ -121,7 +128,7 @@ class GameLineTest {
 
       assertTrue(() -> {
                  for(var corner : gameLine.getCorners())
-                    if(dominoLinkedList.stream().noneMatch(x -> x.isEqual(corner)))
+                    if(!dominoLinkedList.contains(corner))
                        return false;
                  return true;
               }
@@ -129,11 +136,11 @@ class GameLineTest {
 
       gameLine.insertDomino(new Domino(2,2),new Domino(6,2));
       dominoLinkedList.add(new Domino(2,2));
-      dominoLinkedList.removeIf(x -> x.isEqual(new Domino(6,2)));
+      dominoLinkedList.removeIf(x -> x.equals(new Domino(6,2)));
 
       assertTrue(() -> {
                  for(var corner : gameLine.getCorners())
-                    if(dominoLinkedList.stream().noneMatch(x -> x.isEqual(corner)))
+                    if(!dominoLinkedList.contains(corner))
                        return false;
                  return true;
               }
@@ -145,11 +152,11 @@ class GameLineTest {
       dominoLinkedList.add(new Domino(6,1));
       dominoLinkedList.add(new Domino(6,3));
       dominoLinkedList.add(new Domino(6,4));
-      dominoLinkedList.removeIf(x -> x.isEqual(new Domino(6,6)));
+      dominoLinkedList.removeIf(x -> x.equals(new Domino(6,6)));
 
       assertTrue(() -> {
                  for(var corner : gameLine.getCorners())
-                    if(dominoLinkedList.stream().noneMatch(x -> x.isEqual(corner)))
+                    if(!dominoLinkedList.contains(corner))
                        return false;
                  return true;
               }

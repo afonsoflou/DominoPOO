@@ -66,9 +66,9 @@ public class DominoTests{
 
     @Test
     public void isEqualTest(){
-        assertTrue(new Domino(1, 1).isEqual(domino11));
-        assertFalse(new Domino(1, 2).isEqual(domino11));
-        assertTrue(new Domino(3, 1).isEqual(domino13));
+        assertEquals(new Domino(1, 1), domino11);
+        assertNotEquals(new Domino(1, 2), domino11);
+        assertEquals(new Domino(3, 1), domino13);
     }
 
     @Test

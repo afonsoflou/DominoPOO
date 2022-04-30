@@ -78,7 +78,7 @@ public class GameBoard {
       //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,*/
 
 /////////////////////
-      var gameBoard = new GameBoard(80,20);
+      var gameBoard = new GameBoard(40,9);
       var game = new GameLine(gameBoard);
       game.firstPlay(domino66,16,6);
       System.out.println(domino66.getUnconnected());
@@ -99,6 +99,14 @@ public class GameBoard {
       game.insertDomino(domino44,domino24);
       System.out.println(domino44.getUnconnected());
       gameBoard.print();
+      gameBoard.shiftUp(2);
+      gameBoard.print();
+      gameBoard.shiftDown(1);
+      gameBoard.print();
+      gameBoard.shiftRight(2);
+      gameBoard.print();
+      gameBoard.shiftLeft(2);
+      gameBoard.print();
 
    }
 
@@ -109,6 +117,7 @@ public class GameBoard {
       for(int i = 0; i < nLines; i++)
          board[i] = new HashTable();
    }
+
 
    //given the left up corner, the direction and the domino it inserts the domino into the board
    public void insertDomino(int x,int y,Domino domino) {
@@ -166,24 +175,7 @@ public class GameBoard {
    public int getColumns(){ return nColumns;}
    public int getLines(){ return nLines;}
 
-   //x1,y1 bottom left corner and x2,y2 upper left corner
-   public boolean isThisRectangleOccupied(int x1,int y1,int x2,int y2){
-      var bX = Math.max(0,x1); //(bottomX)
-      var bY = Math.max(0,y1);
-      var uX = Math.min(nColumns-1,x2); //(upperX)
-      var uY = Math.min(nLines-1,y2);
-
-      for(int i = bY; i <= uY ; i++){
-         if(board[i].isEmpty()) continue;
-         for(var key :board[i].getKeys()){
-            if(bX <= key && key <= uX )
-               return true;
-         }
-      }
-      return false;
-   }
-
-   public Iterable<Domino> getDominoesInThisRectangle(int x1,int y1,int x2,int y2){
+   public HashSet<Domino> getDominoesInThisRectangle(int x1,int y1,int x2,int y2){
       var bX = Math.max(0,x1); //(bottomX)
       var bY = Math.max(0,y1);
       var uX = Math.min(nColumns-1,x2); //(upperX)
@@ -201,6 +193,64 @@ public class GameBoard {
       return dominoesInside;
    }
 
+   //x1,y1 bottom left corner and x2,y2 upper left corner
+   public boolean isThisRectangleOccupied(int x1,int y1,int x2,int y2){
+      return getNDominoesOnThisRectangle(x1,y1,x2,y2) != 0;
+   }
+
+   public int getNDominoesOnThisRectangle(int x1,int y1,int x2,int y2){
+      return getDominoesInThisRectangle(x1,y1,x2,y2).size();
+   }
+
+   public void shiftUp(int x){
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      for(int i = nLines -1; i >= 0 ; i--){
+         swapColumns((i+x)%nLines,i);
+      }
+   }
+
+   public void shiftDown(int x){
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      for(int i = 0; i < nLines; i++){
+         swapColumns((i+x)%nLines,i);
+      }
+   }
+
+   public void shiftRight(int x){
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      for(int i = 0; i < nLines ; i++) {
+         if(board[i].isEmpty()) continue;
+         var keys = board[i].getKeys();
+         var values = board[i].getValues();
+         int N = keys.length;
+         board[i] = new HashTable();
+         for(int j = 0; j < N; j++)
+            board[i].put((keys[j] + x)%nColumns, values[j]);
+      }
+   }
+
+
+   public void shiftLeft(int x){
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      for(int i = 0; i < nLines ; i++) {
+         if(board[i].isEmpty()) continue;
+         var keys = board[i].getKeys();
+         var values = board[i].getValues();
+         int N = keys.length;
+         board[i] = new HashTable();
+         for(int j = 0; j < N; j++)
+            board[i].put((keys[j] - x)%nColumns, values[j]);
+      }
+   }
+
+
+   private void swapColumns(int x,int y){
+      HashTable temp;
+      temp = board[x];
+      board[x] = board[y];
+      board[y] = temp;
+   }
+
    //workaround to get an array of hashTables because in java you can't have an array of generics.
    static private class HashTable{
       public Hashtable<Integer,Domino> hashtable = new Hashtable<>();
@@ -209,6 +259,7 @@ public class GameBoard {
       public Domino get(int x){return hashtable.get(x);}
       public boolean isEmpty(){return hashtable.isEmpty();}
       public Integer[] getKeys(){ return hashtable.keySet().toArray(Integer[]::new) ; }
+      public Domino[] getValues(){return hashtable.values().toArray(Domino[]::new);}
    }
 }
 

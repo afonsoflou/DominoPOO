@@ -8,7 +8,7 @@ public class Human extends Player{
     }
 
     private boolean validInputCheck(Domino other,Domino corner){
-        if(dominoes.stream().anyMatch(x -> x.isEqual(other) && gameLine.canPlay(other,corner))){
+        if(gameLine.canPlay(other,corner) && dominoes.contains(other)){
                 gameLine.insertDomino(other, corner);
                 removeDomino(other);
                 return true;

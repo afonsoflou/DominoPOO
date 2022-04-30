@@ -34,9 +34,7 @@ final public class VerticalCornerLine extends CornerLine{
       if(super.lineIsBlocked || super.doubleIsBlocked) return true; //The general case fails because there is at least one of them without available space.
 
       //Gets the dominoes on a rectangle that includes both cases, and if there is more than one piece(the piece that connects to the dummy) then it returns true.
-      var nDominoes =  board.getDominoesInThisRectangle(dummyCoordinate.x()-3, dummyCoordinate.y()-4,dummyCoordinate.x()+3,dummyCoordinate.y()+2).iterator();
-      nDominoes.next();
-      return nDominoes.hasNext();
+      return board.getNDominoesOnThisRectangle(dummyCoordinate.x()-3, dummyCoordinate.y()-4,dummyCoordinate.x()+3,dummyCoordinate.y()+2) > 1;
    }
 
    @Override

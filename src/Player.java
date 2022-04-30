@@ -40,6 +40,7 @@ public abstract class Player {
         return false;
     }
 
+
     protected void printPieces(){
         for(Domino domino : dominoes)
             domino.print();

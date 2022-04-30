@@ -4,7 +4,7 @@ public class GameBoardTests {
 
 
 
-    //don't know how to test this, suffers form the same problem that the player suffers
+    //don't know how to test this, suffers from the same problem that the player suffers
     //I mean I know how to test this, but the time and effort put seem largely worthless when
     //a simple human check is much more efficient and accurate.
     @Test
