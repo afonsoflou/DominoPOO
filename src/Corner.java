@@ -13,7 +13,7 @@ public abstract class Corner {
    abstract public Coordinate getAvailableCoordinate(Direction direction,Domino other);
    abstract public Direction getAvailableDirection();
    abstract public void updateDirections();
-   public boolean isEqual(Domino other) {return domino.isEqual(other);}
+   public boolean isEqual(Domino other) {return domino.equals(other);}
    abstract public boolean canPlay(Domino other);
 
 

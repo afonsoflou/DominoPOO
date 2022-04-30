@@ -29,7 +29,7 @@ class NPCTest {
       assertTrue(() -> {
          var corners = gameLine.getCorners();
          for(var corner: corners)
-            if(corner.isEqual(new Domino(5,2)))
+            if(corner.equals(new Domino(5,2)))
                return true;
          return false;
       });
@@ -38,7 +38,7 @@ class NPCTest {
       assertTrue(() -> {
          var corners = gameLine.getCorners();
          for(var corner: corners)
-            if(corner.isEqual(new Domino(2,1)))
+            if(corner.equals(new Domino(2,1)))
                return true;
          return false;
       });
@@ -46,7 +46,7 @@ class NPCTest {
       assertFalse(() -> {
          var corners = gameLine.getCorners();
          for(var corner: corners)
-            if(corner.isEqual(new Domino(5,2)))
+            if(corner.equals(new Domino(5,2)))
                return true;
          return false;
       });

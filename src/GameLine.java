@@ -21,7 +21,7 @@ public class GameLine {
    //pre dominoToPlay.isEqual(corner) == false
    public boolean canPlay(Domino dominoToPlay,Domino corner){
       if(corners.isEmpty()) throw new IllegalArgumentException("There aren't any corner available");
-      if(dominoToPlay.isEqual(corner) || playedDominoes.stream().anyMatch(x -> x.isEqual(dominoToPlay)))
+      if(dominoToPlay.equals(corner) || playedDominoes.contains(dominoToPlay))
          throw new IllegalArgumentException("There can't be duplicate pieces on gameLine");
       Corner anActualCorner = getCorner(corner);
       if(anActualCorner == null) throw new IllegalArgumentException("This corner does not exist");

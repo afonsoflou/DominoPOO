@@ -118,6 +118,7 @@ public class GameBoard {
          board[i] = new HashTable();
    }
 
+
    //given the left up corner, the direction and the domino it inserts the domino into the board
    public void insertDomino(int x,int y,Domino domino) {
       if(domino.isVertical()) { //vertical

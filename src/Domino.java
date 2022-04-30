@@ -22,7 +22,6 @@ public class Domino {
     public int getValue(){ return this.x + this.y; }
     public boolean isVertical(){return isVertical;}
     public boolean isDouble(){return x == y;}
-    public boolean isEqual(Domino other){return (x == other.x && y == other.y) || (y == other.x && x == other.y);}
     public boolean isStarter(){return x+y == 12;}
     public void beVertical(){isVertical = true;}
     public void beHorizontal(){isVertical = false;}
@@ -44,7 +43,19 @@ public class Domino {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        Domino domino = (Domino) o;
+
+        return (x == domino.x && y == domino.y) || (y == domino.x && x == domino.y);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
 }
