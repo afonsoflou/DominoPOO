@@ -17,7 +17,7 @@ public class DominoesGame {
 
         //Create Board
         GameBoard board = new GameBoard(nColumns,nLines);
-        gameLine = new GameLine(board);
+        GameLine gameLine = new GameLine(board);
 
         //Create Dominoes and shuffle them
         LinkedList<Domino> Dominoes = new LinkedList<>();
@@ -38,7 +38,7 @@ public class DominoesGame {
         int currentPlayer = 0;
         for(Player player: players){
             if(player.isFirst()){
-                //First Player plays and others join game
+                //First Player plays
                 System.out.println(players[currentPlayer%4].getName() + "'s turn");
                 players[currentPlayer%4].play();
                 board.print();
