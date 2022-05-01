@@ -188,7 +188,7 @@ DominoesGame *-- GameBoard
 DominoesGame *-- Player
 Corner *-- Coordinate
 Corner *-- Direction
-GameBoard o-- Domino
+GameLine o-- Domino
 Player o-- Domino
 Player o-- GameLine
 Player o-- GameBoard
@@ -199,6 +199,6 @@ Corner <|-- CornerIntersection
 Corner <|-- CornerLine
 CornerLine <|-- HorizontalCornerLine
 CornerLine <|-- VerticalCornerLine
-GameBoard +-- Corner
+GameLine +-- Corner
 
 @enduml
