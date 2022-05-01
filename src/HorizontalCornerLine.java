@@ -66,4 +66,10 @@ final public class HorizontalCornerLine extends CornerLine {
 
       throw new IllegalStateException("This corner should not exist the nextDirection is null or UP or DOWN");
    }
+
+   //upperBound is exclusive and lowerBound as well.
+   private boolean needsVerticalShift(int upperY,int lowerY,int upperBound,int lowerBound){
+      int downShiftAmount = upperBound - upperY;
+      int upShiftAmount = lowerBound + lowerY;
+   }
 }

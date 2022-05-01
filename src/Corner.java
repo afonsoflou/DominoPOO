@@ -2,6 +2,8 @@ public abstract class Corner {
    protected Coordinate coordinate;
    protected Domino domino;
    protected GameBoard board;
+   protected Direction[] shiftDirection = new Direction[2]; //two shifts may happen, as in the case of a horizontal double,
+   protected int[] shiftNTimes = new int[2];                //may break the horizontal boundary and the vertical boundary at the same time.
 
    Corner(Coordinate coordinate,Domino domino,GameBoard board){
       this.coordinate = coordinate;
@@ -48,4 +50,6 @@ public abstract class Corner {
    private void connectToX(Domino other){  other.connectToX(); if(other.getX() != this.domino.getUnconnected()) other.flip();}
    private void connectToY(Domino other){  other.connectToY(); if(other.getY() != this.domino.getUnconnected()) other.flip();}
 
+   public int getShiftNTimes(){return shiftNTimes;}
+   public Direction getShiftDirection(){return shiftDirection;}
 }

@@ -107,7 +107,10 @@ public class GameBoard {
       gameBoard.print();
       gameBoard.shiftLeft(2);
       gameBoard.print();
-
+      gameBoard.shiftRight(20);
+      gameBoard.print();
+      System.out.println(gameBoard.canShiftRight(3));
+      System.out.println(gameBoard.canShiftUp(2));
    }
 
    public GameBoard(int nColumns, int nLines) {
@@ -203,21 +206,21 @@ public class GameBoard {
    }
 
    public void shiftUp(int x){
-      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative up shifting");
       for(int i = nLines -1; i >= 0 ; i--){
          swapColumns((i+x)%nLines,i);
       }
    }
 
    public void shiftDown(int x){
-      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative down shifting");
       for(int i = 0; i < nLines; i++){
          swapColumns((i+x)%nLines,i);
       }
    }
 
-   public void shiftRight(int x){
-      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
+   //right is positive left is negative.
+   private void verticalShift(int x){
       for(int i = 0; i < nLines ; i++) {
          if(board[i].isEmpty()) continue;
          var keys = board[i].getKeys();
@@ -229,18 +232,35 @@ public class GameBoard {
       }
    }
 
+   public void shiftRight(int x){
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative right shifting");
+      verticalShift(x);
+   }
+
 
    public void shiftLeft(int x){
-      if(x < 0) throw new IllegalArgumentException("There cannot be negative shifting");
-      for(int i = 0; i < nLines ; i++) {
-         if(board[i].isEmpty()) continue;
-         var keys = board[i].getKeys();
-         var values = board[i].getValues();
-         int N = keys.length;
-         board[i] = new HashTable();
-         for(int j = 0; j < N; j++)
-            board[i].put((keys[j] - x)%nColumns, values[j]);
-      }
+      if(x < 0) throw new IllegalArgumentException("There cannot be negative left shifting");
+      verticalShift(-x);
+   }
+
+   public boolean canShiftDown(int n){
+      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      return !isThisRectangleOccupied(0,0,nColumns -1,n-1);
+   }
+
+   public boolean canShiftUp(int n){
+      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      return !isThisRectangleOccupied(0,nLines-1-n +1,nColumns -1,nLines-1);
+   }
+
+   public boolean canShiftRight(int n){
+      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      return !isThisRectangleOccupied(nColumns-1-n+1,0, nColumns-1, nLines-1 );
+   }
+
+   public boolean canShiftLeft(int n){
+      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      return !isThisRectangleOccupied(0,0,n-1,nLines-1);
    }
 
 
