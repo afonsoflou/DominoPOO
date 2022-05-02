@@ -18,9 +18,6 @@ public abstract class Player {
         this.board = board;
     }
 
-    public void joinGame(GameLine gameLine){
-        this.gameLine = gameLine;
-    }
 
     public String getName(){ return playerName;}
 
@@ -58,7 +55,7 @@ public abstract class Player {
                     break;}
     }
 
-    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.isEqual(domino));}
+    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.equals(domino));}
     public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {removeDomino(domino); return domino;} return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
