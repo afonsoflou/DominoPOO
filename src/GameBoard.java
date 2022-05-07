@@ -21,6 +21,9 @@ public class GameBoard {
       var domino13 = new Domino(1,3);
       var domino24 = new Domino(2,4);
       var domino15 = new Domino(1,5);
+      var domino33 = new Domino(3,3);
+      var domino22 = new Domino(2,2);
+      var domino52 = new Domino(5,2);
 
 /*
 
@@ -99,18 +102,24 @@ public class GameBoard {
       game.insertDomino(domino44,domino24);
       System.out.println(domino44.getUnconnected());
       gameBoard.print();
-      gameBoard.shiftUp(2);
+      game.insertDomino(domino62,domino66);
       gameBoard.print();
-      gameBoard.shiftDown(1);
+      game.insertDomino(domino45,domino44);
       gameBoard.print();
-      gameBoard.shiftRight(2);
+      game.insertDomino(domino15,domino45);
       gameBoard.print();
-      gameBoard.shiftLeft(2);
+      game.insertDomino(domino11,domino15);
       gameBoard.print();
-      gameBoard.shiftRight(20);
+      game.insertDomino(domino22,domino62);
       gameBoard.print();
-      System.out.println(gameBoard.canShiftRight(3));
-      System.out.println(gameBoard.canShiftUp(2));
+      game.insertDomino(domino32,domino22);
+      gameBoard.print();
+      game.insertDomino(domino52,domino22);
+      gameBoard.print();
+      game.insertDomino(domino13,domino11);
+      gameBoard.print();
+      game.insertDomino(domino55,domino52);
+      gameBoard.print();
    }
 
    public GameBoard(int nColumns, int nLines) {
@@ -190,14 +199,14 @@ public class GameBoard {
          if(board[i].isEmpty()) continue;
          for(var key :board[i].getKeys()){
             if(bX <= key && key <= uX )
-               dominoesInside.add(board[i].get(key));
+               dominoesInside.add(Domino.equalsClone(board[i].get(key)));
          }
       }
       return dominoesInside;
    }
 
    //x1,y1 bottom left corner and x2,y2 upper left corner
-   public boolean isThisRectangleOccupied(int x1,int y1,int x2,int y2){
+   private boolean isThisRectangleOccupied(int x1,int y1,int x2,int y2){
       return getNDominoesOnThisRectangle(x1,y1,x2,y2) != 0;
    }
 
@@ -207,15 +216,21 @@ public class GameBoard {
 
    public void shiftUp(int x){
       if(x < 0) throw new IllegalArgumentException("There cannot be negative up shifting");
-      for(int i = nLines -1; i >= 0 ; i--){
-         swapColumns((i+x)%nLines,i);
+      for(int i = nLines -x-1; i >= 0; i--)
+         board[i+x] = board[i];
+
+      for(int i = x-1; i >= 0; i--){
+         board[i] = new HashTable();
       }
    }
 
    public void shiftDown(int x){
       if(x < 0) throw new IllegalArgumentException("There cannot be negative down shifting");
-      for(int i = 0; i < nLines; i++){
-         swapColumns((i+x)%nLines,i);
+      for(int i = x; i < nLines; i++)
+         board[i-x] = board[i];
+
+      for(int i = nLines -x; i < nLines; i++){
+         board[i] = new HashTable();
       }
    }
 
@@ -244,31 +259,27 @@ public class GameBoard {
    }
 
    public boolean canShiftDown(int n){
-      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      if(n == 0) return true;
+      if(n < 0 ) throw new IllegalArgumentException("n must be a natural integer(0 included)");
       return !isThisRectangleOccupied(0,0,nColumns -1,n-1);
    }
 
    public boolean canShiftUp(int n){
-      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
-      return !isThisRectangleOccupied(0,nLines-1-n +1,nColumns -1,nLines-1);
+      if(n == 0) return true;
+      if(n <0 ) throw new IllegalArgumentException("n must be a natural integer(0 included)");
+      return !isThisRectangleOccupied(0,nLines-n,nColumns -1,nLines-1);
    }
 
    public boolean canShiftRight(int n){
-      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
-      return !isThisRectangleOccupied(nColumns-1-n+1,0, nColumns-1, nLines-1 );
+      if(n == 0) return true;
+      if(n <0 ) throw new IllegalArgumentException("n must be a natural integer(0 included)");
+      return !isThisRectangleOccupied(nColumns-n,0, nColumns-1, nLines-1 );
    }
 
    public boolean canShiftLeft(int n){
-      if(n <1 ) throw new IllegalArgumentException("n must be a positive number");
+      if(n == 0) return true;
+      if(n < 0 ) throw new IllegalArgumentException("n must be a natural integer(0 included)");
       return !isThisRectangleOccupied(0,0,n-1,nLines-1);
-   }
-
-
-   private void swapColumns(int x,int y){
-      HashTable temp;
-      temp = board[x];
-      board[x] = board[y];
-      board[y] = temp;
    }
 
    //workaround to get an array of hashTables because in java you can't have an array of generics.
