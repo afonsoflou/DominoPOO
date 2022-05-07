@@ -4,38 +4,92 @@ class Domino {
     - int x
     - int y
     - boolean isVertical
+    - boolean connectedX
+    - boolean connectedY
 
+    + connectToX
+    + connectToY
+    + boolean connectedX()
+    + int getUnconnected()
+    + boolean canConnect(Domino other)
     + int getX()
     + int getY()
+    + boolean equals(Object o)
+    + int hashCode()
     + boolean isVertical()
     + boolean isDouble()
-    + boolean canConnect(Domino other)
     + boolean isStarter()
+    + String toString()
     + print()
-    + printSegment(int i)
     + flip()
     + beVertical()
     + beHorizontal()
-    + boolean isEqual(Domino)
     + int getValue()
 }
+
+class GameLine{
+    -HashSet<Corner> corners
+    -HashSet<Domino> playedDominoes
+    -GameBoard board
+
+    + firstPlay(Domino firstDomino, int x, int y)
+    + boolean canPlay(Domino dominoToPlay, Domino corner)
+    + insertDomino (Domino dominoPlayed, Domino other)
+    - generateCorner(Coordinate coordinate, Corner corner, Domino domino, Direction direction)
+    - updateCornersBlockedBy(Domino other, int x, int y)
+    + Ierable<Domino> getCorners()
+    - Corner getCorner(Domino domino)
+    - Direction oppositeDirection(Direction direction, Domino domino)
+
+}
+
 
 class GameBoard {
     - int nLines
     - int nColumns
-    - Graph<Domino> board
-    - LinkedList<Domino> Corners
+    - HashTable[] board
 
     + insertPiece(int dominoPlayed, int Corner)
     + Iterable<Domino> getCorners()
     - updateCorner(Domino Corner)
+    + int getColumns()
+    + int getLines()
+    + HashSet<Domino> getDominoesInThisRectangle(int x1, int y1, int x2, int y2)
+    + boolean isThisRectangleOccupied(int x1, int y1, int x2, int y2)
+    + int getNDominoesOnThisRectangle(int x1, int y1, int x2, int y2)
+    + shiftUp(int x)
+    + shiftDown(int x)
+    + shiftRight(int x)
+    + shiftLeft(int x)
+    - swapColumns(int x, int y)
+    + printDominoSegment(int segment, Domino Domino)
     + print()
 }
 
+class HorizontalCornerLine{
+    # boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+    + updateDirections()
+    # boolean isDoubleDirectionBlocked(Direction direction)
+    # boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+}
+
+class VerticalCornerLine{
+    # boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+    + updateDirections()
+    # boolean isDoubleDirectionBlocked(Direction direction)
+    # boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+}
+
+
 abstract class Player {
-    - GameBoard board
+    # GameLine gameLine
+    # LinkedList<Domino> dominoes
+    # GameBoard board
     - String playerName
 
+    # printPieces()
+    # printPlayablePieces()
+    # removeDomino(Domino domino)
     + String getName()
     + int getNumDominoes()
     + boolean isFirst()
@@ -48,54 +102,75 @@ abstract class Player {
 class DominoesGame {
     - int nLines
     - int nColumns
-    - boolean hasWinner
+
     + startGame()
 }
 
 class Human {
-
     + play()
-    - printPlayablePieces()
     - boolean validInputCheck(Domino other, Domino Corner)
-    - printPieces()
 }
 
 class NPC {
-
     + play()
 }
 
 class Coordinate{
     +int x
     +int y
+
+    +int compareTo(Coordinate other)
 }
 
 abstract class Corner{
     #Coordinate coordinate
     #Domino domino
+    #GameBoard board
 
     +abstract boolean isCorner()
+    +abstract Coordinate getAvailableCoordinate(Direction direction, Domino other)
+    +abstract Direction getAvailableDirection()
+    +abstract updateDirections()
     +abstract blockedDirection(Direction direction)
     +abstract Coordinate getAvailableCoordinate()
     +boolean isEqual(Domino domino)
+    +abstract boolean canPlay(Domino other)
 }
 
-class Intersection{
- + blockedDirection(Direction direction)
+class CornerIntersection{
+ + boolean canPlay(Domino other)
+ - blockedDirection(Direction direction)
  + boolean isCorner()
- + Coordinate getAvailableCoordinate()
+ + Direction getAvailableDirection
+ + Coordinate getAvailableCoordinate(Direction direction, Domino other)
+ - Coordinate getAvailableCoordinate(Direction direction)
+ + updateDirections()
+ - boolean isDirectionBlocked(Direction direction)
  - Coordinate verticalAvailableCoordinate(int x)
  - Coordinate horizontalAvailableCoordinate(int x)
- - Direction convBooleanToDirection(int x)
+ - Direction convIntToDirection(int x)
 }
 
-class Line{
-  -Direction nextDirection
 
-  + blockedDirection(Direction direction)
-  + boolean isCorner()
-  + Coordinate getAvailableCoordinate()
-}
+abstract class CornerLine{
+    #Direction nextDirection
+    #boolean lineIsBlocked
+    #boolean doubleIsBlocked
+
+    + blockedDirection(Direction direction)
+    + boolean canPlay(Domino other)
+    + boolean isCorner()
+    + abstract updateDirections()
+    # boolean isDirectionBlocked(Direction direction)
+    # abstract boolean isDoubleDirectionBlocked(Direction direction)
+    # abstract boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+    # abstract boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+
+    + Direction getAvailableDirection()
+    + Coordinate getAvailableCoordinate(Direction direction, Domino other)
+    - Coordinate getVerticalAvailableCoordinate(Domino other)
+    - Coordinate getHorizontalAvailableCoordinate(Domino other)
+    }
 
 enum Direction{
     LEFT
@@ -111,15 +186,19 @@ enum Direction{
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
-GameBoard *-- Coordinate
-GameBoard *-- Direction
-GameBoard o-- Domino
+Corner *-- Coordinate
+Corner *-- Direction
+GameLine o-- Domino
 Player o-- Domino
+Player o-- GameLine
 Player o-- GameBoard
+GameLine o-- GameBoard
 Player <|-- Human
 Player <|--NPC
-Corner <|-- Intersection
-Corner <|-- Line
-GameBoard +-- Corner
+Corner <|-- CornerIntersection
+Corner <|-- CornerLine
+CornerLine <|-- HorizontalCornerLine
+CornerLine <|-- VerticalCornerLine
+GameLine +-- Corner
 
 @enduml

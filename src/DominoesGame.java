@@ -5,7 +5,7 @@ public class DominoesGame {
     private final int nLines;
     private final int nColumns;
     private final Player[] players;
-    private GameLine gameLine;
+
 
     public DominoesGame(int nLines, int nColumns) {
         this.nLines = nLines;

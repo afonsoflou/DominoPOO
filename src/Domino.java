@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 public class Domino {
     private int x;
     private int y;
@@ -13,8 +11,6 @@ public class Domino {
 
     public void connectToX(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedX = true;}
     public void connectToY(){if(isDouble()) throw new IllegalArgumentException("Binary connections aren't made for doubles"); connectedY = true;}
-    public boolean connectedX() {return connectedX;}
-    public boolean connectedY() {return connectedY;}
     public int getUnconnected() {if(!connectedX) return x; if(!connectedY) return y; throw new IllegalArgumentException("getUnconnected what happened?");}
     public boolean canConnect(Domino other){int z = getUnconnected(); return z == other.x || z == other.y ;}
     public int getX(){ return this.x;}
@@ -25,7 +21,6 @@ public class Domino {
     public boolean isStarter(){return x+y == 12;}
     public void beVertical(){isVertical = true;}
     public void beHorizontal(){isVertical = false;}
-    public void rotate(){isVertical = !isVertical;}
     public void flip(){int temp = x; x = y;y = temp;} //swaps x and y
 
     public void print(){

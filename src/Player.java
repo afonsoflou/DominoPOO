@@ -18,9 +18,6 @@ public abstract class Player {
         this.board = board;
     }
 
-    public void joinGame(GameLine gameLine){
-        this.gameLine = gameLine;
-    }
 
     public String getName(){ return playerName;}
 
