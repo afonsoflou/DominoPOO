@@ -6,24 +6,36 @@ public class GameBoard {
    final private HashTable[] board;
 
    public static void main(String[] args){
-      var domino66 = new Domino(6,6);
-      var domino61 = new Domino(6,1);
-      var domino62 = new Domino(6,2);
-      var domino63 = new Domino(6,3);
-      var domino64 = new Domino(6,4);
-      var domino11 = new Domino(1,1);
-      var domino55 = new Domino(5,5);
-      var domino44 = new Domino(4,4);
-      var domino32 = new Domino(3,2);
-      var domino34 = new Domino(3,4);
-      var domino45 = new Domino(4,5);
-      var domino12 = new Domino(1,2);
-      var domino13 = new Domino(1,3);
-      var domino24 = new Domino(2,4);
-      var domino15 = new Domino(1,5);
-      var domino33 = new Domino(3,3);
-      var domino22 = new Domino(2,2);
-      var domino52 = new Domino(5,2);
+      //there mustn't be any changes to these dominoes during the tests.
+      Domino domino00 = new Domino(0,0);
+      Domino domino01 = new Domino(0,1);
+      Domino domino02 = new Domino(0,2);
+      Domino domino03 = new Domino(0,3);
+      Domino domino04 = new Domino(0,4);
+      Domino domino05 = new Domino(0,5);
+      Domino domino06 = new Domino(0,6);
+      Domino domino11 = new Domino(1,1);
+      Domino domino12 = new Domino(1,2);
+      Domino domino13 = new Domino(1,3);
+      Domino domino14 = new Domino(1,4);
+      Domino domino15 = new Domino(1,5);
+      Domino domino16 = new Domino(1,6);
+      Domino domino22 = new Domino(2,2);
+      Domino domino23 = new Domino(2,3);
+      Domino domino24 = new Domino(2,4);
+      Domino domino25 = new Domino(2,5);
+      Domino domino26 = new Domino(2,6);
+      Domino domino33 = new Domino(3,3);
+      Domino domino34 = new Domino(3,4);
+      Domino domino35 = new Domino(3,5);
+      Domino domino36 = new Domino(3,6);
+      Domino domino44 = new Domino(4,4);
+      Domino domino45 = new Domino(4,5);
+      Domino domino46 = new Domino(4,6);
+      Domino domino55 = new Domino(5,5);
+      Domino domino56 = new Domino(5,6);
+      Domino domino66 = new Domino(6,6);
+
 
 /*
 
@@ -81,6 +93,7 @@ public class GameBoard {
       //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,*/
 
 /////////////////////
+/*
       var gameBoard = new GameBoard(40,9);
       var game = new GameLine(gameBoard);
       game.firstPlay(domino66,16,6);
@@ -120,7 +133,40 @@ public class GameBoard {
       gameBoard.print();
       game.insertDomino(domino55,domino52);
       gameBoard.print();
+      game.insertDomino(domino34,domino44);
+      gameBoard.print();
+      game.insertDomino(domino35,domino34);
+      gameBoard.print();
+*/
+      var gameBoard = new GameBoard(40,15);
+      var game = new GameLine(gameBoard);
+      game.firstPlay(domino66,4,4);
+      game.insertDomino(domino56,domino66);
+      gameBoard.print();
+      game.insertDomino(domino46,domino66);
+      gameBoard.print();
+      game.insertDomino(domino36,domino66);
+      gameBoard.print();
+      game.insertDomino(domino04,domino46);
+      gameBoard.print();
+      game.insertDomino(domino26,domino66);
+      gameBoard.print();
+      game.insertDomino(domino06,domino04); //bugged
+      gameBoard.print();
+
+
+
+
+
+
+
+
+
+
+
+
    }
+
 
    public GameBoard(int nColumns, int nLines) {
       this.nColumns = nColumns;
