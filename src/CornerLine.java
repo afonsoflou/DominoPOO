@@ -153,7 +153,7 @@ public class CornerLine extends Corner {
       Direction direction = (other.isDouble()) ? nextDirection[0] : nextDirection[currentNextDirection];
       if(other.isDouble()) {
          if     (direction == Direction.UP)         return new Coordinate(coordinate.x() - 1, coordinate.y() + 1);
-         else if(direction == Direction.DOWN)       return new Coordinate(coordinate.x() - 1, coordinate.y() - 4);
+         else if(direction == Direction.DOWN)       return new Coordinate(coordinate.x() - 1, coordinate.y() - 3);
          else                                           throw new IllegalArgumentException("A horizontal double must be placed up or down");
       }
       else

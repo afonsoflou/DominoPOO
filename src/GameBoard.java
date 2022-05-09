@@ -138,6 +138,7 @@ public class GameBoard {
       game.insertDomino(domino35,domino34);
       gameBoard.print();
 */
+/*
       var gameBoard = new GameBoard(40,15);
       var game = new GameLine(gameBoard);
       game.firstPlay(domino66,4,4);
@@ -153,7 +154,28 @@ public class GameBoard {
       gameBoard.print();
       game.insertDomino(domino06,domino04); //bugged
       gameBoard.print();
+*/
 
+      var gameBoard = new GameBoard(40,15);
+      var game = new GameLine(gameBoard);
+      game.firstPlay(domino66,20,7);
+      gameBoard.print();
+      game.insertDomino(domino16,domino66);
+      gameBoard.print();
+      game.insertDomino(domino56,domino66);
+      gameBoard.print();
+      game.insertDomino(domino26,domino66);
+      gameBoard.print();
+      game.insertDomino(domino46,domino66);
+      gameBoard.print();
+      game.insertDomino(domino55,domino56);
+      gameBoard.print();
+      game.insertDomino(domino34,domino46); //bugged.
+      gameBoard.print();
+      game.insertDomino(domino15,domino55);
+      gameBoard.print();
+      game.insertDomino(domino25,domino55);
+      gameBoard.print();
 
 
 

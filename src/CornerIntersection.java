@@ -53,7 +53,11 @@ public class CornerIntersection extends Corner{
       if(isOutsideTheBoard(dummyCoordinate,dummyCoordinateY,direction)) return true;
 
       //there is the domino before the dummy that is the corner domino.If there is more than 1 then it's blocked
-      return 1 != board.getNDominoesOnThisRectangle(dummyCoordinate.x()-2, dummyCoordinateY.y()-2, dummyCoordinateY.x()+2,dummyCoordinate.y()+2);
+      int result = board.getNDominoesOnThisRectangle(dummyCoordinate.x()-2, dummyCoordinateY.y()-2, dummyCoordinateY.x()+2,dummyCoordinate.y()+2);
+      if(result == 1) return false;
+      else return !(result == 2 && !domino.isVertical() && coordinate.y() != dummyCoordinateY.y()); //special case were the horizontal double doesn't have spacing with the domino before it.
+      //this special case was only made for visual candy, but it is also good to see the cohesion on the board.It can be a little weird when there is a parallel line after it, because
+      //the viewer can note that 2 vertical pieces occupy the same space as 2 vertical pieces intersected by a horizontal double.
    }
 
    private boolean isOutsideTheBoard(Coordinate dummyCoordinate,Coordinate dummyCoordinateY,Direction direction){
@@ -101,7 +105,7 @@ public class CornerIntersection extends Corner{
    private Coordinate horizontalAvailableCoordinate(int x){
       switch(x){
          case 0: return new Coordinate(coordinate.x()-3,coordinate.y());
-         case 1: return new Coordinate(coordinate.x()+1,coordinate.y()+4);
+         case 1: return new Coordinate(coordinate.x()+1,coordinate.y()+3);
          case 2: return new Coordinate(coordinate.x()+4,coordinate.y());
          case 3: return new Coordinate(coordinate.x()+1,coordinate.y()-2);
       }

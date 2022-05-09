@@ -41,7 +41,8 @@ public class NPC extends Player{
                 playedCorner = corner;
                 break;
             }
-
+        //System.out.println(", corner played:"+playedCorner); (debugging).
+        //ironed
         gameLine.insertDomino(playedDomino,playedCorner);
     }
 }

@@ -40,6 +40,7 @@ public class GameLine {
       connectWith(corner,dominoPlayed,direction);                                              //connects the domino to the corner.
       board.insertDomino(coordinate.x(),coordinate.y(),dominoPlayed);                          //inserts the domino on the board.
       generateCorner(coordinate,anActualCorner,dominoPlayed,direction);                        //generates a new corner and removes useless ones from the newly formed corner after the placement of this domino.
+      updateCornersInTheEdges();
       updateCornersBlockedBy(dominoPlayed,coordinate.x(),coordinate.y());
       playedDominoes.add(dominoPlayed);
    }
@@ -51,10 +52,10 @@ public class GameLine {
       for(int i = 0; i < directions.length ; i++){
          if(directions[i] == null) continue;
          switch(directions[i]){
-            case UP -> {board.shiftUp(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]) ; updateCornerShifted(true,corner);}
-            case DOWN -> {board.shiftDown(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]); updateCornerShifted(true,corner);}
-            case LEFT -> {board.shiftLeft(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]); updateCornerShifted(false,corner);}
-            case RIGHT -> {board.shiftRight(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]); updateCornerShifted(false,corner);}
+            case UP -> {board.shiftUp(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]) ; }
+            case DOWN -> {board.shiftDown(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]);}
+            case LEFT -> {board.shiftLeft(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]); }
+            case RIGHT -> {board.shiftRight(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]);}
          }
       }
    }
@@ -81,19 +82,13 @@ public class GameLine {
    }
 
    //pre-condition, updateCornerCoordinates must have been executed before this function is called
-   private void updateCornerShifted(boolean isVertical,Domino corner){
+   private void updateCornersInTheEdges(){
       HashSet<Domino> cornersToBeUpdated;
 
-      if(isVertical) {
          cornersToBeUpdated = board.getDominoesInThisRectangle(0, 0, board.getColumns() - 1, 3);
          cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0, board.getLines() - 5, board.getColumns() - 1, board.getLines()));
-      }
-      else{
-         cornersToBeUpdated = board.getDominoesInThisRectangle(0,0,2,board.getLines()-1);
+         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0,0,2,board.getLines()-1));
          cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(board.getColumns()-4,0,board.getColumns()-1, board.getLines()));
-      }
-
-      cornersToBeUpdated.removeIf(x -> x.equals(corner));
 
       for(Domino maybeCorner : cornersToBeUpdated){
          Corner anActualCorner = getCorner(maybeCorner);
@@ -112,7 +107,7 @@ public class GameLine {
       if(other.isVertical()) //a bit generous, because if there isn't any problem then the corner won't be removed because of the check
          cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-6,x+6,y+4);
       else
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-4,x+4,y+4);
+         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-5,x+4,y+5);
 
       for(Domino maybeCorner : cornersToBeUpdated){
          Corner corner = getCorner(maybeCorner);
