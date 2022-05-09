@@ -47,6 +47,10 @@ public class Domino {
         return (x == domino.x && y == domino.y) || (y == domino.x && x == domino.y);
     }
 
+    static public Domino equalsClone(Domino domino){
+        return new Domino(domino.getX(),domino.getY());
+    }
+
     @Override
     public int hashCode() {
         int result = x;

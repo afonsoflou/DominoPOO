@@ -55,7 +55,7 @@ public abstract class Player {
                     break;}
     }
 
-    protected void removeDomino(Domino domino){dominoes.removeIf(x -> x.equals(domino));}
+    protected void removeDomino(Domino domino){dominoes.remove(domino);}
     public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {removeDomino(domino); return domino;} return null;}
     public abstract void play();
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}

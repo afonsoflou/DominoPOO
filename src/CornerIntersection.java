@@ -1,27 +1,32 @@
 public class CornerIntersection extends Corner{
-   private final boolean[] unavailableDirections = new boolean[4];
-   private Direction nextDirection;
+   private final Direction[] nextDirection;
+   private int currentNextDirection = 0;
+   private Direction shiftDirection;
+   private int shiftNTimes = 0;
+
 
    public CornerIntersection(Coordinate coordinate,Domino domino,Direction blockedDirection,GameBoard board){
       super(coordinate,domino,board);
-      if(blockedDirection != null) blockedDirection(blockedDirection);
-      nextDirection = getAvailableDirection();
+      if(blockedDirection == null)
+         nextDirection = new Direction[]{Direction.LEFT,Direction.UP,Direction.RIGHT,Direction.DOWN};
+      else
+         switch(blockedDirection){
+         case LEFT -> nextDirection = new Direction[]{Direction.UP,Direction.RIGHT,Direction.DOWN};
+         case UP ->   nextDirection = new Direction[]{Direction.LEFT,Direction.RIGHT,Direction.DOWN};
+         case RIGHT ->nextDirection = new Direction[]{Direction.LEFT,Direction.UP,Direction.DOWN};
+         case DOWN -> nextDirection = new Direction[]{Direction.LEFT,Direction.UP,Direction.RIGHT};
+         default -> throw new IllegalArgumentException("Illegal direction");
+      }
    }
 
    public boolean canPlay(Domino other) {return domino.canConnect(other);}
 
-   private void blockedDirection(Direction direction) { unavailableDirections[direction.ordinal()] = true;}
+   public boolean isShiftNeeded(Domino other) { return shiftNTimes != 0; }
 
-   public boolean isCorner() {
-      return nextDirection != null;
-   }
+   public boolean isCorner() { return currentNextDirection < nextDirection.length;}
 
-   public Direction getAvailableDirection() {
-      int N = unavailableDirections.length;
-      for(int i = 0; i < N; i++)
-         if(!unavailableDirections[i])
-            return convIntToDirection(i);
-      return null;
+   public Direction getAvailableDirection(Domino other) {
+      return nextDirection[currentNextDirection];
    }
 
    public Coordinate getAvailableCoordinate(Direction direction,Domino other) {
@@ -32,29 +37,60 @@ public class CornerIntersection extends Corner{
       return (domino.isVertical()) ? verticalAvailableCoordinate(direction.ordinal()) : horizontalAvailableCoordinate(direction.ordinal());
    }
 
-   public void updateDirections(){
-      nextDirection = getAvailableDirection();
-      if(nextDirection == null || !isDirectionBlocked(nextDirection)) return;
-      else blockedDirection(nextDirection);
-      updateDirections();
+   public void updateDirections() {
+      while(currentNextDirection < nextDirection.length) {
+         if(!isDirectionBlocked(nextDirection[currentNextDirection])) break;
+         currentNextDirection++;
+      }
    }
 
    private boolean isDirectionBlocked(Direction direction){
-      Coordinate dummyCoordinate = getAvailableCoordinate(direction);
+      var dummy = new Domino(domino.getX(), domino.getY());
+      var dummyCoordinate = getAvailableCoordinate(direction, dummy);
+      var dummyCoordinateY = (direction == Direction.DOWN || direction == Direction.UP ) ?
+              getVerticalYCoordinate(dummyCoordinate) : getHorizontalYCoordinate(dummyCoordinate);
 
-      if((direction == Direction.UP || direction == Direction.DOWN)
-              && (dummyCoordinate.y() >= board.getLines() || dummyCoordinate.y() < 2)) return true;
-      if((direction == Direction.LEFT || direction == Direction.RIGHT)
-              && (dummyCoordinate.x() +1 >= board.getColumns() || dummyCoordinate.x() < 0)) return true;
+      if(isOutsideTheBoard(dummyCoordinate,dummyCoordinateY,direction)) return true;
 
-      switch(direction){
-         case LEFT -> {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-3,dummyCoordinate.x(),dummyCoordinate.y()+3);}
-         case UP ->   {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-1,dummyCoordinate.x() +2,dummyCoordinate.y()+2);}
-         case RIGHT ->{return board.isThisRectangleOccupied(dummyCoordinate.x()+1,dummyCoordinate.y()-3,dummyCoordinate.x()+3,dummyCoordinate.y()+3);}
-         case DOWN -> {return board.isThisRectangleOccupied(dummyCoordinate.x()-2,dummyCoordinate.y()-4,dummyCoordinate.x()+2,dummyCoordinate.y()-1);}
-      }
-      throw new IllegalStateException("This Intersection should not exist, nextDirection is null or direction.ordinal > 3 (class invariant is broken)");
+      //there is the domino before the dummy that is the corner domino.If there is more than 1 then it's blocked
+      int result = board.getNDominoesOnThisRectangle(dummyCoordinate.x()-2, dummyCoordinateY.y()-2, dummyCoordinateY.x()+2,dummyCoordinate.y()+2);
+      if(result == 1) return false;
+      else return !(result == 2 && !domino.isVertical() && coordinate.y() != dummyCoordinateY.y()); //special case were the horizontal double doesn't have spacing with the domino before it.
+      //this special case was only made for visual candy, but it is also good to see the cohesion on the board.It can be a little weird when there is a parallel line after it, because
+      //the viewer can note that 2 vertical pieces occupy the same space as 2 vertical pieces intersected by a horizontal double.
    }
+
+   private boolean isOutsideTheBoard(Coordinate dummyCoordinate,Coordinate dummyCoordinateY,Direction direction){
+         switch(direction) {
+            case UP ->   {
+               shiftDirection = Direction.DOWN;
+               shiftNTimes = amountOfDownShift(dummyCoordinate.y());
+               return !board.canShiftDown(shiftNTimes);
+            }
+            case DOWN -> {
+               shiftDirection = Direction.UP;
+               shiftNTimes = amountOfUpShift(dummyCoordinateY.y());
+               return !board.canShiftUp(shiftNTimes);
+            }
+            case RIGHT-> {
+               shiftDirection = Direction.LEFT;
+               shiftNTimes = amountOfLeftShift(dummyCoordinateY.x());
+               return !board.canShiftLeft(shiftNTimes);
+            }
+            case LEFT->  {
+               shiftDirection = Direction.RIGHT;
+               shiftNTimes = amountOfRightShift(dummyCoordinate.x());
+               return !board.canShiftRight(shiftNTimes);
+            }
+         }
+      throw new IllegalArgumentException("There are illegal direction for a double corner ex:UpLeft");
+   }
+
+   @Override
+   public int[] getShiftNTimes(Domino other) { return new int[]{shiftNTimes}; }
+
+   @Override
+   public Direction[] getShiftDirection(Domino other) { return new Direction[]{shiftDirection}; }
 
    private Coordinate verticalAvailableCoordinate(int x){
       switch(x){
@@ -69,21 +105,11 @@ public class CornerIntersection extends Corner{
    private Coordinate horizontalAvailableCoordinate(int x){
       switch(x){
          case 0: return new Coordinate(coordinate.x()-3,coordinate.y());
-         case 1: return new Coordinate(coordinate.x()+1,coordinate.y()+4);
+         case 1: return new Coordinate(coordinate.x()+1,coordinate.y()+3);
          case 2: return new Coordinate(coordinate.x()+4,coordinate.y());
          case 3: return new Coordinate(coordinate.x()+1,coordinate.y()-2);
       }
       throw new IllegalArgumentException("Is the boolean array higher than 4?");
    }
 
-
-   private Direction convIntToDirection(int x) {
-      switch(x) {
-         case 0: return Direction.LEFT;
-         case 1: return Direction.UP;
-         case 2: return Direction.RIGHT;
-         case 3: return Direction.DOWN;
-      }
-      throw new IllegalArgumentException("must be a integer between 0 and 3");
-   }
 }
