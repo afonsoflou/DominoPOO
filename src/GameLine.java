@@ -69,6 +69,7 @@ public class GameLine {
          corners.add(aFutureCorner);
       }
       if(corner instanceof CornerLine) corners.remove(corner);
+      else if(corner.getAvailableDirection(null) == Direction.DOWN) corners.remove(corner);
    }
 
    //updates corner accordingly to the shift on the board.
@@ -87,8 +88,8 @@ public class GameLine {
 
          cornersToBeUpdated = board.getDominoesInThisRectangle(0, 0, board.getColumns() - 1, 3);
          cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0, board.getLines() - 5, board.getColumns() - 1, board.getLines()));
-         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0,0,2,board.getLines()-1));
-         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(board.getColumns()-4,0,board.getColumns()-1, board.getLines()));
+         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0,0,5,board.getLines()-1));
+         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(board.getColumns()-6,0,board.getColumns()-1, board.getLines()));
 
       for(Domino maybeCorner : cornersToBeUpdated){
          Corner anActualCorner = getCorner(maybeCorner);
@@ -145,6 +146,10 @@ public class GameLine {
             }
          }
       }
+   }
+
+   public HashSet<Domino> getPlayedDominoes(){
+      return (HashSet<Domino>) playedDominoes.clone();
    }
 
    //gameLine responsibility, future removal

@@ -36,161 +36,33 @@ public class GameBoard {
       Domino domino56 = new Domino(5,6);
       Domino domino66 = new Domino(6,6);
 
-
-/*
-
-      var gameBoard = new GameBoard(80,11);
-      var game = new GameLine(domino66,16,6,gameBoard);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino61,domino66);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino11,domino61);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino62,domino66);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino63,domino66);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino64,domino66);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino32,domino63);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino12,domino11);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino13,domino11);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-
-      //THIS is actually a great setup to test collision.
-      // inserting on line 3/1 and 2/6, inserting on line 1/4 and seeing how intersection 1/1 will be blocked. (to test)
-      game.insertDomino(domino34,domino13);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino45,domino34);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino24,domino62);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino15,domino11);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino55,domino45);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-
-      System.out.println(gameBoard.isThisRectangleOccupied(0,0,10,4));
-      //very happy with this function is not as obvious as it appears to arrive to a data structure and an algorithm that checks for
-      //occupied places efficiently while having a good print time.
-
-      //6|6, 4|6, 2|6, 2|4, 2|3, 5|6, 3|3 , 3|6, 3|5, 3|1, 1|5, 0|1, 0|3,*/
-
-/////////////////////
-/*
-      var gameBoard = new GameBoard(40,9);
+      var gameBoard = new GameBoard(15,40);
       var game = new GameLine(gameBoard);
-      game.firstPlay(domino66,16,6);
-      System.out.println(domino66.getUnconnected());
+      game.firstPlay(domino66,7,20);
       gameBoard.print();
-      System.out.println(game.getCorners());
-      System.out.println(domino61.getUnconnected());
-      game.insertDomino(domino61,domino66);
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino12,domino61);
-      System.out.println(domino12.getUnconnected());
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino24,domino12);
-      System.out.println(domino24.getUnconnected());
-      gameBoard.print();
-      System.out.println(game.getCorners());
-      game.insertDomino(domino44,domino24);
-      System.out.println(domino44.getUnconnected());
-      gameBoard.print();
-      game.insertDomino(domino62,domino66);
-      gameBoard.print();
-      game.insertDomino(domino45,domino44);
-      gameBoard.print();
-      game.insertDomino(domino15,domino45);
-      gameBoard.print();
-      game.insertDomino(domino11,domino15);
-      gameBoard.print();
-      game.insertDomino(domino22,domino62);
-      gameBoard.print();
-      game.insertDomino(domino32,domino22);
-      gameBoard.print();
-      game.insertDomino(domino52,domino22);
-      gameBoard.print();
-      game.insertDomino(domino13,domino11);
-      gameBoard.print();
-      game.insertDomino(domino55,domino52);
-      gameBoard.print();
-      game.insertDomino(domino34,domino44);
-      gameBoard.print();
-      game.insertDomino(domino35,domino34);
-      gameBoard.print();
-*/
-/*
-      var gameBoard = new GameBoard(40,15);
-      var game = new GameLine(gameBoard);
-      game.firstPlay(domino66,4,4);
       game.insertDomino(domino56,domino66);
+      gameBoard.print();
+      game.insertDomino(domino55,domino56);
+      gameBoard.print();
+      game.insertDomino(domino25,domino55);
+      gameBoard.print();
+      game.insertDomino(domino45,domino55);
       gameBoard.print();
       game.insertDomino(domino46,domino66);
       gameBoard.print();
       game.insertDomino(domino36,domino66);
       gameBoard.print();
-      game.insertDomino(domino04,domino46);
+      game.insertDomino(domino44,domino45);
       gameBoard.print();
-      game.insertDomino(domino26,domino66);
+      game.insertDomino(domino26,domino25);
       gameBoard.print();
-      game.insertDomino(domino06,domino04); //bugged
+      game.insertDomino(domino24,domino44);
       gameBoard.print();
-*/
-
-      var gameBoard = new GameBoard(40,15);
-      var game = new GameLine(gameBoard);
-      game.firstPlay(domino66,20,7);
-      gameBoard.print();
-      game.insertDomino(domino16,domino66);
-      gameBoard.print();
-      game.insertDomino(domino56,domino66);
-      gameBoard.print();
-      game.insertDomino(domino26,domino66);
-      gameBoard.print();
-      game.insertDomino(domino46,domino66);
-      gameBoard.print();
-      game.insertDomino(domino55,domino56);
-      gameBoard.print();
-      game.insertDomino(domino34,domino46); //bugged.
-      gameBoard.print();
-      game.insertDomino(domino15,domino55);
-      gameBoard.print();
-      game.insertDomino(domino25,domino55);
-      gameBoard.print();
-
-
-
-
-
-
-
-
-
-
-
    }
 
 
    public GameBoard(int nColumns, int nLines) {
+      if(nColumns * nLines < 100) throw new IllegalArgumentException("The board is to small to play the game");
       this.nColumns = nColumns;
       this.nLines = nLines;
       board = new HashTable[nLines];
@@ -204,15 +76,21 @@ public class GameBoard {
       if(domino.isVertical()) { //vertical
          if(x < 0 || y < 2 || x >= nColumns || y >= nLines)
             throw new IllegalArgumentException("It's outside the board");
+         if(board[y].contains(x) || board[y-1].contains(x) || board[y-2].contains(x)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
          board[y].put(x,domino);
          board[y-1].put(x,domino);
          board[y-2].put(x,domino);
       } else { //horizontal
          if(x >= nColumns -1) throw new IllegalArgumentException("It's outside the board");
+         if(board[y].contains(x) || board[y].contains(x+1)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
          board[y].put(x, domino);
          board[y].put(x+1,domino);
          if(domino.isDouble()) {
-            if(x >= nColumns -2) throw new IllegalArgumentException("It's outside the board");
+            if(board[y].contains(x+2)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
+            if(x >= nColumns -2) {
+               board[y].remove(x); board[y].remove(x+1); //avoids side effect if the client wants to catch the exception.
+               throw new IllegalArgumentException("It's outside the board");
+            }
             board[y].put(x + 2, domino);
          }
       }
@@ -359,6 +237,8 @@ public class GameBoard {
       public boolean isEmpty(){return hashtable.isEmpty();}
       public Integer[] getKeys(){ return hashtable.keySet().toArray(Integer[]::new) ; }
       public Domino[] getValues(){return hashtable.values().toArray(Domino[]::new);}
+      public boolean contains(int x){return hashtable.containsKey(x);}
+      public void remove(int x){hashtable.remove(x);}
    }
 }
 
