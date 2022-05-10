@@ -15,7 +15,7 @@ public class GameLine {
       firstDomino.beVertical();
       board.insertDomino(x,y,firstDomino);
       corners.add(new CornerIntersection(new Coordinate(x,y),firstDomino,null,board));
-      updateCornersBlockedBy(firstDomino,x,y);
+      updateCorners();
       playedDominoes.add(firstDomino);
    }
 
@@ -40,8 +40,7 @@ public class GameLine {
       connectWith(corner,dominoPlayed,direction);                                              //connects the domino to the corner.
       board.insertDomino(coordinate.x(),coordinate.y(),dominoPlayed);                          //inserts the domino on the board.
       generateCorner(coordinate,anActualCorner,dominoPlayed,direction);                        //generates a new corner and removes useless ones from the newly formed corner after the placement of this domino.
-      updateCornersInTheEdges();
-      updateCornersBlockedBy(dominoPlayed,coordinate.x(),coordinate.y());
+      updateCorners();
       playedDominoes.add(dominoPlayed);
    }
 
@@ -57,6 +56,13 @@ public class GameLine {
             case LEFT -> {board.shiftLeft(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]); }
             case RIGHT -> {board.shiftRight(nShift[i]); updateCornerCoordinates(directions[i],nShift[i]);}
          }
+      }
+   }
+
+   public void updateCorners(){
+      for(Corner corner: corners.toArray(Corner[]::new)){
+         corner.updateDirections();
+         if(!corner.isCorner()) corners.remove(corner);
       }
    }
 
@@ -82,44 +88,6 @@ public class GameLine {
      }
    }
 
-   //pre-condition, updateCornerCoordinates must have been executed before this function is called
-   private void updateCornersInTheEdges(){
-      HashSet<Domino> cornersToBeUpdated;
-
-         cornersToBeUpdated = board.getDominoesInThisRectangle(0, 0, board.getColumns() - 1, 3);
-         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0, board.getLines() - 5, board.getColumns() - 1, board.getLines()));
-         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(0,0,5,board.getLines()-1));
-         cornersToBeUpdated.addAll(board.getDominoesInThisRectangle(board.getColumns()-6,0,board.getColumns()-1, board.getLines()));
-
-      for(Domino maybeCorner : cornersToBeUpdated){
-         Corner anActualCorner = getCorner(maybeCorner);
-         if(anActualCorner != null){
-            anActualCorner.updateDirections();
-            if(!anActualCorner.isCorner()) corners.remove(anActualCorner);
-         }
-      }
-
-
-   }
-
-   private void updateCornersBlockedBy(Domino other, int x,int y){
-      Iterable<Domino> cornersToBeUpdated;
-
-      if(other.isVertical()) //a bit generous, because if there isn't any problem then the corner won't be removed because of the check
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-6,x+6,y+4);
-      else
-         cornersToBeUpdated = board.getDominoesInThisRectangle(x-4,y-5,x+4,y+5);
-
-      for(Domino maybeCorner : cornersToBeUpdated){
-         Corner corner = getCorner(maybeCorner);
-         if(corner != null){
-            corner.updateDirections();
-            if(!corner.isCorner()) corners.remove(corner);
-         }
-      }
-   }
-
-   //gameLine responsibility, future removal
    public void connectWith(Domino corner,Domino other,Direction direction){
       if(other.isDouble()){
          if(direction == Direction.UP || direction == Direction.DOWN) other.beHorizontal();

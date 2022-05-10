@@ -107,7 +107,7 @@ public class CornerIntersection extends Corner{
          case 0: return new Coordinate(coordinate.x()-3,coordinate.y());
          case 1: return new Coordinate(coordinate.x()+1,coordinate.y()+3);
          case 2: return new Coordinate(coordinate.x()+4,coordinate.y());
-         case 3: return new Coordinate(coordinate.x()+1,coordinate.y()-2);
+         case 3: return new Coordinate(coordinate.x()+1,coordinate.y()-1);
       }
       throw new IllegalArgumentException("Is the boolean array higher than 4?");
    }

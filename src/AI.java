@@ -18,7 +18,7 @@ public class AI extends NPC{
          gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
          return;
       }
-// printPlayablePieces();
+   //    printPlayablePieces();
 
       //Store Playable Dominoes in a list
       LinkedList<Pair> playableDominoes = new LinkedList<>();
@@ -40,7 +40,7 @@ public class AI extends NPC{
          }
 
       //playableDominoes.sort(Comparator.comparingInt(x -> x.domino.getValue()));
-      //Play domino with the highest value
+   //  Play domino with the highest value
       playableDominoes.sort((x,y) -> {
          int xConnected = -1;
          int yConnected = -1;
@@ -59,7 +59,8 @@ public class AI extends NPC{
             if(domino.canConnect(yDummy))
                yConnected++;
          }
-         int result = xConnected - yConnected;
+         return (int)((xConnected - yConnected)*0.5 + (x.domino.getValue() - y.domino.getValue())*0.5);
+/*
          if(result == 0) {
             for(Domino domino : dominoes) {
                if(domino.canConnect(xDummy))
@@ -68,19 +69,13 @@ public class AI extends NPC{
                   yConnected++;
             }
             result = xConnected - yConnected;
-            if(result == 0)
-               return x.domino.getValue() - y.domino.getValue();
-            else
-               return result;
-         }
-         else
-            return result;
+ */
       });
       Domino playedDomino = playableDominoes.remove().domino;
       removeDomino(playedDomino);
 
-  //    System.out.println("Played Domino:");
-  //    playedDomino.print();
+      //System.out.println("Played Domino:");
+      //playedDomino.print();
       Domino playedCorner = null;
 
       for(Domino corner : gameLine.getCorners())
@@ -88,7 +83,7 @@ public class AI extends NPC{
             playedCorner = corner;
             break;
          }
-    //  System.out.println(", corner played:"+playedCorner);// (debugging).
+      //System.out.println(", corner played:"+playedCorner);// (debugging).
       //ironed
       gameLine.insertDomino(playedDomino,playedCorner);
    }

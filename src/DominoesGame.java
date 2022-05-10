@@ -15,12 +15,11 @@ public class DominoesGame {
         }
     });
 
-
     //There is a bug were a domino will be put on top of another one, although this is so unlikely it happens on around 1/4 of the times.
     //Considering the main runs the games 1000 times. It is indeed unlikely. I will patch it on the future.
     public static void main(String[] argv){
-       var game = new DominoesGame(40,15);
-       int nTESTS = 1000;
+       var game = new DominoesGame(15,40);
+       int nTESTS = 100000;
        int[] result = new int[4];
         for(int i =0; i < nTESTS; i++)
            result[game.testAi()]++;
@@ -66,7 +65,7 @@ public class DominoesGame {
                 //First Player plays
                 System.out.println(players[currentPlayer % 4].getName() + "'s turn");
                 players[currentPlayer % 4].play();
-                //board.print();
+       //         board.print();
                 break;
             }
             currentPlayer++;
@@ -84,7 +83,7 @@ public class DominoesGame {
             if(players[currentPlayer % 4].canPlay()) {
                 players[currentPlayer % 4].play();
                 didntPlay = 0;
-                //board.print();
+          //      board.print();
             } else {
                 System.out.println("Can't Play");
                 didntPlay++;

@@ -18,7 +18,7 @@ public class NPC extends Player{
          return;
       }
 
-    //  printPlayablePieces();
+     // printPlayablePieces();
 
       //Store Playable Dominos in a list
       LinkedList<Domino> playableDominoes = new LinkedList<>();
@@ -32,8 +32,8 @@ public class NPC extends Player{
       Domino playedDomino = playableDominoes.removeLast();
       removeDomino(playedDomino);
 
-   //   System.out.println("Played Domino:");
-   //   playedDomino.print();
+      //System.out.println("Played Domino:");
+      //playedDomino.print();
       Domino playedCorner = null;
 
       for(Domino corner : gameLine.getCorners())
@@ -41,7 +41,7 @@ public class NPC extends Player{
             playedCorner = corner;
             break;
          }
-  //    System.out.println(", corner played:"+playedCorner); //(debugging).
+      //System.out.println(", corner played:"+playedCorner); //(debugging).
       //ironed
       gameLine.insertDomino(playedDomino,playedCorner);
    }

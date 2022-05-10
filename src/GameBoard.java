@@ -76,17 +76,17 @@ public class GameBoard {
       if(domino.isVertical()) { //vertical
          if(x < 0 || y < 2 || x >= nColumns || y >= nLines)
             throw new IllegalArgumentException("It's outside the board");
-         if(board[y].contains(x) || board[y-1].contains(x) || board[y-2].contains(x)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
+         if(board[y].contains(x) || board[y-1].contains(x) || board[y-2].contains(x)) throw new IllegalArgumentException("Cannot place a domino on top of another domino." + board[y].get(x)+ board[y+1].get(x)+ board[y+2].get(x));
          board[y].put(x,domino);
          board[y-1].put(x,domino);
          board[y-2].put(x,domino);
       } else { //horizontal
          if(x >= nColumns -1) throw new IllegalArgumentException("It's outside the board");
-         if(board[y].contains(x) || board[y].contains(x+1)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
+         if(board[y].contains(x) || board[y].contains(x+1)) throw new IllegalArgumentException("Cannot place a domino on top of another domino." + board[y].get(x) + board[y].get(x+1));
          board[y].put(x, domino);
          board[y].put(x+1,domino);
          if(domino.isDouble()) {
-            if(board[y].contains(x+2)) throw new IllegalArgumentException("Cannot place a domino on top of another domino.");
+            if(board[y].contains(x+2)) throw new IllegalArgumentException("Cannot place a domino on top of another domino." + board[y].get(x+2));
             if(x >= nColumns -2) {
                board[y].remove(x); board[y].remove(x+1); //avoids side effect if the client wants to catch the exception.
                throw new IllegalArgumentException("It's outside the board");
