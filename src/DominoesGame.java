@@ -3,39 +3,42 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.*;
 
+/**
+ *
+ */
 public class DominoesGame {
 
     private final int nLines;
     private final int nColumns;
     private final Player[] players;
-    public static final PrintStream out = new PrintStream(new OutputStream() {
-        @Override
-        public void write(int i) throws IOException {
-            return;
-        }
-    });
 
-    //There is a bug were a domino will be put on top of another one, although this is so unlikely it happens on around 1/4 of the times.
-    //Considering the main runs the games 1000 times. It is indeed unlikely. I will patch it on the future.
     public static void main(String[] argv){
+       final PrintStream out = new PrintStream(new OutputStream() {
+          @Override
+          public void write(int i) throws IOException {
+             return;
+          }
+       });
        var game = new DominoesGame(15,40);
-       int nTESTS = 100000;
+       int nTESTS = 10000;
        int[] result = new int[4];
+       var startTime = new Stopwatch();
         for(int i =0; i < nTESTS; i++)
-           result[game.testAi()]++;
+           result[game.testAi(out)]++;
         System.out.println("1st place :" + result[0] + ", 2nd place :" + result[1] + ", 3rd place :" + result[2] + ", 4th place :" + result[3]);
+        System.out.println("Time elapsed " + startTime.elapsedTime());
     }
 
 
 
+    //should add a name to the human player at the discretion of the client.
     public DominoesGame(int nLines, int nColumns) {
         this.nLines = nLines;
         this.nColumns = nColumns;
         this.players = new Player[4];
     }
 
-    //true if it wins false otherwise.
-    public int testAi() {
+    public int testAi(PrintStream out) {
 
         var stdout = System.out;
        System.setOut(out);
@@ -131,7 +134,7 @@ public class DominoesGame {
             if(player.isFirst()){
                 //First Player plays
                 System.out.println(players[currentPlayer%4].getName() + "'s turn");
-                players[currentPlayer%4].play();
+                players[currentPlayer%4].play(); //first play would go here
                 board.print();
                 break;
             }
@@ -144,9 +147,7 @@ public class DominoesGame {
         while(didntPlay<4){
             if(players[currentPlayer%4].isWinner()) break;
             currentPlayer++;
-            System.out.println();
-            System.out.println(players[currentPlayer%4].getName() + "'s turn");
-            System.out.println();
+            System.out.println("\n" + players[currentPlayer%4].getName() + "'s turn\n");
             if(players[currentPlayer%4].canPlay()) {
                 players[currentPlayer%4].play();
                 didntPlay = 0;

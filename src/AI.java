@@ -1,5 +1,3 @@
-import com.sun.source.tree.BinaryTree;
-
 import java.util.*;
 
 public class AI extends NPC{
@@ -59,22 +57,24 @@ public class AI extends NPC{
             if(domino.canConnect(yDummy))
                yConnected++;
          }
-         return (int)((xConnected - yConnected)*0.5 + (x.domino.getValue() - y.domino.getValue())*0.5);
-/*
-         if(result == 0) {
-            for(Domino domino : dominoes) {
-               if(domino.canConnect(xDummy))
-                  xConnected++;
-               if(domino.canConnect(yDummy))
-                  yConnected++;
+         int result = xConnected - yConnected;
+         if(result != 0 ) return result;
+         result =   x.domino.getValue() - y.domino.getValue() ;
+         if(Math.abs(result) == 0) return result;
+         xConnected = 0; yConnected = 0;
+         for(Domino domino : dominoes) {
+            if(domino.canConnect(xDummy))
+               xConnected++;
+            if(domino.canConnect(yDummy))
+               yConnected++;
             }
             result = xConnected - yConnected;
- */
+         return result;
       });
       Domino playedDomino = playableDominoes.remove().domino;
-      removeDomino(playedDomino);
+	   dominoes.remove(playedDomino);
 
-      //System.out.println("Played Domino:");
+	   //System.out.println("Played Domino:");
       //playedDomino.print();
       Domino playedCorner = null;
 

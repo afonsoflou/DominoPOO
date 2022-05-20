@@ -1,5 +1,12 @@
 import java.util.*;
 
+/**
+ * @inv gameLine != null
+ * @inv playerName != null
+ * @inv dominoes.length must start at 7
+ * @inv 0 <= dominoes.length && dominoes.length <= 7
+ * @inv board != null
+ */
 public abstract class Player {
     protected GameLine gameLine;
     private final String playerName;
@@ -18,9 +25,18 @@ public abstract class Player {
         this.board = board;
     }
 
-
+    /** returns the player's name.
+     * @pre true
+     * @post state = oldState.
+     * @return player name.
+     */
     public String getName(){ return playerName;}
 
+    /** returns true if the player is first e.i It has the domino 6|6, otherwise it returns false.
+     * @pre true
+     * @post state = oldState
+     * @return true if the player is first e.i It has the domino 6|6, otherwise it returns false.
+     */
     public boolean isFirst(){
         for(Domino domino : dominoes)
             if(domino.isStarter())
@@ -28,6 +44,11 @@ public abstract class Player {
         return false;
     }
 
+    /** Returns true if the player can play, false otherwise.
+     * @pre true
+     * @post state = oldState
+     * @return true if the player can play, false otherwise.
+     */
     public boolean canPlay(){
         if(gameLine == null) return true;
         for(Domino domino : dominoes)
@@ -37,12 +58,13 @@ public abstract class Player {
         return false;
     }
 
-
+    //to be put just on the human on the future.
     protected void printPieces(){
         for(Domino domino : dominoes)
             domino.print();
     }
 
+    //to be put just on the human on the future.
     protected void printPlayablePieces(){
         System.out.println("Player's Dominoes");
         printPieces();
@@ -55,12 +77,32 @@ public abstract class Player {
                     break;}
     }
 
-    protected void removeDomino(Domino domino){dominoes.remove(domino);}
-    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {removeDomino(domino); return domino;} return null;}
+    /** returns the domino 6|6 and removes it from the player.
+     * @pre isFirst == true
+     * @post dominoes = dominoes without the domino 6|6
+     * @return domino 6|6
+     */
+    public Domino getDoubleSix(){ for(Domino domino : dominoes ) if(domino.isStarter()) {
+        dominoes.remove(domino);
+        return domino;} return null;}
+
+    /** Makes the player play a domino on the board, removing it from its poll of dominoes.
+     * @pre canPlay() == true
+     * @post a domino is removed from dominoes.
+     */
     public abstract void play();
+
+    /** It returns the total amount of points the player has currently.
+     * @pre true
+     * @post state = oldState
+     * @return the total amount of points the player has currently.
+     */
     public int getPoints(){ return dominoes.stream().mapToInt(Domino::getValue).sum();}
-    public boolean isWinner(){return getNumDominoes() == 0;}
-    private int getNumDominoes(){return dominoes.size();}
 
-
+    /** It returns true if the player is the winner at the moment, false otherwise.
+     * @pre true
+     * @post state = oldState
+     * @return true if the player is the winner at the moment, false otherwise.
+     */
+    public boolean isWinner(){return dominoes.size() == 0;}
 }

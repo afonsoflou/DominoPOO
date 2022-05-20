@@ -12,6 +12,8 @@ public class NPC extends Player{
 
    public void play() {
 
+      //this should be moved outside I believe. Such behavior is never replicated after the first play.
+      //and is also fairly costly to check this everytime you want to play.
       if(isFirst()){
          //    System.out.println("First Player");
          gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
@@ -30,7 +32,7 @@ public class NPC extends Player{
       //Play Domino with Highest Value
       Collections.sort(playableDominoes, Comparator.comparingInt(Domino::getValue));
       Domino playedDomino = playableDominoes.removeLast();
-      removeDomino(playedDomino);
+      dominoes.remove(playedDomino);
 
       //System.out.println("Played Domino:");
       //playedDomino.print();
