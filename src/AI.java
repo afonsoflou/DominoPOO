@@ -1,5 +1,3 @@
-import com.sun.source.tree.BinaryTree;
-
 import java.util.*;
 
 public class AI extends NPC{
@@ -18,7 +16,7 @@ public class AI extends NPC{
          gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
          return;
       }
-// printPlayablePieces();
+   //    printPlayablePieces();
 
       //Store Playable Dominoes in a list
       LinkedList<Pair> playableDominoes = new LinkedList<>();
@@ -40,7 +38,7 @@ public class AI extends NPC{
          }
 
       //playableDominoes.sort(Comparator.comparingInt(x -> x.domino.getValue()));
-      //Play domino with the highest value
+   //  Play domino with the highest value
       playableDominoes.sort((x,y) -> {
          int xConnected = -1;
          int yConnected = -1;
@@ -60,27 +58,24 @@ public class AI extends NPC{
                yConnected++;
          }
          int result = xConnected - yConnected;
-         if(result == 0) {
-            for(Domino domino : dominoes) {
-               if(domino.canConnect(xDummy))
-                  xConnected++;
-               if(domino.canConnect(yDummy))
-                  yConnected++;
+         if(result != 0 ) return result;
+         result =   x.domino.getValue() - y.domino.getValue() ;
+         if(Math.abs(result) == 0) return result;
+         xConnected = 0; yConnected = 0;
+         for(Domino domino : dominoes) {
+            if(domino.canConnect(xDummy))
+               xConnected++;
+            if(domino.canConnect(yDummy))
+               yConnected++;
             }
             result = xConnected - yConnected;
-            if(result == 0)
-               return x.domino.getValue() - y.domino.getValue();
-            else
-               return result;
-         }
-         else
-            return result;
+         return result;
       });
       Domino playedDomino = playableDominoes.remove().domino;
-      removeDomino(playedDomino);
+	   dominoes.remove(playedDomino);
 
-  //    System.out.println("Played Domino:");
-  //    playedDomino.print();
+	   //System.out.println("Played Domino:");
+      //playedDomino.print();
       Domino playedCorner = null;
 
       for(Domino corner : gameLine.getCorners())
@@ -88,7 +83,7 @@ public class AI extends NPC{
             playedCorner = corner;
             break;
          }
-    //  System.out.println(", corner played:"+playedCorner);// (debugging).
+      //System.out.println(", corner played:"+playedCorner);// (debugging).
       //ironed
       gameLine.insertDomino(playedDomino,playedCorner);
    }
