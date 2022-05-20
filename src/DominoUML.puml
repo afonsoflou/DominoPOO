@@ -7,14 +7,14 @@ class Domino {
     - boolean connectedX
     - boolean connectedY
 
-    + connectToX
-    + connectToY
-    + boolean connectedX()
+    + connectToX()
+    + connectToY()
     + int getUnconnected()
     + boolean canConnect(Domino other)
     + int getX()
     + int getY()
     + boolean equals(Object o)
+    + Domino equalsClone(Domino domino)
     + int hashCode()
     + boolean isVertical()
     + boolean isDouble()
@@ -35,9 +35,16 @@ class GameLine{
     + firstPlay(Domino firstDomino, int x, int y)
     + boolean canPlay(Domino dominoToPlay, Domino corner)
     + insertDomino (Domino dominoPlayed, Domino other)
+    - shiftTheBoard (Corner anActualCorner, Domino corner, Domino other)
     - generateCorner(Coordinate coordinate, Corner corner, Domino domino, Direction direction)
+    - updateCornerCoordinates(Direction direction, int n)
+    - updateCornersInTheEdges()
     - updateCornersBlockedBy(Domino other, int x, int y)
-    + Ierable<Domino> getCorners()
+    + connectWith(Domino corner, Domino other, Direction direction)
+    + HashSet<Domino> getPlayedDominoes()
+    - connectToX(Domino corner, Domino other)
+    - connectToY(Domino corner, Domino other)
+    + Iterable<Domino> getCorners()
     - Corner getCorner(Domino domino)
     - Direction oppositeDirection(Direction direction, Domino domino)
 
@@ -49,7 +56,7 @@ class GameBoard {
     - int nColumns
     - HashTable[] board
 
-    + insertPiece(int dominoPlayed, int Corner)
+    + insertDomino(int x, int y, Domino domino)
     + Iterable<Domino> getCorners()
     - updateCorner(Domino Corner)
     + int getColumns()
@@ -61,24 +68,16 @@ class GameBoard {
     + shiftDown(int x)
     + shiftRight(int x)
     + shiftLeft(int x)
-    - swapColumns(int x, int y)
+    - verticalShift(int x)
+    + boolean canShiftDown(int n)
+    + boolean canShiftUp(int n)
+    + boolean canShiftRight(int n)
+    + boolean canShiftLeft(int n)
     + printDominoSegment(int segment, Domino Domino)
     + print()
 }
 
-class HorizontalCornerLine{
-    # boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-    + updateDirections()
-    # boolean isDoubleDirectionBlocked(Direction direction)
-    # boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-}
 
-class VerticalCornerLine{
-    # boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-    + updateDirections()
-    # boolean isDoubleDirectionBlocked(Direction direction)
-    # boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-}
 
 
 abstract class Player {
@@ -97,12 +96,16 @@ abstract class Player {
     + abstract play()
     + int getPoints()
     + boolean isWInner()
+    + Domino getDoubleSix()
 }
 
 class DominoesGame {
     - int nLines
     - int nColumns
+    - Player[] players
+    + {Static} final PrintStream out
 
+    + int testAI()
     + startGame()
 }
 
@@ -115,10 +118,15 @@ class NPC {
     + play()
 }
 
+class AI {
+    + play()
+}
+
 class Coordinate{
     +int x
     +int y
 
+    +boolean equals (Object o)
     +int compareTo(Coordinate other)
 }
 
@@ -129,44 +137,74 @@ abstract class Corner{
 
     +abstract boolean isCorner()
     +abstract Coordinate getAvailableCoordinate(Direction direction, Domino other)
-    +abstract Direction getAvailableDirection()
+    +abstract Direction getAvailableDirection(Domino other)
     +abstract updateDirections()
-    +abstract blockedDirection(Direction direction)
-    +abstract Coordinate getAvailableCoordinate()
-    +boolean isEqual(Domino domino)
+    +boolean isEqual(Domino other)
     +abstract boolean canPlay(Domino other)
-}
+    +abstract boolean isShiftNeeded(Domino other)
+    +abstract int[] getShiftNTimes(Domino other)
+    +abstract Direction[] getShiftDirection(Domino other)
+    + shiftUp(int n)
+    + shiftDown(int n)
+    + shiftRight(int n)
+    + shiftLeft(int n)
+    # Coordinate getVerticalYCoordinate(Coordinate x)
+    # Coordinate getHorizontalYCoordinate(Coordinate x)
+    # Coordinate getVerticalDoubleYCoordinate(Coordinate x)
+    # Coordinate getHorizontalDoubleYCoordinate(Coordinate x)
+    # int amountOfDownShift(int y)
+    # int amountOfUpShift(int y)
+    # int amountOfLeftShift(int x)
+    # int amountOfRightShift(int x)
+ }
 
 class CornerIntersection{
+
+ -final Direction[] nextDirection
+ -int currentNextDirection
+ -Direction getShiftDirection
+ -int shiftNTimes
+
+ + boolean isShiftNeeded(Domino other)
  + boolean canPlay(Domino other)
  - blockedDirection(Direction direction)
  + boolean isCorner()
- + Direction getAvailableDirection
+ + Direction getAvailableDirection(Domino other)
  + Coordinate getAvailableCoordinate(Direction direction, Domino other)
  - Coordinate getAvailableCoordinate(Direction direction)
  + updateDirections()
  - boolean isDirectionBlocked(Direction direction)
+ - boolean isOutsideTheBoard(Coordinate dummyCoordinate, Coordinate dummyCoordinateY,Direction direction)
+ + int[] getShiftNTimes(Domino other)
+ + Direction[] getShiftDirection(Domino other)
  - Coordinate verticalAvailableCoordinate(int x)
  - Coordinate horizontalAvailableCoordinate(int x)
- - Direction convIntToDirection(int x)
 }
 
 
 abstract class CornerLine{
-    #Direction nextDirection
-    #boolean lineIsBlocked
-    #boolean doubleIsBlocked
+    -Direction[] nextDirection
+    -int currentNextDirection
+    -Direction
+    -boolean lineIsBlocked
+    -boolean doubleIsBlocked
+    -Direction shiftDirection
+    -final Direction[] doubleShiftDirection
+    - int shiftNTimes
+    - final int[] doubleShiftNTimes
 
-    + blockedDirection(Direction direction)
     + boolean canPlay(Domino other)
     + boolean isCorner()
-    + abstract updateDirections()
-    # boolean isDirectionBlocked(Direction direction)
-    # abstract boolean isDoubleDirectionBlocked(Direction direction)
-    # abstract boolean isLineDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-    # abstract boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
-
-    + Direction getAvailableDirection()
+    + updateDirections()
+    - boolean isDoubleDirectionBlocked(Direction direction)
+    - boolean isLineDirectionBlocked(Direction direction)
+    - boolean isDoubleOutsideTheBoard(Coordinate dummyCoordinate, Coordinate dummyCoordinateY)
+    - boolean isLineOutsideTheBoard(Coordinate dummyCoordinate, Coordinate dummyCoordinateY, Direction direction)
+    - boolean isGeneralDirectionBlocked(Domino dummy, Coordinate dummyCoordinate, Direction direction)
+    + Direction[] getShiftDirection(Domino other)
+    + int[] getShiftNTimes(Domino other)
+    + boolean isShiftNeeded(Domino other)
+    + Direction getAvailableDirection(Domino other)
     + Coordinate getAvailableCoordinate(Direction direction, Domino other)
     - Coordinate getVerticalAvailableCoordinate(Domino other)
     - Coordinate getHorizontalAvailableCoordinate(Domino other)
@@ -188,6 +226,8 @@ DominoesGame *-- GameBoard
 DominoesGame *-- Player
 Corner *-- Coordinate
 Corner *-- Direction
+GameLine *-- Coordinate
+GameLine *-- Direction
 GameLine o-- Domino
 Player o-- Domino
 Player o-- GameLine
@@ -195,10 +235,9 @@ Player o-- GameBoard
 GameLine o-- GameBoard
 Player <|-- Human
 Player <|--NPC
+NPC <|-- AI
 Corner <|-- CornerIntersection
 Corner <|-- CornerLine
-CornerLine <|-- HorizontalCornerLine
-CornerLine <|-- VerticalCornerLine
-GameLine +-- Corner
+GameLine *-- Corner
 
 @enduml
