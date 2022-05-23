@@ -10,15 +10,12 @@ public class NPC extends Player{
    }
 
 
-   public void play() {
+   //Inserts Double six into the middle of the board
+   public void firstPlay(){
+      gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
+   }
 
-      //this should be moved outside I believe. Such behavior is never replicated after the first play.
-      //and is also fairly costly to check this everytime you want to play.
-      if(isFirst()){
-         //    System.out.println("First Player");
-         gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
-         return;
-      }
+   public void play() {
 
      // printPlayablePieces();
 

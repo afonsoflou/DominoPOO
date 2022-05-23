@@ -105,4 +105,10 @@ public abstract class Player {
      * @return true if the player is the winner at the moment, false otherwise.
      */
     public boolean isWinner(){return dominoes.size() == 0;}
+
+    /** Makes the first player play their double six on the board, removing it from its poll of dominoes.
+     * @pre canPlay() == true && isFirst() == true
+     * @post the double six is removed from dominoes.
+     */
+    public abstract void firstPlay();
 }
