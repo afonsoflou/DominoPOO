@@ -22,6 +22,11 @@ class PlayerTest {
    Player player1 = new Player(gameLine, "Bob",dominoList1, board) {
       @Override
       public void play() {}
+
+      @Override
+      public void firstPlay() {
+
+      }
    };
 
    List<Domino> dominoList2 = new LinkedList<>();
@@ -39,10 +44,20 @@ class PlayerTest {
    Player player2 = new Player(gameLine,"Ana",dominoList2, board) {
       @Override
       public void play() {}
+
+      @Override
+      public void firstPlay() {
+
+      }
    };
 
    Player player3 = new Player(gameLine,"Marco",dominoList2, board) {
       @Override public void play() {dominoes = new LinkedList<>();} // empties the dominoes
+
+      @Override
+      public void firstPlay() {
+
+      }
    };
    {player3.play();} //doesn't break the class invariant and let's marco have an empty hand.
 
@@ -95,18 +110,33 @@ class PlayerTest {
               new Player(gameLine, "Bob1",new LinkedList<Domino>(), board) {
                  @Override
                  public void play() {}
+
+                 @Override
+                 public void firstPlay() {
+
+                 }
               });
 
       assertThrows(IllegalArgumentException.class,() ->
               new Player(gameLine,"bob",null, board){
                  @Override
                  public void play(){}
+
+                 @Override
+                 public void firstPlay() {
+
+                 }
               });
 
       assertDoesNotThrow(() ->
               new Player(gameLine, "Bob1", dominoList2, board) {
                  @Override
                  public void play() {}
+
+                 @Override
+                 public void firstPlay() {
+
+                 }
               });
    }
 
