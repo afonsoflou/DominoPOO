@@ -31,7 +31,7 @@ public abstract class Player {
      * @return player name.
      */
     public String getName(){ return playerName;}
-
+//
     /** returns true if the player is first e.i It has the domino 6|6, otherwise it returns false.
      * @pre true
      * @post state = oldState
@@ -105,4 +105,10 @@ public abstract class Player {
      * @return true if the player is the winner at the moment, false otherwise.
      */
     public boolean isWinner(){return dominoes.size() == 0;}
+
+    /** Makes the first player play their double six on the board, removing it from its poll of dominoes.
+     * @pre canPlay() == true && isFirst() == true
+     * @post the double six is removed from dominoes.
+     */
+    public abstract void firstPlay();
 }
