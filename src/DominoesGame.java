@@ -65,7 +65,7 @@ public class DominoesGame {
             if(player.isFirst()) {
                 //First Player plays
                 System.out.println(players[currentPlayer % 4].getName() + "'s turn");
-                players[currentPlayer % 4].play();
+                players[currentPlayer % 4].firstPlay();
                 //board.print();
                 break;
             }
@@ -145,9 +145,7 @@ public class DominoesGame {
         while(didntPlay<4){
             if(players[currentPlayer%4].isWinner()) break;
             currentPlayer++;
-            System.out.println();
-            System.out.println(players[currentPlayer%4].getName() + "'s turn");
-            System.out.println();
+            System.out.println("\n" + players[currentPlayer%4].getName() + "'s turn\n");
             if(players[currentPlayer%4].canPlay()) {
                 players[currentPlayer%4].play();
                 didntPlay = 0;
