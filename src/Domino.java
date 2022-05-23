@@ -158,6 +158,6 @@ public class Domino {
     public int hashCode() {
         int result = x;
         result = 31 * result + y;
-        return result;
+        return result;//
     }
 }

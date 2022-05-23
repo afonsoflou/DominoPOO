@@ -23,7 +23,7 @@ public class Human extends Player{
         Scanner sc = new Scanner(System.in);
         System.out.println("First Player, Input Starting Coordinates");
         gameLine.firstPlay(getDoubleSix(),sc.nextInt(),sc.nextInt());
-    }
+    }//
 
     public void play() {
 

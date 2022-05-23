@@ -8,7 +8,7 @@ public class NPC extends Player{
    public NPC(GameLine gameLine, String PlayerName, List<Domino> dominoes, GameBoard board) {
       super(gameLine, PlayerName, dominoes, board);
    }
-
+//
 
    //Inserts Double six into the middle of the board
    public void firstPlay(){

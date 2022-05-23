@@ -31,7 +31,7 @@ public abstract class Player {
      * @return player name.
      */
     public String getName(){ return playerName;}
-
+//
     /** returns true if the player is first e.i It has the domino 6|6, otherwise it returns false.
      * @pre true
      * @post state = oldState
