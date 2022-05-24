@@ -7,7 +7,7 @@ import java.util.*;
 public class GameBoard {
    final private int nColumns;
    final private int nLines;
-   final private HashTable[] board;
+   final private Tree[] board;
 
    public static void main(String[] args){
       //there mustn't be any changes to these dominoes during the tests.
@@ -68,9 +68,9 @@ public class GameBoard {
       if(nColumns * nLines < 100) throw new IllegalArgumentException("The board is to small to play the game");
       this.nColumns = nColumns;
       this.nLines = nLines;
-      board = new HashTable[nLines];
+      board = new Tree[nLines];
       for(int i = 0; i < nLines; i++)
-         board[i] = new HashTable();
+         board[i] = new Tree();
    }
 
    /** Given the up left coordinates of the domino, and the domino it inserts the domino
@@ -120,7 +120,6 @@ public class GameBoard {
          else{
             prev = 0;
             var orderedCoordinates = board[i].getKeys();
-            Arrays.sort(orderedCoordinates); //sorts array
             System.out.print("#");
             for(int x :orderedCoordinates) {
                System.out.print(" ".repeat(x - prev));
@@ -226,7 +225,7 @@ public class GameBoard {
          board[i+x] = board[i];
 
       for(int i = x-1; i >= 0; i--){
-         board[i] = new HashTable();
+         board[i] = new Tree();
       }
    }
 
@@ -241,7 +240,7 @@ public class GameBoard {
          board[i-x] = board[i];
 
       for(int i = nLines -x; i < nLines; i++){
-         board[i] = new HashTable();
+         board[i] = new Tree();
       }
    }
 
@@ -252,7 +251,7 @@ public class GameBoard {
          var keys = board[i].getKeys();
          var values = board[i].getValues();
          int N = keys.length;
-         board[i] = new HashTable();
+         board[i] = new Tree();
          for(int j = 0; j < N; j++)
             board[i].put((keys[j] + x)%nColumns, values[j]);
       }
@@ -327,17 +326,15 @@ public class GameBoard {
       return !isThisRectangleOccupied(0,0,n-1,nLines-1);
    }
 
-   //workaround to get an array of hashTables because in java you can't have an array of generics.
-   static private class HashTable{
-      public Hashtable<Integer,Domino> hashtable = new Hashtable<>();
-
-      public void put(int x,Domino domino){hashtable.put(x,domino);}
-      public Domino get(int x){return hashtable.get(x);}
-      public boolean isEmpty(){return hashtable.isEmpty();}
-      public Integer[] getKeys(){ return hashtable.keySet().toArray(Integer[]::new) ; }
-      public Domino[] getValues(){return hashtable.values().toArray(Domino[]::new);}
-      public boolean contains(int x){return hashtable.containsKey(x);}
-      public void remove(int x){hashtable.remove(x);}
+   static private class Tree{
+      public TreeMap<Integer,Domino> tree = new TreeMap<Integer,Domino>();
+      public void put(int x,Domino domino){tree.put(x,domino);}
+      public Domino get(int x){return tree.get(x);}
+      public boolean isEmpty(){return tree.isEmpty();}
+      public Integer[] getKeys(){ return tree.keySet().toArray(Integer[]::new) ; }
+      public Domino[] getValues(){return tree.values().toArray(Domino[]::new);}
+      public boolean contains(int x){return tree.containsKey(x);}
+      public void remove(int x){tree.remove(x);}
    }
 }
 
