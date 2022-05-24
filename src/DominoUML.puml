@@ -110,15 +110,23 @@ class DominoesGame {
 }
 
 class Human {
+    + firstPlay()
     + play()
     - boolean validInputCheck(Domino other, Domino Corner)
 }
 
 class NPC {
+    + firstPlay()
     + play()
 }
 
-class AI {
+class DumbAI {
+    + firstPlay()
+    + play()
+}
+
+class SmartAI {
+    + firstPlay()
     + play()
 }
 
@@ -182,6 +190,18 @@ class CornerIntersection{
 }
 
 
+class Tree{
+      TreeMap<Integer,Domino> tree
+      + void put(int x,Domino domino)
+      + Domino get(int x)
+      + boolean isEmpty()
+      + Integer[] getKeys()
+      + Domino[] getValues()
+      + boolean contains(int x)
+      + void remove(int x)
+}
+
+
 abstract class CornerLine{
     -Direction[] nextDirection
     -int currentNextDirection
@@ -221,6 +241,11 @@ enum Direction{
     DownLEFT
 }
 
+class Pair{
+    + int x
+    + Domino domino
+}
+
 DominoesGame *-- Domino
 DominoesGame *-- GameBoard
 DominoesGame *-- Player
@@ -235,9 +260,12 @@ Player o-- GameBoard
 GameLine o-- GameBoard
 Player <|-- Human
 Player <|--NPC
-NPC <|-- AI
+Player <|-- DumbAI
+Player <|-- SmartAI
 Corner <|-- CornerIntersection
 Corner <|-- CornerLine
 GameLine *-- Corner
+SmartAI +-- Pair
+GameBoard +-- Tree
 
 @enduml
