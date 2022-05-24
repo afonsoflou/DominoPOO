@@ -17,8 +17,6 @@ public class NPC extends Player{
 
    public void play() {
 
-     // printPlayablePieces();
-
       //Store Playable Dominos in a list
       LinkedList<Domino> playableDominoes = new LinkedList<>();
       for(Domino domino : dominoes)
@@ -27,12 +25,10 @@ public class NPC extends Player{
                playableDominoes.add(domino);
 
       //Play Domino with Highest Value
-      Collections.sort(playableDominoes, Comparator.comparingInt(Domino::getValue));
+
       Domino playedDomino = playableDominoes.removeLast();
       dominoes.remove(playedDomino);
 
-      //System.out.println("Played Domino:");
-      //playedDomino.print();
       Domino playedCorner = null;
 
       for(Domino corner : gameLine.getCorners())
@@ -40,8 +36,6 @@ public class NPC extends Player{
             playedCorner = corner;
             break;
          }
-      //System.out.println(", corner played:"+playedCorner); //(debugging).
-      //ironed
       gameLine.insertDomino(playedDomino,playedCorner);
    }
 }
