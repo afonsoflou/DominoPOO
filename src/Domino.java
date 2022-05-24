@@ -82,18 +82,17 @@ public class Domino {
      */
     public boolean isStarter(){return x+y == 12;}
 
-    /** Returns if the domino can connect to other
+    /** Makes the domino vertical
      * @pre true
-     * @post state = old state
-     * @return true if the domino can connect to other
+     * @post isVertical = true
      */
     public void beVertical(){isVertical = true;}
 
-    /** Returns if the domino is horizontal
+    /** Makes the domino horizontal
      * @pre true
-     * @post state = old state
-     * @return true if the domino is horizontal
+     * @post isVertical = false
      */
+
     public void beHorizontal(){isVertical = false;}
 
     /** Flips the domino
