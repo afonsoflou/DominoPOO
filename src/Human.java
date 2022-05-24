@@ -8,6 +8,7 @@ public class Human extends Player{
     }
 
     private boolean validInputCheck(Domino other,Domino corner){
+       if(other == null)return false;
         if(gameLine.canPlay(other,corner) && dominoes.contains(other)){
                 gameLine.insertDomino(other, corner);
                 dominoes.remove(other);
@@ -35,16 +36,20 @@ public class Human extends Player{
         Domino corner = null;
 
        do{ //Keep Playing until a valid Domino is Played
-            String input = sc.nextLine();
-            String[] dominoSplit = input.split("\\|");
-            //this is kinda shit you should use the dominos you have instead of creating, shit may happen such as duplicated dominoes.
-            domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
-            for(Domino c: gameLine.getCorners()){
-                if(gameLine.canPlay(domino,c)){
-                    corner = c;
-                    break;
+          try {
+             String input = sc.nextLine();
+             String[] dominoSplit = input.split("\\|");
+             domino = new Domino(Integer.parseInt(dominoSplit[0]), Integer.parseInt(dominoSplit[1]));
+             for(Domino c : gameLine.getCorners()) {
+                if(gameLine.canPlay(domino, c)) {
+                   corner = c;
+                   break;
                 }
-            }
-        } while(!validInputCheck(domino,corner));
+             }
+       }catch(IllegalArgumentException|ArrayIndexOutOfBoundsException e){
+          System.out.println("wrong Input");
+          domino = null;
+       }
+       } while(!validInputCheck(domino,corner));
     }
 }

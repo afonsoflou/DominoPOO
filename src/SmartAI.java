@@ -1,22 +1,13 @@
 import java.util.*;
 
-public class AI extends NPC{
+public class SmartAI extends Player{
 
-   public AI(GameLine gameLine, String PlayerName, List<Domino> dominoes, GameBoard board) {
+   public SmartAI(GameLine gameLine, String PlayerName, List<Domino> dominoes, GameBoard board) {
       super(gameLine, PlayerName, dominoes, board);
    }
 
-
-
    @Override
    public void play(){
-
-      if(isFirst()){
- //        System.out.println("First Player");
-         gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
-         return;
-      }
-   //    printPlayablePieces();
 
       //Store Playable Dominoes in a list
       LinkedList<Pair> playableDominoes = new LinkedList<>();
@@ -25,10 +16,7 @@ public class AI extends NPC{
             if(gameLine.canPlay(domino,corner))
                playableDominoes.add(new Pair(corner.getUnconnected(),domino));
 
-
-      var playedDominoes = gameLine.getPlayedDominoes();
-
-      //all dominoes
+      var playedDominoes = gameLine.getPlayedDominoes(); //all dominoes
       LinkedList<Domino> otherPlayerDominoes = new LinkedList<>();
       for (int i = 0; i < 7; i++)
          for (int j = i; j < 7; j++) {
@@ -37,11 +25,9 @@ public class AI extends NPC{
                otherPlayerDominoes.add(domino);
          }
 
-      //playableDominoes.sort(Comparator.comparingInt(x -> x.domino.getValue()));
-   //  Play domino with the highest value
       playableDominoes.sort((x,y) -> {
-         int xConnected = -1;
-         int yConnected = -1;
+         int xConnected = 0;
+         int yConnected = 0;
          var xDummy = new Domino(x.domino.getX(), x.domino.getY());
          var yDummy = new Domino(y.domino.getX(), y.domino.getY());
 
@@ -58,24 +44,11 @@ public class AI extends NPC{
                yConnected++;
          }
          int result = xConnected - yConnected;
-         if(result != 0 ) return result;
-         result =   x.domino.getValue() - y.domino.getValue() ;
-         if(Math.abs(result) == 0) return result;
-         xConnected = 0; yConnected = 0;
-         for(Domino domino : dominoes) {
-            if(domino.canConnect(xDummy))
-               xConnected++;
-            if(domino.canConnect(yDummy))
-               yConnected++;
-            }
-            result = xConnected - yConnected;
-         return result;
+         return (result != 0 )? result : x.domino.getValue() - y.domino.getValue() ;
       });
       Domino playedDomino = playableDominoes.remove().domino;
 	   dominoes.remove(playedDomino);
 
-	   //System.out.println("Played Domino:");
-      //playedDomino.print();
       Domino playedCorner = null;
 
       for(Domino corner : gameLine.getCorners())
@@ -83,9 +56,12 @@ public class AI extends NPC{
             playedCorner = corner;
             break;
          }
-      //System.out.println(", corner played:"+playedCorner);// (debugging).
-      //ironed
       gameLine.insertDomino(playedDomino,playedCorner);
+   }
+
+   @Override
+   public void firstPlay() {
+      gameLine.firstPlay(getDoubleSix(),board.getColumns()/2, board.getLines()/2);
    }
 
    static class Pair{
